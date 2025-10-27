@@ -1,0 +1,82 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : AES_SBOX_TGATES
+Version: L-2016.03-SP1
+Date   : Sun Oct 12 10:02:44 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: X5 (input port)
+  Endpoint: Y7 (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  AES_SBOX_TGATES    5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  X5 (in)                                0.0000     0.0000 r
+  U405/ZN (INV_X1)                       0.0703     0.0703 f
+  U446/ZN (NOR2_X1)                      0.1578     0.2281 r
+  U575/ZN (NAND2_X1)                     0.0405     0.2685 f
+  U577/ZN (OAI211_X1)                    0.0695     0.3380 r
+  U578/Z (XOR2_X1)                       0.0762     0.4142 r
+  U579/ZN (XNOR2_X1)                     0.0640     0.4782 r
+  U580/ZN (XNOR2_X1)                     0.0624     0.5406 r
+  U591/ZN (XNOR2_X1)                     0.0600     0.6007 r
+  U594/ZN (XNOR2_X1)                     0.0598     0.6605 r
+  U599/ZN (XNOR2_X1)                     0.0598     0.7203 r
+  U603/ZN (XNOR2_X1)                     0.0599     0.7802 r
+  U606/ZN (XNOR2_X1)                     0.0540     0.8342 r
+  Y7 (out)                               0.0019     0.8361 r
+  data arrival time                                 0.8361
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : AES_SBOX_TGATES
+Version: L-2016.03-SP1
+Date   : Sun Oct 12 10:02:44 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: X5 (input port)
+  Endpoint: Y3 (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  AES_SBOX_TGATES    5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  X5 (in)                                0.0000     0.0000 r
+  U644/ZN (OAI33_X1)                     0.0410     0.0410 f
+  U674/ZN (XNOR2_X1)                     0.0347     0.0757 r
+  Y3 (out)                               0.0019     0.0777 r
+  data arrival time                                 0.0777
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
