@@ -10,13 +10,13 @@
 #include <windows.h>
 #endif
 
-// ========== 输出重定向 ==========
+// ========== Output Redirection ==========
 static void redirectOutputToFile(const std::string& filename) {
     static std::ofstream file(filename);
     std::cout.rdbuf(file.rdbuf());
 }
 
-// ========== 工具函数 ==========
+// ========== Utility Functions ==========
 static std::vector<CircuitOptimizer::OptimizedPair>
 filterByKind(const std::vector<CircuitOptimizer::OptimizedPair>& all, CircuitOptimizer::PairKind k) {
     std::vector<CircuitOptimizer::OptimizedPair> out;
@@ -46,7 +46,7 @@ static void printPairsWithOps(const std::vector<CircuitOptimizer::OptimizedPair>
     }
 }
 
-// ========== 单个布尔函数：跑 7 步 + 打印 ==========
+// ========== Single Boolean Function: run 7 steps + report ==========
 static void runAndReportOneFunction(const std::string& title,
                                     CircuitOptimizer& optimizer,
                                     const std::string& poly,
@@ -125,13 +125,13 @@ static void runAndReportOneFunction(const std::string& title,
     for (auto& p:s6){ p.kind=CircuitOptimizer::PairKind::ONE_UNIQUE_FACTOR; if(!tryReuseFirst) optimizer.rememberPairForReuse(p); }
     outPairs.insert(outPairs.end(), s6.begin(), s6.end());
 
-    // 打印 pair 细节、电路节点、统计与剩余项
+    // Print pair details, circuit nodes, statistics, and remaining terms
     printPairsWithOps(outPairs);
     optimizer.printCircuitNodes();
     optimizer.printOptimizationStatistics(outPairs, grouped);
     optimizer.printRemainingTerms(grouped);
 
-    // 二次项 XOR 结果 + 把所有剩余项实现（也登记深度）
+    // Quadratic terms XOR result + implement all remaining terms (also record depth)
     std::string quadraticXOR = optimizer.getQuadraticXORResult(grouped, outGeneratedQuadratics);
     std::cout << "\nQuadratic Terms XOR Result:\n============================\n"
               << (quadraticXOR.empty()? "0" : quadraticXOR) << "\n";
@@ -164,7 +164,7 @@ static void runAndReportOneFunction(const std::string& title,
         }
     }
 
-    // 分层合并
+    // Hierarchical merge
     optimizer.hierarchicalMergeAllTerms();
     optimizer.printHierarchicalMergeResult();
 }
@@ -177,7 +177,7 @@ int main() {
     CircuitOptimizer optimizer;
     redirectOutputToFile("output_10_11test.txt");
 
-    // ====== 8 个布尔函数 ======
+    // ====== 8 Boolean functions ======
     std::string poly1 =
             "x0 + x2 + x6 + x7 + x0x1 + x0x3 + x0x7 + x1x2 + x1x7 + x2x7 + x3x4 + x3x6 + x3x7 + x4x5 + x4x7 + x5x7 + "
             "x0x1x3 + x0x1x5 + x0x1x7 + x0x2x6 + x0x2x7 + x0x3x6 + x0x3x7 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x6 + x0x5x7 + "
@@ -331,27 +331,27 @@ int main() {
             "x0x1x2x3x4x6 + x0x1x2x3x5x7 + x0x1x2x4x5x7 + x0x1x2x4x6x7 + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x1x4x5x6x7 + "
             "x0x2x3x4x5x7 + x0x2x3x4x6x7 + x0x2x3x5x6x7 + x1x2x3x4x5x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7";
 
-    // ====== 依次运行 8 个函数 ======
-    // 复用参考集合（累积前面所有函数得到的 pairs）
+    // ====== Run the 8 functions sequentially ======
+    // Reuse reference set (accumulating pairs obtained from previous functions)
     std::vector<CircuitOptimizer::OptimizedPair> reuseSoFar;
 
-    // 1) 第一个函数：不复用，建字典
+    // 1) First function: no reuse, build the dictionary
     {
         std::vector<CircuitOptimizer::OptimizedPair> pairs;
         std::vector<std::string> genQ;
         runAndReportOneFunction("F1 (poly1)", optimizer, poly1, pairs, genQ, /*tryReuseFirst=*/false, {});
-        // 加入全局复用池
+        // Add to the global reuse pool
         reuseSoFar.insert(reuseSoFar.end(), pairs.begin(), pairs.end());
     }
-    optimizer.clearPairDepthInfo(); // 仅清统计
+    optimizer.clearPairDepthInfo(); // Clear statistics only
 
-    // 2) 第二个函数及其后：先复用再优化；每次把本轮 pairs 也加入复用池
+    // 2) From the second function onward: reuse first, then optimize; each time also add this round's pairs to the reuse pool
     auto run_with_reuse = [&](const char* title, const std::string& poly) {
         std::vector<CircuitOptimizer::OptimizedPair> pairs;
         std::vector<std::string> genQ;
         runAndReportOneFunction(title, optimizer, poly, pairs, genQ, /*tryReuseFirst=*/true, reuseSoFar);
         reuseSoFar.insert(reuseSoFar.end(), pairs.begin(), pairs.end());
-        optimizer.clearPairDepthInfo(); // 仅清统计（电路与复用目录保留）
+        optimizer.clearPairDepthInfo(); // Clear statistics only (keep circuit and reuse catalog)
     };
 
     run_with_reuse("F2 (poly2)", poly2);
