@@ -4,8 +4,8 @@
 #include <regex>
 #include <set>
 
-// Term 结构体实现保持不变
-// Term 结构体实现
+
+// Term struct implementation
 CircuitOptimizer::Term::Term(const std::string& expr) : expression(expr), used(false) {
     std::stringstream ss(expr);
     char c;
@@ -41,7 +41,7 @@ std::set<int> CircuitOptimizer::Term::getDifference(const Term& other) const {
     return diff;
 }
 
-// 新增的方法
+
 std::set<int> CircuitOptimizer::Term::getDifferenceFromSet(const std::set<int>& otherSet) const {
     std::set<int> diff;
     std::set_difference(
@@ -52,7 +52,7 @@ std::set<int> CircuitOptimizer::Term::getDifferenceFromSet(const std::set<int>& 
     return diff;
 }
 
-// OptimizedPair 构造函数
+// OptimizedPair constructors
 CircuitOptimizer::OptimizedPair::OptimizedPair()
         : type(ONE_UNIQUE_FACTOR), highDegreeTerm(nullptr), lowDegreeTerm(nullptr) {
 }
@@ -66,7 +66,7 @@ CircuitOptimizer::OptimizedPair::OptimizedPair(
           commonVars(common), uniqueVars(unique) {
 }
 
-// 修改两个unique factors的构造函数，包含低次项
+// Constructor for TWO_UNIQUE_FACTORS: includes the low-degree term as well
 CircuitOptimizer::OptimizedPair::OptimizedPair(
         const std::shared_ptr<Term>& high,
         const std::vector<std::shared_ptr<Term>>& middle,
@@ -78,7 +78,7 @@ CircuitOptimizer::OptimizedPair::OptimizedPair(
 }
 
 
-// 分组函数保持不变
+// Group terms by degree (unchanged)
 std::map<int, std::vector<std::shared_ptr<CircuitOptimizer::Term>>>
 CircuitOptimizer::groupByDegree(const std::string& polynomial) {
     std::map<int, std::vector<std::shared_ptr<Term>>> groupedTerms;
@@ -95,13 +95,13 @@ CircuitOptimizer::groupByDegree(const std::string& polynomial) {
     return groupedTerms;
 }
 
-// 一个unique factor的优化函数
+// Optimize ONE_UNIQUE_FACTOR pattern
 std::vector<CircuitOptimizer::OptimizedPair>
 CircuitOptimizer::optimizeOneUniqueFactor(
         std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
         int highDegree, int lowDegree, int requiredCommonVars) {
 
-    // 移除 clearCircuitNodes() 调用，保持电路节点的积累
+    // Do NOT clear circuit nodes here; we want to accumulate reusable gates
     std::vector<OptimizedPair> allPairs;
 
     std::cout << "Optimizing ONE unique factor pairs (" << highDegree
@@ -126,8 +126,7 @@ CircuitOptimizer::optimizeOneUniqueFactor(
     return allPairs;
 }
 
-// 两个unique factors的优化函数
-// 两个unique factors的优化函数 - 修复版本
+// Optimize TWO_UNIQUE_FACTORS pattern
 std::vector<CircuitOptimizer::OptimizedPair>
 CircuitOptimizer::optimizeTwoUniqueFactors(
         std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
@@ -146,13 +145,13 @@ CircuitOptimizer::optimizeTwoUniqueFactors(
             break;
         }
 
-        // 标记所有使用的项
-        pair.highDegreeTerm->used = true;  // 高次项
+        // Mark all used terms in this pair
+        pair.highDegreeTerm->used = true;  // high degree term
         for (auto& middleTerm : pair.middleTerms) {
-            if (middleTerm) middleTerm->used = true;  // 中间项
+            if (middleTerm) middleTerm->used = true;  // middle terms
         }
         if (pair.lowDegreeTerm) {
-            pair.lowDegreeTerm->used = true;  // 低次项 - 新增这行！
+            pair.lowDegreeTerm->used = true;  // low degree term
         }
 
         generateCircuitForTwoUniqueFactors(pair);
@@ -165,7 +164,8 @@ CircuitOptimizer::optimizeTwoUniqueFactors(
 
     return allPairs;
 }
-// 一个unique factor的配对查找
+
+// Find ONE_UNIQUE_FACTOR pair
 CircuitOptimizer::OptimizedPair
 CircuitOptimizer::findOneUniqueFactorPair(
         std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
@@ -173,7 +173,7 @@ CircuitOptimizer::findOneUniqueFactorPair(
 
     if (groupedTerms.find(highDegree) == groupedTerms.end() ||
         groupedTerms.find(lowDegree) == groupedTerms.end()) {
-        return OptimizedPair(nullptr, nullptr, {}, {});  // 这个保持不变，使用一个unique factor的构造函数
+        return OptimizedPair(nullptr, nullptr, {}, {});
     }
 
     auto& highDegreeTerms = groupedTerms[highDegree];
@@ -190,17 +190,16 @@ CircuitOptimizer::findOneUniqueFactorPair(
                 std::set<int> uniqueVars = highTerm->getDifference(*lowTerm);
                 if (uniqueVars.size() >= 1 && uniqueVars.size() <= 2 &&
                     commonVars.size() == requiredCommonVars) {
-                    return OptimizedPair(highTerm, lowTerm, commonVars, uniqueVars);  // 这个保持不变
+                    return OptimizedPair(highTerm, lowTerm, commonVars, uniqueVars);
                 }
             }
         }
     }
 
-    return OptimizedPair(nullptr, nullptr, {}, {});  // 这个保持不变
+    return OptimizedPair(nullptr, nullptr, {}, {});
 }
 
-// 两个unique factors的配对查找
-// 两个unique factors的配对查找 - 修复版本
+// Find TWO_UNIQUE_FACTORS pair
 CircuitOptimizer::OptimizedPair
 CircuitOptimizer::findTwoUniqueFactorsPair(
         std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
@@ -209,7 +208,7 @@ CircuitOptimizer::findTwoUniqueFactorsPair(
     if (groupedTerms.find(highDegree) == groupedTerms.end() ||
         groupedTerms.find(middleDegree) == groupedTerms.end() ||
         groupedTerms.find(lowDegree) == groupedTerms.end()) {
-        return OptimizedPair(nullptr, std::vector<std::shared_ptr<Term>>(), nullptr, {}, {});  // 修改这里
+        return OptimizedPair(nullptr, std::vector<std::shared_ptr<Term>>(), nullptr, {}, {});
     }
 
     auto& highDegreeTerms = groupedTerms[highDegree];
@@ -246,7 +245,7 @@ CircuitOptimizer::findTwoUniqueFactorsPair(
                         }
 
                         if (foundMiddleTerms.size() == 2) {
-                            return OptimizedPair(highTerm, foundMiddleTerms, lowTerm, commonVars, uniqueVars);  // 修改这里
+                            return OptimizedPair(highTerm, foundMiddleTerms, lowTerm, commonVars, uniqueVars);
                         }
                     }
                 }
@@ -254,10 +253,10 @@ CircuitOptimizer::findTwoUniqueFactorsPair(
         }
     }
 
-    return OptimizedPair(nullptr, std::vector<std::shared_ptr<Term>>(), nullptr, {}, {});  // 修改这里
+    return OptimizedPair(nullptr, std::vector<std::shared_ptr<Term>>(), nullptr, {}, {});
 }
 
-// 特殊的两个unique factors优化
+// Optimize SPECIAL_TWO_UNIQUE_FACTORS (4-degree + 2*3-degree + virtual 2-degree)
 std::vector<CircuitOptimizer::OptimizedPair>
 CircuitOptimizer::optimizeSpecialTwoUniqueFactors(
         std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
@@ -282,7 +281,7 @@ CircuitOptimizer::optimizeSpecialTwoUniqueFactors(
             if (middleTerm) middleTerm->used = true;
         }
 
-        // 生成电路并记录虚拟的二次项
+        // Generate circuit and record the virtual quadratic term
         std::string quadraticTerm = generateCircuitForSpecialTwoUniqueFactors(pair);
         generatedQuadraticTerms.push_back(quadraticTerm);
 
@@ -297,45 +296,44 @@ CircuitOptimizer::optimizeSpecialTwoUniqueFactors(
     return allPairs;
 }
 
-// 替换 CircuitOptimizer.cpp 中现有的 findSpecialTwoUniqueFactorsPair 实现
+// Find SPECIAL_TWO_UNIQUE_FACTORS pair (4-degree + two 3-degree; 2-degree virtual not required)
 CircuitOptimizer::OptimizedPair
 CircuitOptimizer::findSpecialTwoUniqueFactorsPair(
         std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
         int highDegree, int middleDegree, int /*lowDegree*/, int requiredCommonVars) {
 
-    // 只需要4次项和3次项
+    // Need only degree-4 and degree-3 groups
     if (groupedTerms.find(highDegree) == groupedTerms.end() ||
         groupedTerms.find(middleDegree) == groupedTerms.end()) {
         return OptimizedPair(nullptr, std::vector<std::shared_ptr<Term>>(), nullptr, {}, {});
     }
 
-    auto& highDegreeTerms   = groupedTerms[highDegree];    // 期望：4次项组
-    auto& middleDegreeTerms = groupedTerms[middleDegree];  // 期望：3次项组
+    auto& highDegreeTerms   = groupedTerms[highDegree];    // expected: degree-4 terms
+    auto& middleDegreeTerms = groupedTerms[middleDegree];  // expected: degree-3 terms
 
-    // 仅支持 requiredCommonVars == 2 的场景（你的设计就是公共2比特）
+    // Only support requiredCommonVars == 2 (your design uses two common variables)
     if (requiredCommonVars != 2) {
         return OptimizedPair(nullptr, std::vector<std::shared_ptr<Term>>(), nullptr, {}, {});
     }
 
-    // 遍历每一个4次项
+    // Iterate over each degree-4 term
     for (auto& highTerm : highDegreeTerms) {
         if (highTerm->used) continue;
-        if (highTerm->variables.size() != static_cast<size_t>(highDegree)) continue; // 稳妥起见
+        if (highTerm->variables.size() != static_cast<size_t>(highDegree)) continue;
 
-        // 把4次项变量拷出来，准备在内部枚举“公共2变量”C
+        // Copy variables and enumerate all 2-variable common sets
         std::vector<int> hv(highTerm->variables.begin(), highTerm->variables.end());
 
-        // 枚举 C = {a,b} (a<b)，unique = highTerm \ C = {u1,u2}
         for (size_t i = 0; i < hv.size(); ++i) {
             for (size_t j = i + 1; j < hv.size(); ++j) {
                 std::set<int> commonVars = { hv[i], hv[j] };
                 if (static_cast<int>(commonVars.size()) != requiredCommonVars) continue;
 
-                // 求 unique = high \ common
+                // Compute unique = high \ common
                 std::set<int> uniqueVars = highTerm->getDifferenceFromSet(commonVars);
                 if (uniqueVars.size() != 2) continue;
 
-                // 目标三次因子集合：C ∪ {u1} 和 C ∪ {u2}
+                // Target C ∪ {u1} and C ∪ {u2} as the two degree-3 terms
                 auto it = uniqueVars.begin();
                 int u1 = *it++;
                 int u2 = *it;
@@ -343,7 +341,7 @@ CircuitOptimizer::findSpecialTwoUniqueFactorsPair(
                 std::set<int> need1 = commonVars; need1.insert(u1);
                 std::set<int> need2 = commonVars; need2.insert(u2);
 
-                // 在 middleDegreeTerms 里找“变量集合恰好等于 need1/need2”的三次项（且未被使用）
+                // Find exact degree-3 terms with variable set equal to need1/need2
                 std::shared_ptr<Term> m1 = nullptr, m2 = nullptr;
                 for (auto& mid : middleDegreeTerms) {
                     if (mid->used) continue;
@@ -352,7 +350,6 @@ CircuitOptimizer::findSpecialTwoUniqueFactorsPair(
                     if (m1 && m2) break;
                 }
 
-                // 两个都存在，才算一个合法的 special pair
                 if (m1 && m2) {
                     std::vector<std::shared_ptr<Term>> mids = { m1, m2 };
                     return OptimizedPair(highTerm, mids, /*low=*/nullptr, commonVars, uniqueVars);
@@ -365,13 +362,11 @@ CircuitOptimizer::findSpecialTwoUniqueFactorsPair(
 }
 
 
-// 特殊的电路生成函数（返回生成的虚拟二次项）
-// 特殊的电路生成函数（返回生成的虚拟二次项）
-// 特殊的电路生成函数（返回生成的虚拟二次项）（完整替换版：设置 outputGateName，正确记录最终深度/输出）
-// 规则：只要求 4 次项 + 两个 3 次项同时存在；这里不检查“虚拟二次项”是否真实在原式中
+// Generate circuit for SPECIAL_TWO_UNIQUE_FACTORS and return the virtual quadratic term
+// Rule: only require Q4 + two C3 presence; the virtual quadratic existence in the original poly is not checked here
 std::string CircuitOptimizer::generateCircuitForSpecialTwoUniqueFactors(OptimizedPair& pair) {
     if (pair.uniqueVars.size() != 2) return "";
-    // 明确类型给复用目录用
+    // Set the kind so the reuse catalog can recognize this pair
     pair.kind = PairKind::SPECIAL_TWO_UNIQUE_FACTORS;
 
     auto extractLastNode = [](const std::vector<std::string>& ops) -> std::string {
@@ -390,7 +385,7 @@ std::string CircuitOptimizer::generateCircuitForSpecialTwoUniqueFactors(Optimize
     int uniqueVar1 = *uniqueIt;
     int uniqueVar2 = *(++uniqueIt);
 
-    // 深度0：两个NOT操作，对两个“unique”比特取反
+    // Depth 0: two NOT gates for the two "unique" bits
     std::string notOp1 = "NOT(x" + std::to_string(uniqueVar1) + ")";
     std::string notResult1 = "(x" + std::to_string(uniqueVar1) + "+1)";
     std::string notNode1 = findOrCreateNode(notOp1, notResult1, 0);
@@ -402,20 +397,20 @@ std::string CircuitOptimizer::generateCircuitForSpecialTwoUniqueFactors(Optimize
     pair.circuitOperations.push_back("Depth 0: " + notOp1 + " -> " + notResult1 + " [" + notNode1 + "]");
     pair.circuitOperations.push_back("Depth 0: " + notOp2 + " -> " + notResult2 + " [" + notNode2 + "]");
 
-    // 深度1：统一处理所有变量（公共变量 + 两个 NOT 结果）
+    // Depth 1: prepare inputs (common variables + the two NOT results)
     std::vector<std::string> depth1Inputs;
 
-    // 添加公共变量（即 4 次项的“公共 2 比特”）
+    // Add the common variables (the 2-bit common part of Q4)
     std::vector<int> commonVars(pair.commonVars.begin(), pair.commonVars.end());
     for (int var : commonVars) {
         depth1Inputs.push_back("x" + std::to_string(var));
     }
 
-    // 添加NOT结果
+    // Add NOT results
     depth1Inputs.push_back(notNode1);
     depth1Inputs.push_back(notNode2);
 
-    // 深度1：两两AND操作
+    // Depth 1: AND pairwise
     std::vector<std::string> depth1Results;
     for (size_t i = 0; i < depth1Inputs.size(); i += 2) {
         if (i + 1 < depth1Inputs.size()) {
@@ -439,14 +434,14 @@ std::string CircuitOptimizer::generateCircuitForSpecialTwoUniqueFactors(Optimize
         }
     }
 
-    // 继续组合并记录最终深度
+    // Combine as an AND tree and record the final depth (AND tree continues from depth 2)
     int finalDepth = combineOperationsWithReuse(pair, depth1Results, 2);
 
-    // === 关键：抽取最终门名 ===
+    // Extract the final gate name created in this function
     std::string finalNode = extractLastNode(pair.circuitOperations);
     pair.outputGateName = finalNode;
 
-    // 记录深度信息
+    // Record depth info for statistics
     PairDepthInfo info;
     info.pairIndex = static_cast<int>(pairDepthInfo.size()) + 1;
     info.finalDepth = finalDepth;
@@ -456,7 +451,7 @@ std::string CircuitOptimizer::generateCircuitForSpecialTwoUniqueFactors(Optimize
     info.isSingleTerm = false;
     pairDepthInfo.push_back(info);
 
-    // 生成“虚拟二次项”：由公共比特拼出，例如 C={a,b} -> "xaxb"
+    // Build the "virtual quadratic" from the two common variables: e.g., {a,b} -> "xaxb"
     std::string virtualQuadratic;
     for (int var : pair.commonVars) {
         virtualQuadratic += "x" + std::to_string(var);
@@ -465,12 +460,12 @@ std::string CircuitOptimizer::generateCircuitForSpecialTwoUniqueFactors(Optimize
 }
 
 
-// 获取二次项异或结果
+// Build XOR result string for quadratic terms (cancel even multiplicities in GF(2))
 std::string CircuitOptimizer::getQuadraticXORResult(
         const std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
         const std::vector<std::string>& generatedQuadraticTerms) {
 
-    // 获取原始多项式中的二次项
+    // Collect original degree-2 terms still unused in the polynomial
     std::vector<std::string> originalQuadraticTerms;
     if (groupedTerms.find(2) != groupedTerms.end()) {
         for (const auto& term : groupedTerms.at(2)) {
@@ -480,7 +475,7 @@ std::string CircuitOptimizer::getQuadraticXORResult(
         }
     }
 
-    // 合并所有项（生成的 + 原始的）
+    // Merge generated + original
     std::vector<std::string> allTerms;
     for (const auto& term : generatedQuadraticTerms) {
         allTerms.push_back(term);
@@ -489,29 +484,29 @@ std::string CircuitOptimizer::getQuadraticXORResult(
         allTerms.push_back(term);
     }
 
-    // 在二元域上消去重复项
-    std::map<std::string, int> termCount;  // 记录每个项出现的次数
+    // Count multiplicities in GF(2)
+    std::map<std::string, int> termCount;
 
     for (const auto& term : allTerms) {
-        termCount[term]++;  // 统计每个项出现的次数
+        termCount[term]++;
     }
 
-    // 只保留出现奇数次的项（在二元域中，偶数次会消去）
+    // Keep only those appearing odd number of times
     std::vector<std::string> resultTerms;
     for (const auto& pair : termCount) {
-        if (pair.second % 2 == 1) {  // 只保留奇数次出现的项
+        if (pair.second % 2 == 1) {
             resultTerms.push_back(pair.first);
         }
     }
 
-    // 构建结果字符串
+    // Build final text
     std::string result;
     for (size_t i = 0; i < resultTerms.size(); i++) {
         if (i > 0) result += " + ";
         result += resultTerms[i];
     }
 
-    // 如果没有剩余项，返回"0"
+    // If nothing remains, return "0"
     if (result.empty()) {
         result = "0";
     }
@@ -519,12 +514,10 @@ std::string CircuitOptimizer::getQuadraticXORResult(
     return result;
 }
 
-// 生成一个unique factor的电路
-// 修改生成电路函数，记录最终深度
-// 生成一个unique factor的电路（完整替换版：设置 outputGateName，正确记录最终深度/输出）
+// Generate circuit for ONE_UNIQUE_FACTOR
 void CircuitOptimizer::generateCircuitForOneUniqueFactor(OptimizedPair& pair) {
     if (pair.uniqueVars.empty()) return;
-    // 明确类型给复用目录用（rememberPairForReuse 依赖 pair.kind）
+    // Mark kind for reuse catalog
     pair.kind = PairKind::ONE_UNIQUE_FACTOR;
 
     auto extractLastNode = [](const std::vector<std::string>& ops) -> std::string {
@@ -541,13 +534,13 @@ void CircuitOptimizer::generateCircuitForOneUniqueFactor(OptimizedPair& pair) {
 
     int uniqueVar = *pair.uniqueVars.begin();
 
-    // 深度0：NOT操作
+    // Depth 0: NOT gate for the unique factor
     std::string notOp = "NOT(x" + std::to_string(uniqueVar) + ")";
     std::string notResult = "(x" + std::to_string(uniqueVar) + "+1)";
     std::string notNode = findOrCreateNode(notOp, notResult, 0);
     pair.circuitOperations.push_back("Depth 0: " + notOp + " -> " + notResult + " [" + notNode + "]");
 
-    // 深度1：统一处理所有变量
+    // Depth 1: prepare inputs (common variables + NOT(unique))
     std::vector<std::string> depth1Inputs;
     std::vector<int> commonVars(pair.commonVars.begin(), pair.commonVars.end());
     for (int var : commonVars) {
@@ -555,7 +548,7 @@ void CircuitOptimizer::generateCircuitForOneUniqueFactor(OptimizedPair& pair) {
     }
     depth1Inputs.push_back(notNode);
 
-    // 深度1：两两AND操作
+    // Depth 1: pairwise AND
     std::vector<std::string> depth1Results;
     for (size_t i = 0; i < depth1Inputs.size(); i += 2) {
         if (i + 1 < depth1Inputs.size()) {
@@ -579,14 +572,14 @@ void CircuitOptimizer::generateCircuitForOneUniqueFactor(OptimizedPair& pair) {
         }
     }
 
-    // 继续组合并记录最终深度（AND 树从深度 2 开始）
+    // Continue combining as an AND tree; record final depth
     int finalDepth = combineOperationsWithReuse(pair, depth1Results, 2);
 
-    // === 关键：从本函数产生的最后一条电路操作里抽取最终门名 ===
+    // Extract last node name created here
     std::string finalNode = extractLastNode(pair.circuitOperations);
     pair.outputGateName = finalNode;
 
-    // 记录深度信息
+    // Record depth information
     PairDepthInfo info;
     info.pairIndex = static_cast<int>(pairDepthInfo.size()) + 1;
     info.finalDepth = finalDepth;
@@ -598,12 +591,10 @@ void CircuitOptimizer::generateCircuitForOneUniqueFactor(OptimizedPair& pair) {
 }
 
 
-// 生成两个unique factors的电路
-// 同样修改 generateCircuitForTwoUniqueFactors 函数
-// 生成两个 unique factors 的电路（完整替换版：设置 outputGateName，正确记录最终深度/输出）
+// Generate circuit for TWO_UNIQUE_FACTORS
 void CircuitOptimizer::generateCircuitForTwoUniqueFactors(OptimizedPair& pair) {
     if (pair.uniqueVars.size() != 2) return;
-    // 明确类型给复用目录用
+    // Set kind for reuse catalog
     pair.kind = PairKind::TWO_UNIQUE_FACTORS;
 
     auto extractLastNode = [](const std::vector<std::string>& ops) -> std::string {
@@ -622,7 +613,7 @@ void CircuitOptimizer::generateCircuitForTwoUniqueFactors(OptimizedPair& pair) {
     int uniqueVar1 = *uniqueIt;
     int uniqueVar2 = *(++uniqueIt);
 
-    // 深度0：两个NOT操作
+    // Depth 0: two NOT gates for two unique factors
     std::string notOp1 = "NOT(x" + std::to_string(uniqueVar1) + ")";
     std::string notResult1 = "(x" + std::to_string(uniqueVar1) + "+1)";
     std::string notNode1 = findOrCreateNode(notOp1, notResult1, 0);
@@ -634,7 +625,7 @@ void CircuitOptimizer::generateCircuitForTwoUniqueFactors(OptimizedPair& pair) {
     pair.circuitOperations.push_back("Depth 0: " + notOp1 + " -> " + notResult1 + " [" + notNode1 + "]");
     pair.circuitOperations.push_back("Depth 0: " + notOp2 + " -> " + notResult2 + " [" + notNode2 + "]");
 
-    // 深度1：统一处理所有变量
+    // Depth 1: prepare inputs (common variables + two NOT results)
     std::vector<std::string> depth1Inputs;
     std::vector<int> commonVars(pair.commonVars.begin(), pair.commonVars.end());
     for (int var : commonVars) {
@@ -643,7 +634,7 @@ void CircuitOptimizer::generateCircuitForTwoUniqueFactors(OptimizedPair& pair) {
     depth1Inputs.push_back(notNode1);
     depth1Inputs.push_back(notNode2);
 
-    // 深度1：两两AND操作
+    // Depth 1: pairwise AND
     std::vector<std::string> depth1Results;
     for (size_t i = 0; i < depth1Inputs.size(); i += 2) {
         if (i + 1 < depth1Inputs.size()) {
@@ -667,14 +658,14 @@ void CircuitOptimizer::generateCircuitForTwoUniqueFactors(OptimizedPair& pair) {
         }
     }
 
-    // 继续组合并记录最终深度
+    // Combine and record final depth
     int finalDepth = combineOperationsWithReuse(pair, depth1Results, 2);
 
-    // === 关键：抽取最终门名 ===
+    // Extract the final node created here
     std::string finalNode = extractLastNode(pair.circuitOperations);
     pair.outputGateName = finalNode;
 
-    // 记录深度信息
+    // Record depth info
     PairDepthInfo info;
     info.pairIndex = static_cast<int>(pairDepthInfo.size()) + 1;
     info.finalDepth = finalDepth;
@@ -687,7 +678,7 @@ void CircuitOptimizer::generateCircuitForTwoUniqueFactors(OptimizedPair& pair) {
 
 
 
-// 从字符串解析二次项
+// Parse degree-2 term like "x3x7" -> ["x3", "x7"]
 std::vector<std::string> CircuitOptimizer::parseQuadraticTerm(const std::string& quadraticTerm) {
     std::vector<std::string> variables;
     std::string currentVar;
@@ -712,9 +703,7 @@ std::vector<std::string> CircuitOptimizer::parseQuadraticTerm(const std::string&
 }
 
 
-// 生成剩余项的电路
-// 修改 generateRemainingTermsCircuit 函数，打印所有实现（包括已存在的）
-// 在 generateRemainingTermsCircuit 函数中为每个单项式记录深度信息
+// Generate circuit for all the remaining terms (those not consumed by patterns)
 void CircuitOptimizer::generateRemainingTermsCircuit(
         const std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
         const std::vector<std::string>& quadraticTerms) {
@@ -722,7 +711,7 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
     std::cout << "\nGenerating circuit for remaining terms:" << std::endl;
     std::cout << "========================================" << std::endl;
 
-    // 处理二次项 XOR 结果中的每个单项式
+    // Implement each monomial in the quadratic XOR result
     std::cout << "\nQuadratic Terms XOR Result implementation:" << std::endl;
     std::cout << "------------------------------------------" << std::endl;
 
@@ -752,7 +741,7 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
             if (exists) {
                 std::cout << "Depth " << existingDepth << ": " + andOp + " -> " + result + " [" + existingNode + "] (reused)" << std::endl;
 
-                // 记录深度信息（即使是重用的也记录）
+                // Record depth info even when reusing
                 PairDepthInfo info;
                 info.pairIndex = pairDepthInfo.size() + 1;
                 info.finalDepth = existingDepth;
@@ -765,7 +754,7 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
                 std::string nodeName = findOrCreateNode(andOp, result, 1);
                 std::cout << "Depth 1: " + andOp + " -> " + result + " [" + nodeName + "]" << std::endl;
 
-                // 记录深度信息
+                // Record depth info
                 PairDepthInfo info;
                 info.pairIndex = pairDepthInfo.size() + 1;
                 info.finalDepth = 1;
@@ -778,7 +767,7 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
         }
     }
 
-    // 处理高次剩余项（Degree 3, 4, 5, 6）
+    // Handle higher-degree remaining terms (Degree 3, 4, 5, 6)
     std::vector<int> degreesToProcess = {3, 4, 5, 6};
 
     for (int degree : degreesToProcess) {
@@ -786,7 +775,7 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
             auto& terms = groupedTerms.at(degree);
             std::vector<std::shared_ptr<Term>> remainingTerms;
 
-            // 收集未使用的项
+            // Collect unused terms
             for (const auto& term : terms) {
                 if (!term->used) {
                     remainingTerms.push_back(term);
@@ -800,17 +789,17 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
                 for (const auto& term : remainingTerms) {
                     std::cout << "Implementing: " << term->expression << std::endl;
 
-                    // 将变量排序以确保一致性
+                    // Sort variables for deterministic tree
                     std::vector<int> vars(term->variables.begin(), term->variables.end());
                     std::sort(vars.begin(), vars.end());
 
-                    // 构建变量名列表
+                    // Build input names xK
                     std::vector<std::string> varNames;
                     for (int var : vars) {
                         varNames.push_back("x" + std::to_string(var));
                     }
 
-                    // 分层实现AND操作
+                    // Build an AND tree layer by layer
                     std::vector<std::string> currentLevel = varNames;
                     int depth = 1;
                     std::string finalOutput;
@@ -823,7 +812,7 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
                                 std::string left = currentLevel[i];
                                 std::string right = currentLevel[i + 1];
 
-                                // 获取表达式
+                                // Fetch readable expressions
                                 std::string leftExpr, rightExpr;
                                 for (const auto& node : circuitNodes) {
                                     if (node.name == left) leftExpr = node.expression;
@@ -835,7 +824,7 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
                                 std::string andOp = "AND(" + left + ", " + right + ")";
                                 std::string result = "(" + leftExpr + rightExpr + ")";
 
-                                // 检查是否已存在
+                                // Check reuse
                                 bool exists = false;
                                 int existingDepth = -1;
                                 std::string existingNode;
@@ -869,15 +858,15 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
                         depth++;
                     }
 
-                    // 记录最终输出
+                    // Record the final output
                     if (currentLevel.size() == 1) {
                         finalOutput = currentLevel[0];
                         std::cout << "Final result for " << term->expression << ": " << finalOutput << std::endl;
 
-                        // 记录深度信息
+                        // Record depth info
                         PairDepthInfo info;
                         info.pairIndex = pairDepthInfo.size() + 1;
-                        info.finalDepth = depth - 1; // 因为depth在循环后已经+1了
+                        info.finalDepth = depth - 1; // subtract one because depth was incremented after the last combine
                         info.finalOutput = finalOutput;
                         info.pairType = "DEGREE_" + std::to_string(degree) + "_TERM";
                         info.expression = term->expression;
@@ -889,7 +878,7 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
         }
     }
 
-    // 处理一次项（Degree 1） - 直接使用变量本身
+    // Handle degree-1 terms: use inputs directly
     if (groupedTerms.find(1) != groupedTerms.end()) {
         auto& terms = groupedTerms.at(1);
         std::vector<std::shared_ptr<Term>> remainingTerms;
@@ -907,11 +896,11 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
             for (const auto& term : remainingTerms) {
                 std::cout << term->expression << " (already available as input)" << std::endl;
 
-                // 记录深度信息（深度为0，因为是输入变量）
+                // depth = 0 for inputs
                 PairDepthInfo info;
                 info.pairIndex = pairDepthInfo.size() + 1;
                 info.finalDepth = 0;
-                info.finalOutput = term->expression; // 直接使用变量名
+                info.finalOutput = term->expression; // directly use xK
                 info.pairType = "DEGREE_1_TERM";
                 info.expression = term->expression;
                 info.isSingleTerm = true;
@@ -920,13 +909,13 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
         }
     }
 
-    // ===== 新增：处理零次项（常数 1）—— 计入 Depth 0 =====
-    // 有些布尔函数（如 poly3/4/6/7）带有常数 1；将其作为深度 0 的单项式输出记录，便于统计“Initial items by depth”
+    // Some Boolean functions (e.g., poly3/4/6/7) contain a constant "1".
+    // Record it as a depth-0 single item so it appears in "Initial items by depth".
     if (groupedTerms.find(0) != groupedTerms.end()) {
         const auto& terms0 = groupedTerms.at(0);
         bool recorded = false;
         for (const auto& t : terms0) {
-            // 只在表达式字面是 "1" 且尚未标记 used 时登记一次
+            // Record once when the literal is exactly "1" and not used
             if (!t->used && t->expression == "1") {
                 std::cout << "\nDegree 0 constant implementation:" << std::endl;
                 std::cout << "---------------------------------" << std::endl;
@@ -935,26 +924,26 @@ void CircuitOptimizer::generateRemainingTermsCircuit(
                 PairDepthInfo info;
                 info.pairIndex = static_cast<int>(pairDepthInfo.size()) + 1;
                 info.finalDepth = 0;
-                info.finalOutput = "1";        // 逻辑常量 1
+                info.finalOutput = "1";        // logic constant 1
                 info.pairType = "CONST_1";
                 info.expression = "1";
                 info.isSingleTerm = true;
                 pairDepthInfo.push_back(info);
 
-                // 如需避免在后续流程被误当作“未用项”，可标记：
+                // If you want to avoid it being considered "unused" later, you can mark used:
                 // t->used = true;
                 recorded = true;
-                break; // 常数项只记一次
+                break; // record constant once
             }
         }
         if (!recorded) {
-            // 如果 parse/group 的零次项不是字面 "1"（极少见），这里就不额外登记
+            // If degree-0 terms are not the literal "1", we skip
         }
     }
 }
 
 
-// 把 "x3x1x2" 变为 "x1x2x3"，保证可比性
+// Canonicalize expression: "x3x1x2" -> "x1x2x3"
 std::string CircuitOptimizer::canonicalExpr(const std::string& expr) {
     std::vector<int> vs;
     for (size_t i = 0; i < expr.size();) {
@@ -977,7 +966,7 @@ std::string CircuitOptimizer::canonicalExpr(const std::string& expr) {
 }
 
 
-// 生成 XOR 的无序键：min(exprA,exprB) + "&" + max(exprA,exprB)
+// Make an unordered XOR key: min(A,B) + "&" + max(A,B) after canonicalization
 std::string CircuitOptimizer::makeXorKey(const std::string& exprA, const std::string& exprB) {
     std::string a = canonicalExpr(exprA);
     std::string b = canonicalExpr(exprB);
@@ -993,7 +982,7 @@ bool CircuitOptimizer::getNodeExpr(const std::string& nodeName, std::string& out
             return true;
         }
     }
-    // 可能是输入变量 "xk"
+    // Possibly an input variable "xk"
     if (!nodeName.empty() && nodeName[0] == 'x') {
         outExpr = nodeName;
         if (outDepth) *outDepth = 0;
@@ -1010,7 +999,7 @@ void CircuitOptimizer::rememberXorMerge(int depth, const std::string& leftNode,
     if (!getNodeExpr(leftNode, aExpr, &dL))  return;
     if (!getNodeExpr(rightNode, bExpr, &dR)) return;
 
-    // 键 = depth + '|' + makeXorKey(A,B)
+    // Key = depth + '|' + makeXorKey(A,B)
     std::string key = std::to_string(depth) + "|" + makeXorKey(aExpr, bExpr);
     ReusableXorMerge rec;
     rec.depth   = depth;
@@ -1026,11 +1015,11 @@ std::string CircuitOptimizer::tryReuseXorAtDepth(int depth, const std::string& l
                                                  const std::string& rightExprRaw) const {
     std::string key = std::to_string(depth) + "|" + makeXorKey(leftExprRaw, rightExprRaw);
     auto it = xorCatalog_.find(key);
-    if (it == xorCatalog_.end()) return "";        // 没记录：无法复用
-    return it->second.outNode;                     // 直接返回第一轮该 XOR 的输出门名 tXX
+    if (it == xorCatalog_.end()) return "";
+    return it->second.outNode;
 }
 
-void CircuitOptimizer::clearXorCatalog() { xorCatalog_.clear(); } // 一般不用
+void CircuitOptimizer::clearXorCatalog() { xorCatalog_.clear(); } // typically not needed
 
 
 
@@ -1041,7 +1030,7 @@ int CircuitOptimizer::degreeOfExpr(const std::string& expr) {
     return cnt;
 }
 
-// THREE kinds of signatures (固定字段顺序，全部 canonical 之后再拼)
+// THREE signatures for pair reuse (all components canonicalized before concatenation)
 std::string CircuitOptimizer::makeSignatureTwoUnique(const std::string& high,
                                                      const std::string& m1,
                                                      const std::string& m2,
@@ -1049,7 +1038,7 @@ std::string CircuitOptimizer::makeSignatureTwoUnique(const std::string& high,
     std::string cH = canonicalExpr(high);
     std::string cM1 = canonicalExpr(m1);
     std::string cM2 = canonicalExpr(m2);
-    if (cM2 < cM1) std::swap(cM1, cM2); // middle 两个无序
+    if (cM2 < cM1) std::swap(cM1, cM2); // two middle terms are unordered
     std::string cL = canonicalExpr(low);
     return "two|H:" + cH + "|M:" + cM1 + "," + cM2 + "|L:" + cL;
 }
@@ -1061,7 +1050,7 @@ std::string CircuitOptimizer::makeSignatureOneUnique(const std::string& high,
     return "one|H:" + cH + "|L:" + cL;
 }
 
-// special: 只要求 (4次项) 与 两个(3次项因子) 同时存在；2次项是否存在不检查
+// Special: only check presence of (Q4) and two (C3) terms; 2-degree presence is not required
 std::string CircuitOptimizer::makeSignatureSpecialTwo(const std::string& q4,
                                                       const std::string& c31,
                                                       const std::string& c32) {
@@ -1074,7 +1063,7 @@ std::string CircuitOptimizer::makeSignatureSpecialTwo(const std::string& q4,
 
 
 
-// 其余辅助函数保持不变
+// Other helpers (unchanged)
 void CircuitOptimizer::clearCircuitNodes() {
     circuitNodes.clear();
     nodeCounter = 0;
@@ -1103,12 +1092,12 @@ void CircuitOptimizer::printCircuitNodes() const {
     }
 }
 
-// 修改 combineOperationsWithReuse 实现，返回最终深度
+// Combine a list of inputs into an AND tree with reuse; return final depth
 int CircuitOptimizer::combineOperationsWithReuse(OptimizedPair& pair,
                                                  std::vector<std::string>& inputs,
                                                  int depth) {
     if (inputs.size() <= 1) {
-        // 当只剩下一个节点时，返回当前深度-1（因为这是最终结果）
+        // When only one node remains, the final depth is depth-1
         return depth - 1;
     }
 
@@ -1132,12 +1121,12 @@ int CircuitOptimizer::combineOperationsWithReuse(OptimizedPair& pair,
         }
     }
 
-    // 递归调用并返回最终深度
+    // Recurse and return final depth
     return combineOperationsWithReuse(pair, nextLevel, depth + 1);
 }
 
 
-// 获取所有项的深度分类
+// Group all recorded items by their final depth
 std::map<int, std::vector<std::string>> CircuitOptimizer::getAllItemsByDepth() const {
     std::map<int, std::vector<std::string>> depthItems;
 
@@ -1148,7 +1137,7 @@ std::map<int, std::vector<std::string>> CircuitOptimizer::getAllItemsByDepth() c
     return depthItems;
 }
 
-// 在指定深度合并一组项（使用XOR2）
+// XOR-merge all items at a given depth; tries XOR reuse first
 std::string CircuitOptimizer::mergeItemsAtDepth(int depth, std::vector<std::string> items, int startDepth,
                                                 const std::map<int, std::pair<std::string, int>>& availableResults) {
     if (items.empty()) return "";
@@ -1162,14 +1151,13 @@ std::string CircuitOptimizer::mergeItemsAtDepth(int depth, std::vector<std::stri
     while (currentLevel.size() > 1) {
         std::vector<std::string> nextLevel;
 
-        // 在当前深度检查是否有新的可用结果可以添加
+        // At this start depth, see if there are newly available results to inject
         for (const auto& result : availableResults) {
             int resultDepth = result.first;
             const auto& resultInfo = result.second;
             std::string resultNode = resultInfo.first;
             int completionDepth = resultInfo.second;
 
-            // 如果这个结果在当前深度可用，并且还没有在当前层级中
             if (completionDepth + 1 == currentDepth &&
                 std::find(currentLevel.begin(), currentLevel.end(), resultNode) == currentLevel.end()) {
                 currentLevel.push_back(resultNode);
@@ -1180,7 +1168,7 @@ std::string CircuitOptimizer::mergeItemsAtDepth(int depth, std::vector<std::stri
 
         for (size_t i = 0; i < currentLevel.size(); i += 2) {
             if (i + 1 < currentLevel.size()) {
-                // XOR2操作
+                // XOR2
                 std::string left = currentLevel[i];
                 std::string right = currentLevel[i + 1];
 
@@ -1195,7 +1183,7 @@ std::string CircuitOptimizer::mergeItemsAtDepth(int depth, std::vector<std::stri
                 std::string xorOp = "XOR2(" + left + ", " + right + ")";
                 std::string result = "(" + leftExpr + " + " + rightExpr + ")";
 
-                // 检查是否已存在
+                // Reuse if possible
                 bool exists = false;
                 std::string existingNode;
                 for (const auto& node : circuitNodes) {
@@ -1219,7 +1207,7 @@ std::string CircuitOptimizer::mergeItemsAtDepth(int depth, std::vector<std::stri
                     std::cout << "    Depth " << currentDepth << ": " + xorOp + " -> " + result + " [" + nodeName + "]" << std::endl;
                 }
             } else {
-                // 剩余单个项传递到下一层
+                // Odd count: pass-through
                 nextLevel.push_back(currentLevel[i]);
                 std::cout << "    Depth " << currentDepth << ": " + currentLevel[i] << " passed through" << std::endl;
             }
@@ -1234,17 +1222,7 @@ std::string CircuitOptimizer::mergeItemsAtDepth(int depth, std::vector<std::stri
 }
 
 
-// 层次化合并所有项
-// 层次化合并所有项（完全修正深度依赖版本）
-// 层次化合并所有项（尽早参与版本）
-// 层次化合并所有项（保持深度约束的尽早参与版本）
-// 层次化合并所有项（修正可用深度版本）
-// 层次化合并所有项（动态添加可用结果版本）
-// 层次化合并所有项（只添加直接前一个深度的结果）
-// 层次化合并所有项（在合并过程中动态检查可用性）
-// 层次化合并所有项（自定义处理顺序）
-// 层次化合并所有项（Depth2独立合并）
-// 层次化合并所有项（带 XOR 复用第一函数记录的同深度同输入归并）
+// Hierarchical merge for all recorded terms/pairs
 void CircuitOptimizer::hierarchicalMergeAllTerms() {
     hierarchicalOperations.clear();
     depthMergeResults.clear();
@@ -1252,16 +1230,16 @@ void CircuitOptimizer::hierarchicalMergeAllTerms() {
     std::cout << "\nHierarchical Merge of All Terms:" << std::endl;
     std::cout << "================================" << std::endl;
 
-    // 1) 收集所有项：key = finalDepth, value = 本深度要参与 XOR 的节点名（xK 或 tNN）
+    // 1) Collect all items: key = finalDepth, value = node name (xK or tNN)
     auto itemsByDepth = getAllItemsByDepth();
 
-    // 打印初始统计
+    // Print initial statistics
     std::cout << "Initial items by depth:" << std::endl;
     for (const auto& kv : itemsByDepth) {
         std::cout << "  Depth " << kv.first << ": " << kv.second.size() << " items" << std::endl;
     }
 
-    // 2) 归并单层的工具：两两 XOR；优先复用（第一函数中记录的）同深度同输入的 XOR
+    // 2) Helper: XOR merge on one level with reuse preference
     auto xorMergeLevelWithReuse = [&](std::vector<std::string>& items,
                                       int startDepth,
                                       std::vector<std::string>& outNextLevel,
@@ -1271,21 +1249,21 @@ void CircuitOptimizer::hierarchicalMergeAllTerms() {
                 const std::string& L = items[i];
                 const std::string& R = items[i + 1];
 
-                // 取两侧节点的可读表达式（如果是 tNN 则查节点表达式；如果是 xK 直接用）
+                // Fetch readable expressions for both sides
                 std::string Lexpr, Rexpr;
                 getNodeExpr(L, Lexpr, nullptr);
                 getNodeExpr(R, Rexpr, nullptr);
                 if (Lexpr.empty()) Lexpr = L;
                 if (Rexpr.empty()) Rexpr = R;
 
-                // 先尝试复用：同“当前 XOR 深度（startDepth）” + 同一对输入表达式
+                // Try reuse first: same merge depth and same pair of inputs (unordered)
                 std::string reusedNode = tryReuseXorAtDepth(startDepth, Lexpr, Rexpr);
                 if (!reusedNode.empty()) {
                     outNextLevel.push_back(reusedNode);
                     opLogs.push_back("Depth " + std::to_string(startDepth) + ": XOR2(" + L + ", " + R +
                                      ") -> (" + Lexpr + " + " + Rexpr + ") [" + reusedNode + "] (reused)");
                 } else {
-                    // 未命中：新建 XOR，并登记到复用目录
+                    // Not reusable: create new XOR and remember it
                     std::string xorOp = "XOR2(" + L + ", " + R + ")";
                     std::string result = "(" + Lexpr + " + " + Rexpr + ")";
                     std::string node   = findOrCreateNode(xorOp, result, startDepth);
@@ -1293,11 +1271,11 @@ void CircuitOptimizer::hierarchicalMergeAllTerms() {
                     opLogs.push_back("Depth " + std::to_string(startDepth) + ": " + xorOp + " -> " + result +
                                      " [" + node + "]");
 
-                    // 记录本次 XOR：供后续（比如第二个/第三个函数）在“同深度同输入”场景下复用
+                    // Remember this merge for reuse (same depth and operands)
                     rememberXorMerge(startDepth, L, R, node);
                 }
             } else {
-                // 奇数：最后一个直接上推
+                // Odd count: last item passes through
                 outNextLevel.push_back(items[i]);
                 std::string expr; getNodeExpr(items[i], expr, nullptr);
                 if (expr.empty()) expr = items[i];
@@ -1306,8 +1284,7 @@ void CircuitOptimizer::hierarchicalMergeAllTerms() {
         }
     };
 
-    // 3) 逐深度进行层级合并
-    //    处理顺序按深度从小到大（0 -> 1 -> 2 -> 3），这样打印与统计直观
+    // 3) Process depths in ascending order so logs look clear
     std::map<int, std::pair<std::string,int>> depthMerged; // depth -> (mergedNode, completionDepth)
 
     for (const auto& kv : itemsByDepth) {
@@ -1316,8 +1293,7 @@ void CircuitOptimizer::hierarchicalMergeAllTerms() {
 
         if (items.empty()) continue;
 
-        // 对“来自 depth 的这些项”进行分层 XOR：
-        // 约定：合并从 depth+1 开始（与之前输出风格一致）
+        // Merge items from "depth"; start merging at depth+1 (consistent with previous style)
         int startDepth = depth + 1;
 
         std::vector<std::string> current = items;
@@ -1333,10 +1309,10 @@ void CircuitOptimizer::hierarchicalMergeAllTerms() {
             ++startDepth;
         }
 
-        // 打印过程日志
+        // Print merge logs
         for (auto& s : logs) std::cout << "    " << s << std::endl;
 
-        // 汇总：该深度的合并结果节点与完成深度（最后一次新建/复用 XOR 的深度）
+        // Summarize: the merged node for this depth and the completion depth
         std::string mergedNode   = current.front();
         int completionDepth      = startDepth - 1;
 
@@ -1347,7 +1323,7 @@ void CircuitOptimizer::hierarchicalMergeAllTerms() {
         std::cout << "  Result will be available at depth " << (completionDepth + 1) << std::endl;
     }
 
-    // 4) 确定全局最终结果（选最后一个处理到的深度结果即可）
+    // 4) Final overall result (pick the last processed depth result)
     if (!depthMerged.empty()) {
         auto last = depthMerged.rbegin();
         finalMergeResult = last->second.first;
@@ -1398,11 +1374,11 @@ std::string CircuitOptimizer::OptimizedPair::patternKey() const {
 
 void CircuitOptimizer::rememberPairForReuse(const OptimizedPair& pair) {
     ReusablePairRecord rec;
-    rec.kind = pair.kind;                       // 记得你要在创建时给 pair.kind 赋值
+    rec.kind = pair.kind;                       // ensure pair.kind is set before calling
     rec.outputGateName = pair.outputGateName;
 
     if (pair.kind == PairKind::TWO_UNIQUE_FACTORS) {
-        // 组件：high + 两个 middle + 低次项 low
+        // Components: high + two middle + low
         if (!pair.highDegreeTerm || pair.middleTerms.size()<2 || !pair.lowDegreeTerm) return;
         rec.highExpr = canonicalExpr(pair.highDegreeTerm->expression);
         rec.middleExprs = { canonicalExpr(pair.middleTerms[0]->expression),
@@ -1411,17 +1387,17 @@ void CircuitOptimizer::rememberPairForReuse(const OptimizedPair& pair) {
         rec.lowExpr = canonicalExpr(pair.lowDegreeTerm->expression);
         rec.signature = makeSignatureTwoUnique(rec.highExpr, rec.middleExprs[0], rec.middleExprs[1], rec.lowExpr);
     } else if (pair.kind == PairKind::ONE_UNIQUE_FACTOR) {
-        // 组件：high + 低次项（本模式只有一个 middle/low）
+        // Components: high + low (single middle/low in this pattern)
         if (!pair.highDegreeTerm || !pair.lowDegreeTerm) return;
         rec.highExpr = canonicalExpr(pair.highDegreeTerm->expression);
         rec.lowExpr  = canonicalExpr(pair.lowDegreeTerm->expression);
         rec.signature = makeSignatureOneUnique(rec.highExpr, rec.lowExpr);
     } else if (pair.kind == PairKind::SPECIAL_TWO_UNIQUE_FACTORS) {
-        // 组件：4次项 + 两个3次项（不检查2次项是否存在）
+        // Components: Q4 + two C3 (we don't check for a degree-2 term existence)
         if (!pair.lowDegreeTerm || pair.middleTerms.size()<2) return;
-        // 这里沿用你的存放方式：lowDegreeTerm 存 4次项；middleTerms 存两个 3次项
+        // In this mode, lowDegreeTerm stores Q4; middleTerms store two C3 terms
         rec.highExpr.clear();
-        rec.lowExpr  = canonicalExpr(pair.lowDegreeTerm->expression); // 4次项
+        rec.lowExpr  = canonicalExpr(pair.lowDegreeTerm->expression); // Q4
         rec.middleExprs = { canonicalExpr(pair.middleTerms[0]->expression),
                             canonicalExpr(pair.middleTerms[1]->expression) };
         if (rec.middleExprs[1] < rec.middleExprs[0]) std::swap(rec.middleExprs[0], rec.middleExprs[1]);
@@ -1430,7 +1406,7 @@ void CircuitOptimizer::rememberPairForReuse(const OptimizedPair& pair) {
         return;
     }
 
-    // 录入字典（后写覆盖先写没关系，因为输出门相同）
+    // Insert/overwrite into catalog (overwriting is fine as same output gate)
     reuseCatalog_[rec.signature] = rec;
 }
 
@@ -1454,9 +1430,9 @@ void CircuitOptimizer::pushDepthInfoSingle(const std::string& expr,
     PairDepthInfo info;
     info.pairIndex    = static_cast<int>(pairDepthInfo.size()) + 1;
     info.finalDepth   = finalDepth;
-    info.finalOutput  = out;          // tNN 或者直接 xk
-    info.pairType     = type;         // "DEGREE_1_TERM" / "QUADRATIC_TERM" / "DEGREE_3_TERM" / ...
-    info.expression   = expr;         // 例如 "x0x1x2"、"x0x4x5x7"
+    info.finalOutput  = out;          // tNN or xk
+    info.pairType     = type;         // "DEGREE_1_TERM" / "QUADRATIC_TERM" / ...
+    info.expression   = expr;         // e.g., "x0x1x2", "x0x4x5x7"
     info.isSingleTerm = true;
     pairDepthInfo.push_back(std::move(info));
 }
@@ -1468,7 +1444,7 @@ bool CircuitOptimizer::findTermByExpr(
 {
     std::string key = canonicalExpr(expr);
 
-    // 通过统计 'x' 的个数估计次数（也可写一个解析器）
+    // Estimate degree by counting 'x' (fast path)
     int deg = 0; for (char c : expr) if (c == 'x') ++deg;
 
     auto it = groupedTerms.find(deg);
@@ -1491,16 +1467,16 @@ CircuitOptimizer::tryReusePairsForPattern(
     std::vector<OptimizedPair> reused;
 
     for (const auto& ref : referencePairs) {
-        // 这些 referencePairs 来自第一轮（已经有 kind / outputGateName / 各组成项）
+        // These referencePairs come from the first pass (kind/outputGateName/components are set)
         OptimizedPair p;
         p.kind = ref.kind;
-        p.outputGateName = ref.outputGateName; // 直接复用这个 t_xx
-        p.circuitOperations.clear();           // 复用无需重建流水
+        p.outputGateName = ref.outputGateName; // reuse the existing t_xx
+        p.circuitOperations.clear();           // no pipeline rebuild when reusing
 
         bool ok = true;
 
         if (ref.kind == PairKind::TWO_UNIQUE_FACTORS) {
-            // 需要：高次项 + 两个中间项 + 低次项 都存在
+            // Need high + two middle + low all present
             if (!ref.highDegreeTerm || ref.middleTerms.size() < 2 || !ref.lowDegreeTerm) continue;
 
             std::shared_ptr<Term> th, tm1, tm2, tl;
@@ -1515,7 +1491,7 @@ CircuitOptimizer::tryReusePairsForPattern(
             p.lowDegreeTerm = tl;
 
         } else if (ref.kind == PairKind::ONE_UNIQUE_FACTOR) {
-            // 需要：高次项 + 低次项
+            // Need high + low
             if (!ref.highDegreeTerm || !ref.lowDegreeTerm) continue;
 
             std::shared_ptr<Term> th, tl;
@@ -1527,13 +1503,13 @@ CircuitOptimizer::tryReusePairsForPattern(
             p.lowDegreeTerm  = tl;
 
         } else if (ref.kind == PairKind::SPECIAL_TWO_UNIQUE_FACTORS) {
-            // 需要：4次项 + 两个3次项（不检查“虚拟二次项”是否存在）
+            // Need Q4 + two C3 (2-degree virtual term not required)
             if (!ref.lowDegreeTerm || ref.middleTerms.size() < 2) continue;
 
             std::shared_ptr<Term> tq4, tc31, tc32;
-            ok = ok && findTermByExpr(groupedTerms, ref.lowDegreeTerm->expression,  tq4);   // 4次项
-            ok = ok && findTermByExpr(groupedTerms, ref.middleTerms[0]->expression, tc31);  // 3次项
-            ok = ok && findTermByExpr(groupedTerms, ref.middleTerms[1]->expression, tc32);  // 3次项
+            ok = ok && findTermByExpr(groupedTerms, ref.lowDegreeTerm->expression,  tq4);   // Q4
+            ok = ok && findTermByExpr(groupedTerms, ref.middleTerms[0]->expression, tc31);  // C3
+            ok = ok && findTermByExpr(groupedTerms, ref.middleTerms[1]->expression, tc32);  // C3
             if (!ok) continue;
 
             p.lowDegreeTerm = tq4;
@@ -1542,12 +1518,12 @@ CircuitOptimizer::tryReusePairsForPattern(
             continue;
         }
 
-        // 标记本轮这些项为已用，避免后面被“剩余项电路”再实现
+        // Mark these as used to avoid re-implementing in "remaining terms"
         if (p.highDegreeTerm) p.highDegreeTerm->used = true;
         for (auto& m : p.middleTerms) if (m) m->used = true;
         if (p.lowDegreeTerm)  p.lowDegreeTerm->used  = true;
 
-        // 记录这个“复用 pair”的深度（查它的输出节点深度）
+        // Depth of the reused output node
         int depthFound = 0;
         if (!p.outputGateName.empty()) {
             for (const auto& node : circuitNodes) {
@@ -1555,7 +1531,7 @@ CircuitOptimizer::tryReusePairsForPattern(
             }
         }
 
-        // 把“复用”也计入本轮统计
+        // Count reuse in the statistics of this pass
         PairDepthInfo info;
         info.pairIndex    = static_cast<int>(pairDepthInfo.size()) + 1;
         info.finalDepth   = depthFound;
@@ -1563,7 +1539,6 @@ CircuitOptimizer::tryReusePairsForPattern(
         info.pairType     = (ref.kind == PairKind::TWO_UNIQUE_FACTORS) ? "TWO_UNIQUE_FACTORS" :
                             (ref.kind == PairKind::ONE_UNIQUE_FACTOR)  ? "ONE_UNIQUE_FACTOR"  :
                             "SPECIAL_TWO_UNIQUE_FACTORS";
-        // 也可以把表达式拼成易读文本写进 expression，这里先留空
         info.expression   = "";
         info.isSingleTerm = false;
         pairDepthInfo.push_back(std::move(info));
@@ -1585,7 +1560,7 @@ CircuitOptimizer::tryReusePairsForPattern(
 
 
 
-// 打印层次化合并结果
+// Print hierarchical merge operations and summary
 void CircuitOptimizer::printHierarchicalMergeResult() const {
     std::cout << "\nHierarchical Merge Operations:" << std::endl;
     std::cout << "==============================" << std::endl;
@@ -1605,6 +1580,7 @@ void CircuitOptimizer::printHierarchicalMergeResult() const {
 
 
 
+// Remove spaces from a term like "x1 x2" -> "x1x2"
 std::string CircuitOptimizer::cleanTerm(const std::string& term) {
     std::string cleaned;
     for (char c : term) {
@@ -1613,6 +1589,7 @@ std::string CircuitOptimizer::cleanTerm(const std::string& term) {
     return cleaned;
 }
 
+// Print unused terms (by degree)
 void CircuitOptimizer::printRemainingTerms(
         const std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms) {
     std::cout << "\nRemaining unoptimized terms:" << std::endl;
@@ -1631,6 +1608,7 @@ void CircuitOptimizer::printRemainingTerms(
     }
 }
 
+// Print optimization statistics for a batch of pairs
 void CircuitOptimizer::printOptimizationStatistics(
         const std::vector<OptimizedPair>& pairs,
         const std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms) {
@@ -1645,7 +1623,7 @@ void CircuitOptimizer::printOptimizationStatistics(
         if (pair.type == OptimizedPair::ONE_UNIQUE_FACTOR) {
             optimizedTerms += 2;
         } else if (pair.type == OptimizedPair::TWO_UNIQUE_FACTORS) {
-            optimizedTerms += 3; // 高次项 + 2个中间项
+            optimizedTerms += 3; // high + two middle
         }
     }
 
@@ -1663,18 +1641,18 @@ void CircuitOptimizer::printOptimizationStatistics(
               << (optimizedTerms * 100.0 / totalTerms) << "%" << std::endl;
 }
 
-// 把内部信号名统一成 Verilog 端口/导线名：x0->X0，t12->t12
+// Convert internal node names to Verilog signals: x0->X0, t12->t12
 static std::string toVerilogSignal(const std::string& s) {
     if (s.empty()) return s;
     if (s[0] == 'x' || s[0] == 'X') {
         // x0...x7 -> X0...X7
         return "X" + s.substr(1);
     }
-    // tXX 直接返回
+    // tXX is kept as-is
     return s;
 }
 
-// 解析 operation 里的两个操作数：形如 "AND(a, b)" / "XOR2(a, b)" / "NOT(a)"
+// Parse operands inside "AND(a, b)" / "XOR2(a, b)" / "NOT(a)"
 static std::vector<std::string> parseOperands(const std::string& op) {
     std::vector<std::string> out;
     auto l = op.find('(');
@@ -1682,15 +1660,13 @@ static std::vector<std::string> parseOperands(const std::string& op) {
     if (l == std::string::npos || r == std::string::npos || r <= l) return out;
 
     std::string inside = op.substr(l + 1, r - l - 1);
-    // 拆分逗号
+    // split by comma
     size_t p = 0;
     while (p < inside.size()) {
-        // 跳过空白
         while (p < inside.size() && isspace(static_cast<unsigned char>(inside[p]))) ++p;
         size_t q = p;
         while (q < inside.size() && inside[q] != ',') ++q;
         std::string token = inside.substr(p, q - p);
-        // 去掉空白
         while (!token.empty() && isspace(static_cast<unsigned char>(token.front()))) token.erase(token.begin());
         while (!token.empty() && isspace(static_cast<unsigned char>(token.back())))  token.pop_back();
         if (!token.empty()) out.push_back(token);
@@ -1699,6 +1675,7 @@ static std::vector<std::string> parseOperands(const std::string& op) {
     return out;
 }
 
+// Export all recorded gates as a Verilog netlist (X0..X7 inputs, Y0..Y7 left for manual connection)
 void CircuitOptimizer::exportVerilog(const std::string& filepath,
                                      const std::string& moduleName) const
 {
@@ -1708,35 +1685,35 @@ void CircuitOptimizer::exportVerilog(const std::string& filepath,
         return;
     }
 
-    // 先按 t 的编号排序，保证可读性：t0, t1, t2, ...
+    // Sort nodes by t-index for readability: t0, t1, t2, ...
     std::vector<CircuitNode> nodes = circuitNodes;
     auto tIndex = [](const std::string& name)->int {
-        // name 形如 t123
+        // name like t123
         if (name.size() >= 2 && (name[0]=='t' || name[0]=='T')) {
             return std::atoi(name.c_str() + 1);
         }
-        return INT_MAX; // 非 t 开头的排后
+        return INT_MAX; // non-t put to the end
     };
     std::sort(nodes.begin(), nodes.end(),
               [&](const CircuitNode& a, const CircuitNode& b) {
                   int ia = tIndex(a.name), ib = tIndex(b.name);
                   if (ia != ib) return ia < ib;
-                  // 次序：再按 depth / name 保底
+                  // fallback: depth then name
                   if (a.depth != b.depth) return a.depth < b.depth;
                   return a.name < b.name;
               });
 
-    // 头部注释
+    // File header
     ofs << "// Auto-generated by CircuitOptimizer::exportVerilog\n";
     ofs << "// This netlist includes all gates (tXX) recorded so far.\n\n";
 
-    // 模块头
+    // Module header
     ofs << "module " << moduleName << "(\n";
     ofs << "    input  wire X0, X1, X2, X3, X4, X5, X6, X7,\n";
     ofs << "    output wire Y0, Y1, Y2, Y3, Y4, Y5, Y6, Y7\n";
     ofs << ");\n\n";
 
-    // 声明所有将用到的中间导线 tXX（只为 name 以 t 开头的节点）
+    // Declare internal wires for all tXX nodes
     std::vector<std::string> tnames;
     tnames.reserve(nodes.size());
     for (const auto& n : nodes) {
@@ -1744,7 +1721,7 @@ void CircuitOptimizer::exportVerilog(const std::string& filepath,
             tnames.push_back(n.name);
         }
     }
-    // 去重
+    // unique & sort
     std::sort(tnames.begin(), tnames.end(), [&](const std::string& a, const std::string& b){
         int ia = tIndex(a), ib = tIndex(b);
         if (ia != ib) return ia < ib;
@@ -1761,12 +1738,12 @@ void CircuitOptimizer::exportVerilog(const std::string& filepath,
         }
     }
 
-    // 把每个节点的 operation 翻译成 Verilog assign
-    // 支持：NOT(a) -> ~a, AND(a,b) -> (a & b), XOR2(a,b) -> (a ^ b)
+    // Emit each node as a Verilog assign
+    // NOT(a) -> ~a, AND(a,b) -> (a & b), XOR2(a,b) -> (a ^ b)
     ofs << "  // ========== Gates ==========\n";
     for (const auto& n : nodes) {
         if (n.name.empty()) continue;
-        // 只导出 tXX；如果你也想导出临时的非 t 节点，这里可以去掉判断
+        // Only export tXX; remove this check if you also want to export temp non-t nodes
         if (!(n.name[0]=='t' || n.name[0]=='T')) continue;
 
         const std::string& op = n.operation;
@@ -1806,13 +1783,13 @@ void CircuitOptimizer::exportVerilog(const std::string& filepath,
                 ofs << "  // [WARN] malformed: " << op << "\n";
             }
         } else {
-            // 其它类型（如果你将来扩展了门）
+            // Skip unsupported op kinds
             ofs << "  // [INFO] skip unsupported op: " << n.operation
                 << "  node: " << n.name << "\n\n";
         }
     }
 
-    // 输出口先留空（你自己接需要的 tXX 到 Y*）
+    // Leave outputs for you to wire
     ofs << "  // ========== Outputs (connect by yourself) ==========\n";
     ofs << "  // Example:\n";
     ofs << "  // assign Y0 = t123;  // TODO\n";
@@ -1823,4 +1800,5 @@ void CircuitOptimizer::exportVerilog(const std::string& filepath,
     ofs.close();
 
     std::cout << "[exportVerilog] Wrote Verilog netlist to: " << filepath << std::endl;
+
 }
