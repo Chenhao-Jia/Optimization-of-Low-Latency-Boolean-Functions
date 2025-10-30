@@ -16,13 +16,23 @@
 #include <windows.h>
 #endif
 
+// ============================================================================
+//  Class: CircuitOptimizer
+//  Purpose: Provides circuit-level Boolean function optimization, pattern
+//            detection, term grouping, and Verilog generation for AES S-boxes
+// ============================================================================
 class CircuitOptimizer {
 public:
+
+    // ------------------------------------------------------------------------
+    //  Term: Represents a single monomial term (e.g., x1x2x3) in a Boolean
+    //  polynomial, including its variable set, degree, and usage status.
+    // ------------------------------------------------------------------------
     struct Term {
-        std::string expression;
-        std::set<int> variables;
-        int degree;
-        bool used;
+        std::string expression;       // Original expression, e.g., "x1x2x3"
+        std::set<int> variables;      // Set of variable indices (1,2,3)
+        int degree;                   // Degree = number of variables
+        bool used;                    // Flag: whether this term has been merged/used
 
         Term(const std::string& expr);
         bool hasCommonFactor(const Term& other, std::set<int>& commonVars) const;
@@ -30,17 +40,23 @@ public:
         std::set<int> getDifferenceFromSet(const std::set<int>& otherSet) const;
     };
 
+    // ------------------------------------------------------------------------
+    //  CircuitNode: Represents a logic gate node in the optimized circuit.
+    //  Each node records its name, operation, Boolean expression, and depth.
+    // ------------------------------------------------------------------------
     struct CircuitNode {
-        std::string name;
-        std::string operation;
-        std::string expression;
-        int depth;
+        std::string name;         // Node identifier, e.g., t12
+        std::string operation;    // Gate type (AND, XOR, NOT, etc.)
+        std::string expression;   // Algebraic form of the output
+        int depth;                // Logic depth level
         CircuitNode(const std::string& n, const std::string& op,
                     const std::string& expr, int d)
                 : name(n), operation(op), expression(expr), depth(d) {}
     };
 
-    // ===== 新增：模式类别 =====
+    // ------------------------------------------------------------------------
+    //  PairKind: Describes the pattern type of a factorization (used in reuse).
+    // ------------------------------------------------------------------------
     enum class PairKind {
         TWO_UNIQUE_FACTORS,
         ONE_UNIQUE_FACTOR,
@@ -48,6 +64,11 @@ public:
         UNKNOWN
     };
 
+    // ------------------------------------------------------------------------
+    //  OptimizedPair: Stores the relationship among high-, middle-, and
+    //  low-degree terms during Boolean function decomposition and merging.
+    //  Each pair also tracks gate names and circuit operations.
+    // ------------------------------------------------------------------------
     struct OptimizedPair {
         enum PairType { ONE_UNIQUE_FACTOR, TWO_UNIQUE_FACTORS };
         PairType type;
@@ -69,43 +90,53 @@ public:
                       const std::set<int>& common,
                       const std::set<int>& unique);
 
-        // ===== 新增 =====
-        PairKind kind = PairKind::UNKNOWN;
-        std::string outputGateName;
-        std::string patternKey() const;
+        PairKind kind = PairKind::UNKNOWN;   // Factorization pattern type
+        std::string outputGateName;          // Output gate name (tXX)
+        std::string patternKey() const;      // Generate unique key for reuse
     };
 
     CircuitOptimizer() = default;
 
+    // Group all terms in a polynomial by degree
     std::map<int, std::vector<std::shared_ptr<Term>>> groupByDegree(const std::string& polynomial);
 
+    // Optimize pairs that share one unique factor
     std::vector<OptimizedPair> optimizeOneUniqueFactor(
             std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             int highDegree, int lowDegree, int requiredCommonVars);
 
+    // Optimize pairs that share two unique factors
     std::vector<OptimizedPair> optimizeTwoUniqueFactors(
             std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             int highDegree, int middleDegree, int lowDegree, int requiredCommonVars);
 
+    // Optimize special case of "two unique factors" pattern (Q4 + 2*C3)
     std::vector<OptimizedPair> optimizeSpecialTwoUniqueFactors(
             std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             int highDegree, int middleDegree, int lowDegree, int requiredCommonVars,
             std::vector<std::string>& generatedQuadraticTerms);
 
+    // Create or retrieve a circuit node (prevents redundant gate creation)
     std::string findOrCreateNode(const std::string& operation,
                                  const std::string& expression,
                                  int depth);
 
+    // Compute the XOR result of quadratic terms (cancel duplicates in GF(2))
     std::string getQuadraticXORResult(
             const std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             const std::vector<std::string>& generatedQuadraticTerms);
 
+    // Generate the AND-tree circuit for remaining terms not optimized
     void generateRemainingTermsCircuit(
             const std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             const std::vector<std::string>& quadraticTerms);
 
+    // Parse a quadratic term like "x3x7" into {"x3","x7"}
     std::vector<std::string> parseQuadraticTerm(const std::string& quadraticTerm);
 
+    // ------------------------------------------------------------------------
+    //  PairDepthInfo: Records final circuit depth and output for each term/pair.
+    // ------------------------------------------------------------------------
     struct PairDepthInfo {
         int pairIndex;
         int finalDepth;
@@ -118,10 +149,12 @@ public:
     std::vector<PairDepthInfo> getPairDepthInfo() const { return pairDepthInfo; }
     void clearPairDepthInfo() { pairDepthInfo.clear(); }
 
+    // Perform hierarchical XOR merging across all circuit outputs
     void hierarchicalMergeAllTerms();
     void printHierarchicalMergeResult() const;
     std::string getFinalMergeResult() const { return finalMergeResult; }
 
+    // Debug and reporting utilities
     void printCircuitNodes() const;
     void clearCircuitNodes();
     void printRemainingTerms(const std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms);
@@ -129,50 +162,53 @@ public:
             const std::vector<OptimizedPair>& pairs,
             const std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms);
 
-    // ===== 新增接口 =====
-    void rememberPairForReuse(const OptimizedPair& pair);  // 在生成 pair 时调用，记录表达式->t_xx
-    // CircuitOptimizer.h 里加入（或改成）这一版声明
+    // ------------------------------------------------------------------------
+    //  New interface: pair reuse registration and reuse across functions
+    // ------------------------------------------------------------------------
+    void rememberPairForReuse(const OptimizedPair& pair);  // Record mapping: expression -> tXX
     std::vector<OptimizedPair> tryReusePairsForPattern(
             std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             const std::vector<OptimizedPair>& referencePairs);
 
-
-    // 把“单项式/单个电路输出”写进 pairDepthInfo（用于后续 Initial items by depth 统计）
+    // Record a single term’s output (used for “Initial items by depth” report)
     void pushDepthInfoSingle(const std::string& expr,
                              const std::string& out,
                              int finalDepth,
                              const std::string& type);
 
-    // ======= XOR 归并复用记录 =======
+    // ------------------------------------------------------------------------
+    //  XOR merge reuse record structures and APIs
+    // ------------------------------------------------------------------------
     struct ReusableXorMerge {
-        int depth;                     // 执行 XOR 的深度（current XOR level）
-        std::string inKey;             // 归一后的 (A,B) 表达式键：depth + '|' + key(A,B)
-        std::string inAExpr;           // 左输入的表达式（规范化）
-        std::string inBExpr;           // 右输入的表达式（规范化）
-        std::string outNode;           // 该 XOR 的输出门名（tXX）
+        int depth;                     // XOR execution depth
+        std::string inKey;             // Canonical (A,B) key: depth + '|' + key(A,B)
+        std::string inAExpr;           // Normalized left operand
+        std::string inBExpr;           // Normalized right operand
+        std::string outNode;           // Output gate name (tXX)
     };
 
-// 记录表：key = depth + '|' + canonicalKey(a,b)  -> ReusableXorMerge
+    // Lookup table: key = depth + '|' + canonicalKey(a,b) → ReusableXorMerge
     std::unordered_map<std::string, ReusableXorMerge> xorCatalog_;
 
-// ======= 对外 API：在第一轮归并时记录，在第二轮归并时复用 =======
+    // API for recording and reusing XOR merges between passes
     void rememberXorMerge(int depth, const std::string& leftNode, const std::string& rightNode, const std::string& outNode);
     std::string tryReuseXorAtDepth(int depth, const std::string& leftExpr, const std::string& rightExpr) const;
 
-// 可选：如需一键清空 XOR 复用目录（一般第二轮要复用，不要清）
+    // Optional: clear the XOR reuse catalog (normally kept between passes)
     void clearXorCatalog();
 
-// ======= 辅助：表达式归一与节点查询 =======
-    static std::string makeXorKey(const std::string& exprA, const std::string& exprB); // 生成无序键
+    // Expression canonicalization and node expression lookup helpers
+    static std::string makeXorKey(const std::string& exprA, const std::string& exprB); // Generate unordered canonical key
     bool getNodeExpr(const std::string& nodeName, std::string& outExpr, int* outDepth = nullptr) const;
 
-    // 生成 Verilog 网表：把当前 circuitNodes 里所有 tXX 逻辑门导出为 Verilog
+    // Export current logic network (circuitNodes) to a Verilog netlist
     void exportVerilog(const std::string& filepath,
                        const std::string& moduleName = "AES_SBOX_TGATES") const;
 
-
-
 private:
+    // ------------------------------------------------------------------------
+    //  Internal data structures and circuit management
+    // ------------------------------------------------------------------------
     std::vector<CircuitNode> circuitNodes;
     int nodeCounter = 0;
     std::vector<PairDepthInfo> pairDepthInfo;
@@ -180,6 +216,7 @@ private:
     std::vector<std::string> hierarchicalOperations;
     std::string finalMergeResult;
 
+    // Core pattern-detection functions
     OptimizedPair findOneUniqueFactorPair(
             std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             int highDegree, int lowDegree, int requiredCommonVars);
@@ -192,41 +229,42 @@ private:
             std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             int highDegree, int middleDegree, int lowDegree, int requiredCommonVars);
 
+    // Circuit generation for different optimization patterns
     std::string generateCircuitForSpecialTwoUniqueFactors(OptimizedPair& pair);
     void generateCircuitForOneUniqueFactor(OptimizedPair& pair);
     void generateCircuitForTwoUniqueFactors(OptimizedPair& pair);
     int combineOperationsWithReuse(OptimizedPair& pair, std::vector<std::string>& inputs, int depth);
 
+    // Hierarchical XOR merge utilities
     std::string mergeItemsAtDepth(int depth, const std::vector<std::string>& items, int startDepth);
     std::string mergeItemsAtDepth(int depth, std::vector<std::string> items, int startDepth,
                                   const std::map<int, std::pair<std::string, int>>& availableResults);
     std::map<int, std::vector<std::string>> getAllItemsByDepth() const;
     std::string cleanTerm(const std::string& term);
 
-    // ===== 新增复用字典 =====
+    // Reuse dictionary (expression → gate name)
     std::map<std::string, std::string> reuseDict_;
 
-
 public:
-// ==== 新增：可复用优化对的记录 ====
+    // ------------------------------------------------------------------------
+    //  ReusablePairRecord: Stores the reusable pair information for reuse
+    // ------------------------------------------------------------------------
     struct ReusablePairRecord {
-        PairKind kind;                      // TWO_UNIQUE_FACTORS / ONE_UNIQUE_FACTOR / SPECIAL_TWO_UNIQUE_FACTORS
-        std::string signature;              // 规范化签名（见 makeSignature_*）
-        std::string outputGateName;         // 实现该优化对的 t_xx
+        PairKind kind;                      // Pattern type
+        std::string signature;              // Canonical signature
+        std::string outputGateName;         // Gate implementing the pair
 
-        // 组成部分（便于复用时核对 & 打印）
-        std::string highExpr;               // 最高次项表达式（如 "x0x1x2x3x4x5"）
-        std::vector<std::string> middleExprs; // 中间项（2 个或 1 个，取决于模式）
-        std::string lowExpr;                // 低次项表达式（某些模式会为空）
+        // Components for reuse verification and reporting
+        std::string highExpr;               // High-degree term (e.g., "x0x1x2x3x4x5")
+        std::vector<std::string> middleExprs; // Middle terms (2 or 1 depending on pattern)
+        std::string lowExpr;                // Low-degree term (may be empty)
     };
 
-// ==== 新增：对外 API ====
-
-
-// ==== 私有：存储与签名/工具 ====
 private:
-    std::unordered_map<std::string, ReusablePairRecord> reuseCatalog_;  // signature -> record
+    // Reuse catalog: key = signature → reusable record
+    std::unordered_map<std::string, ReusablePairRecord> reuseCatalog_;
 
+    // Signature generation helpers for pattern identification
     static std::string makeSignatureTwoUnique(const std::string& high,
                                               const std::string& m1,
                                               const std::string& m2,
@@ -236,19 +274,18 @@ private:
     static std::string makeSignatureSpecialTwo(const std::string& q4,
                                                const std::string& c31,
                                                const std::string& c32);
-    static std::string canonicalExpr(const std::string& expr); // 把 "x3x1x2" 规整成 "x1x2x3"
 
-    static int degreeOfExpr(const std::string& expr); // 统计表达式的次数
-    // 注意：需要修改 groupedTerms（标记 used），所以这里不能是 const map&
+    // Canonicalize expressions like "x3x1x2" → "x1x2x3"
+    static std::string canonicalExpr(const std::string& expr);
+
+    // Compute algebraic degree of an expression
+    static int degreeOfExpr(const std::string& expr);
+
+    // Find a term by its expression and mark it as used
     bool findTermByExpr(
             std::map<int, std::vector<std::shared_ptr<Term>>>& groupedTerms,
             const std::string& expr,
             std::shared_ptr<Term>& outTerm) const;
-
-
 };
-
-
-
 
 #endif // CIRCUITOPTIMIZER_H
