@@ -1,0 +1,96 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : RMTA18_sbox
+Version: L-2016.03-SP1
+Date   : Mon Jan 12 20:02:20 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: g[3] (input port)
+  Endpoint: s[5] (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  RMTA18_sbox        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 f
+  g[3] (in)                              0.0000     0.0000 f
+  U197/Z (XOR2_X1)                       0.0760     0.0760 f
+  U236/ZN (XNOR2_X1)                     0.0581     0.1340 f
+  U205/ZN (XNOR2_X1)                     0.0614     0.1954 f
+  U215/ZN (XNOR2_X1)                     0.0606     0.2560 f
+  U249/ZN (NOR2_X1)                      0.0416     0.2976 r
+  U226/ZN (XNOR2_X1)                     0.0719     0.3695 r
+  U224/ZN (XNOR2_X1)                     0.0702     0.4397 r
+  U222/ZN (XNOR2_X1)                     0.0583     0.4980 r
+  U214/ZN (NAND2_X1)                     0.0278     0.5258 f
+  U213/ZN (NAND2_X1)                     0.0299     0.5557 r
+  U153/ZN (AND2_X1)                      0.0501     0.6058 r
+  U231/ZN (XNOR2_X1)                     0.0635     0.6693 r
+  U300/ZN (NAND2_X1)                     0.0327     0.7020 f
+  U184/ZN (XNOR2_X1)                     0.0562     0.7582 f
+  U301/ZN (XNOR2_X1)                     0.0708     0.8290 r
+  U235/ZN (XNOR2_X1)                     0.0746     0.9036 r
+  U241/ZN (XNOR2_X1)                     0.0655     0.9691 r
+  U323/ZN (XNOR2_X1)                     0.0541     1.0231 r
+  s[5] (out)                             0.0019     1.0251 r
+  data arrival time                                 1.0251
+
+  max_delay                              1.0266     1.0266
+  output external delay                  0.0000     1.0266
+  data required time                                1.0266
+  -----------------------------------------------------------
+  data required time                                1.0266
+  data arrival time                                -1.0251
+  -----------------------------------------------------------
+  slack (MET)                                       0.0015
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : RMTA18_sbox
+Version: L-2016.03-SP1
+Date   : Mon Jan 12 20:02:20 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: g[7] (input port)
+  Endpoint: s[1] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  RMTA18_sbox        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 f
+  g[7] (in)                              0.0000     0.0000 f
+  U283/ZN (NAND2_X1)                     0.0332     0.0332 r
+  U286/ZN (XNOR2_X1)                     0.0438     0.0771 f
+  U287/ZN (XNOR2_X1)                     0.0733     0.1504 f
+  s[1] (out)                             0.0029     0.1533 f
+  data arrival time                                 0.1533
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
