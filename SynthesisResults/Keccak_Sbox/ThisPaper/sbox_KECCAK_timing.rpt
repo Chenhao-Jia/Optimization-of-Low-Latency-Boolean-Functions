@@ -1,0 +1,92 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : sbox_KECCAK
+Version: L-2016.03-SP1
+Date   : Sun Nov 30 17:23:35 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x1 (input port clocked by VCLK)
+  Endpoint: f2 (output port clocked by VCLK)
+  Path Group: VCLK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_KECCAK        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock VCLK (rise edge)                 0.0000     0.0000
+  clock network delay (ideal)            0.0000     0.0000
+  input external delay                   0.0000     0.0000 f
+  x1 (in)                                0.0000     0.0000 f
+  U22/ZN (INV_X1)                        0.0297     0.0297 r
+  U25/ZN (NAND2_X1)                      0.0294     0.0591 f
+  U26/ZN (XNOR2_X1)                      0.0493     0.1083 f
+  f2 (out)                               0.0019     0.1103 f
+  data arrival time                                 0.1103
+
+  clock VCLK (rise edge)                 0.1103     0.1103
+  clock network delay (ideal)            0.0000     0.1103
+  output external delay                  0.0000     0.1103
+  data required time                                0.1103
+  -----------------------------------------------------------
+  data required time                                0.1103
+  data arrival time                                -0.1103
+  -----------------------------------------------------------
+  slack (MET)                                       0.0000
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : sbox_KECCAK
+Version: L-2016.03-SP1
+Date   : Sun Nov 30 17:23:35 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x0 (input port clocked by VCLK)
+  Endpoint: f0 (output port clocked by VCLK)
+  Path Group: VCLK
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_KECCAK        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock VCLK (rise edge)                 0.0000     0.0000
+  clock network delay (ideal)            0.0000     0.0000
+  input external delay                   0.0000     0.0000 r
+  x0 (in)                                0.0000     0.0000 r
+  U21/ZN (XNOR2_X1)                      0.0319     0.0319 f
+  f0 (out)                               0.0019     0.0339 f
+  data arrival time                                 0.0339
+
+  clock VCLK (rise edge)                 0.0000     0.0000
+  clock network delay (ideal)            0.0000     0.0000
+  output external delay                  0.0000     0.0000
+  data required time                                0.0000
+  -----------------------------------------------------------
+  data required time                                0.0000
+  data arrival time                                -0.0339
+  -----------------------------------------------------------
+  slack (MET)                                       0.0339
+
+
+1

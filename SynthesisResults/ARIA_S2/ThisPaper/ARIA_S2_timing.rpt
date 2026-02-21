@@ -1,0 +1,89 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : anf_from_sp
+Version: L-2016.03-SP1
+Date   : Mon Jan 12 17:55:09 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x2 (input port)
+  Endpoint: f3 (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  anf_from_sp        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  x2 (in)                                0.0000     0.0000 r
+  U1478/ZN (AND2_X1)                     0.0527     0.0527 r
+  U844/ZN (AND2_X1)                      0.0581     0.1108 r
+  U1708/ZN (NAND2_X1)                    0.0352     0.1460 f
+  U1709/Z (XOR2_X1)                      0.0758     0.2218 f
+  U1710/ZN (XNOR2_X1)                    0.0542     0.2761 r
+  U1029/ZN (XNOR2_X1)                    0.0598     0.3359 r
+  U1028/ZN (XNOR2_X1)                    0.0607     0.3965 r
+  U1724/ZN (XNOR2_X1)                    0.0624     0.4590 r
+  U1736/ZN (XNOR2_X1)                    0.0540     0.5130 r
+  f3 (out)                               0.0019     0.5149 r
+  data arrival time                                 0.5149
+
+  max_delay                              0.5151     0.5151
+  output external delay                  0.0000     0.5151
+  data required time                                0.5151
+  -----------------------------------------------------------
+  data required time                                0.5151
+  data arrival time                                -0.5149
+  -----------------------------------------------------------
+  slack (MET)                                       0.0002
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : anf_from_sp
+Version: L-2016.03-SP1
+Date   : Mon Jan 12 17:55:09 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x7 (input port)
+  Endpoint: f3 (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  anf_from_sp        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  x7 (in)                                0.0000     0.0000 r
+  U1050/ZN (AND2_X2)                     0.0617     0.0617 r
+  U1733/ZN (NAND2_X1)                    0.0305     0.0922 f
+  U1735/ZN (NAND2_X1)                    0.0278     0.1200 r
+  U1093/ZN (XNOR2_X1)                    0.0366     0.1566 f
+  U1736/ZN (XNOR2_X1)                    0.0415     0.1981 r
+  f3 (out)                               0.0019     0.2000 r
+  data arrival time                                 0.2000
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

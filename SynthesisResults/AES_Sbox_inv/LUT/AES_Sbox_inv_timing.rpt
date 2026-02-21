@@ -1,0 +1,92 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : sbox_aes_inv
+Version: L-2016.03-SP1
+Date   : Mon Jan 12 21:13:44 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: X[5] (input port)
+  Endpoint: Y[6] (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_aes_inv       5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  X[5] (in)                              0.0000     0.0000 r
+  U1093/ZN (INV_X1)                      0.0227     0.0227 f
+  U1086/ZN (NOR2_X1)                     0.0508     0.0734 r
+  U954/ZN (NAND2_X1)                     0.0497     0.1231 f
+  U960/ZN (NOR2_X1)                      0.0814     0.2045 r
+  U728/ZN (NOR2_X2)                      0.0464     0.2509 f
+  U727/ZN (NAND2_X1)                     0.0393     0.2902 r
+  U975/ZN (NOR2_X1)                      0.0245     0.3148 f
+  U1343/ZN (NAND2_X1)                    0.0296     0.3443 r
+  U683/ZN (NOR2_X2)                      0.0340     0.3783 f
+  U959/ZN (NAND2_X1)                     0.0344     0.4128 r
+  U976/ZN (NOR2_X1)                      0.0243     0.4371 f
+  U978/ZN (NOR2_X1)                      0.0342     0.4713 r
+  U691/ZN (NOR2_X1)                      0.0232     0.4945 f
+  U690/ZN (NAND2_X1)                     0.0213     0.5158 r
+  Y[6] (out)                             0.0019     0.5177 r
+  data arrival time                                 0.5177
+
+  max_delay                              0.5177     0.5177
+  output external delay                  0.0000     0.5177
+  data required time                                0.5177
+  -----------------------------------------------------------
+  data required time                                0.5177
+  data arrival time                                -0.5177
+  -----------------------------------------------------------
+  slack (VIOLATED: increase significant digits)     0.0000
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : sbox_aes_inv
+Version: L-2016.03-SP1
+Date   : Mon Jan 12 21:13:44 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: X[7] (input port)
+  Endpoint: Y[4] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_aes_inv       5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 f
+  X[7] (in)                              0.0000     0.0000 f
+  U664/ZN (NAND2_X2)                     0.0469     0.0469 r
+  U1433/ZN (OR2_X1)                      0.0378     0.0847 r
+  U981/ZN (NAND2_X1)                     0.0222     0.1069 f
+  Y[4] (out)                             0.0019     0.1089 f
+  data arrival time                                 0.1089
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

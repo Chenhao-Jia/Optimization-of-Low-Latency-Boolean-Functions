@@ -1,0 +1,86 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : sbox_skinny128
+Version: L-2016.03-SP1
+Date   : Tue Jan 13 20:25:33 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: in[0] (input port)
+  Endpoint: out[1] (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_skinny128     5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  in[0] (in)                             0.0000     0.0000 r
+  U174/ZN (INV_X1)                       0.0250     0.0250 f
+  U187/ZN (NOR2_X1)                      0.0424     0.0675 r
+  U211/ZN (NOR2_X1)                      0.0252     0.0926 f
+  U181/ZN (NOR2_X1)                      0.0377     0.1303 r
+  U186/ZN (XNOR2_X1)                     0.0573     0.1876 r
+  U185/ZN (NAND2_X1)                     0.0278     0.2154 f
+  U158/ZN (NAND2_X1)                     0.0299     0.2454 r
+  U147/ZN (AND2_X1)                      0.0417     0.2870 r
+  U191/ZN (NOR2_X1)                      0.0211     0.3082 f
+  U190/ZN (NAND2_X1)                     0.0227     0.3308 r
+  out[1] (out)                           0.0019     0.3327 r
+  data arrival time                                 0.3327
+
+  max_delay                              0.3327     0.3327
+  output external delay                  0.0000     0.3327
+  data required time                                0.3327
+  -----------------------------------------------------------
+  data required time                                0.3327
+  data arrival time                                -0.3327
+  -----------------------------------------------------------
+  slack (VIOLATED: increase significant digits)     0.0000
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : sbox_skinny128
+Version: L-2016.03-SP1
+Date   : Tue Jan 13 20:25:33 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: in[1] (input port)
+  Endpoint: out[3] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_skinny128     5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  in[1] (in)                             0.0000     0.0000 r
+  U250/Z (XOR2_X1)                       0.0355     0.0355 f
+  out[3] (out)                           0.0019     0.0374 f
+  data arrival time                                 0.0374
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

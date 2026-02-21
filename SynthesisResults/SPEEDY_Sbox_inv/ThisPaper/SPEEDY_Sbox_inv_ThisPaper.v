@@ -1,0 +1,292 @@
+module anf_from_sp(
+  input  wire x0,
+  input  wire x1,
+  input  wire x2,
+  input  wire x3,
+  input  wire x4,
+  input  wire x5,
+  output wire f5,
+  output wire f4,
+  output wire f3,
+  output wire f2,
+  output wire f1,
+  output wire f0
+);
+
+  wire w_f5_nb0 = ~x0;
+  wire w_f5_and1 = x2 & x3;
+  wire w_f5_and2 = w_f5_and1 & w_f5_nb0;
+  wire sp_f5_15 = w_f5_and2;
+  wire w_f5_nand3 = ~(x1 & x3);
+  wire w_f5_nb4 = ~x4;
+  wire w_f5_and5 = x0 & x2;
+  wire w_f5_and6 = w_f5_and5 & w_f5_nand3;
+  wire w_f5_and7 = w_f5_and6 & w_f5_nb4;
+  wire sp_f5_246 = w_f5_and7;
+  wire w_f5_and8 = x1 & x2;
+  wire w_f5_nand9 = ~(w_f5_and8 & x5);
+  wire w_f5_and10 = w_f5_nb0 & w_f5_nand9;
+  wire sp_f5_404 = w_f5_and10;
+  wire w_f5_and11 = x1 & x3;
+  wire w_f5_nand12 = ~(w_f5_and11 & x5);
+  wire w_f5_and13 = x2 & w_f5_nand12;
+  wire sp_f5_514 = w_f5_and13;
+  wire w_f5_nand14 = ~(x1 & x5);
+  wire w_f5_and15 = x0 & x4;
+  wire w_f5_and16 = w_f5_and15 & w_f5_nand14;
+  wire sp_f5_572 = w_f5_and16;
+  wire w_f5_nb17 = ~x1;
+  wire w_f5_nb18 = ~x2;
+  wire w_f5_nb19 = ~x5;
+  wire w_f5_and20 = w_f5_nb17 & w_f5_nb18;
+  wire w_f5_and21 = x4 & w_f5_nb19;
+  wire w_f5_and22 = w_f5_and20 & w_f5_and21;
+  wire sp_f5_638 = w_f5_and22;
+  wire w_f5_and23 = w_f5_nb0 & w_f5_nb4;
+  wire w_f5_and24 = x3 & w_f5_nb19;
+  wire w_f5_and25 = w_f5_and23 & w_f5_and24;
+  wire sp_f5_696 = w_f5_and25;
+  wire w_f5_and26 = x4 & w_f5_nb17;
+  wire w_f5_and27 = x3 & w_f5_nb19;
+  wire w_f5_and28 = w_f5_and26 & w_f5_and27;
+  wire sp_f5_736 = w_f5_and28;
+  wire w_f5_m29 = x0 & x1;
+  wire w_f5_m30 = x3 & x5;
+  wire w_f5_m31 = w_f5_m29 & w_f5_m30;
+  wire rm_f5_43 = w_f5_m31;
+
+  wire w_f5_x32 = sp_f5_15 ^ sp_f5_246;
+  wire w_f5_x33 = sp_f5_404 ^ sp_f5_514;
+  wire w_f5_x34 = sp_f5_572 ^ sp_f5_638;
+  wire w_f5_x35 = sp_f5_696 ^ sp_f5_736;
+  wire w_f5_x36 = w_f5_x32 ^ w_f5_x33;
+  wire w_f5_x37 = w_f5_x34 ^ w_f5_x35;
+  wire w_f5_x38 = w_f5_x36 ^ w_f5_x37;
+  wire w_f5_x39 = w_f5_x38 ^ rm_f5_43;
+  assign f5 = w_f5_x39;
+
+  wire w_f4_nand0 = ~(x0 & x1);
+  wire w_f4_nb1 = ~x2;
+  wire w_f4_and2 = w_f4_nand0 & w_f4_nb1;
+  wire sp_f4_20 = w_f4_and2;
+  wire w_f4_nb3 = ~x1;
+  wire w_f4_and4 = x2 & x4;
+  wire w_f4_and5 = x0 & w_f4_nb3;
+  wire w_f4_and6 = w_f4_and4 & w_f4_and5;
+  wire sp_f4_93 = w_f4_and6;
+  wire w_f4_nand7 = ~(x0 & x3);
+  wire w_f4_nand8 = ~(x1 & x4);
+  wire w_f4_and9 = x2 & w_f4_nand7;
+  wire w_f4_and10 = w_f4_and9 & w_f4_nand8;
+  wire sp_f4_272 = w_f4_and10;
+  wire w_f4_nb11 = ~x5;
+  wire w_f4_and12 = x3 & w_f4_nb3;
+  wire w_f4_and13 = x2 & w_f4_nb11;
+  wire w_f4_and14 = w_f4_and12 & w_f4_and13;
+  wire sp_f4_428 = w_f4_and14;
+  wire w_f4_nb15 = ~x0;
+  wire w_f4_nand16 = ~(x2 & x5);
+  wire w_f4_nb17 = ~x4;
+  wire w_f4_and18 = w_f4_nb15 & w_f4_nb17;
+  wire w_f4_and19 = w_f4_nand16 & w_f4_and18;
+  wire sp_f4_522 = w_f4_and19;
+  wire w_f4_nand20 = ~(x1 & x2);
+  wire w_f4_nand21 = ~(x4 & x5);
+  wire w_f4_and22 = w_f4_nand20 & w_f4_nand21;
+  wire sp_f4_575 = w_f4_and22;
+  wire w_f4_and23 = w_f4_nb15 & w_f4_nb17;
+  wire w_f4_and24 = x3 & w_f4_nb11;
+  wire w_f4_and25 = w_f4_and23 & w_f4_and24;
+  wire sp_f4_624 = w_f4_and25;
+  wire w_f4_and26 = x2 & x3;
+  wire w_f4_nand27 = ~(w_f4_and26 & x5);
+  wire w_f4_and28 = w_f4_nand27 & w_f4_nb17;
+  wire sp_f4_694 = w_f4_and28;
+  wire w_f4_m29 = x3 & x5;
+  wire w_f4_m30 = x1 & w_f4_m29;
+  wire rm_f4_42 = w_f4_m30;
+
+  wire w_f4_x31 = sp_f4_20 ^ sp_f4_93;
+  wire w_f4_x32 = sp_f4_272 ^ sp_f4_428;
+  wire w_f4_x33 = sp_f4_522 ^ sp_f4_575;
+  wire w_f4_x34 = sp_f4_624 ^ sp_f4_694;
+  wire w_f4_x35 = w_f4_x31 ^ w_f4_x32;
+  wire w_f4_x36 = w_f4_x33 ^ w_f4_x34;
+  wire w_f4_x37 = w_f4_x35 ^ w_f4_x36;
+  wire w_f4_x38 = w_f4_x37 ^ rm_f4_42;
+  assign f4 = w_f4_x38;
+
+  wire w_f3_nb0 = ~x3;
+  wire w_f3_and1 = x1 & x2;
+  wire w_f3_and2 = x0 & w_f3_nb0;
+  wire w_f3_and3 = w_f3_and1 & w_f3_and2;
+  wire sp_f3_70 = w_f3_and3;
+  wire w_f3_nb4 = ~x4;
+  wire w_f3_and5 = x0 & w_f3_nb4;
+  wire sp_f3_108 = w_f3_and5;
+  wire w_f3_and6 = x1 & x4;
+  wire w_f3_and7 = x0 & w_f3_nb0;
+  wire w_f3_and8 = w_f3_and6 & w_f3_and7;
+  wire sp_f3_147 = w_f3_and8;
+  wire w_f3_and9 = x2 & w_f3_nb0;
+  wire w_f3_and10 = x1 & w_f3_nb4;
+  wire w_f3_and11 = w_f3_and9 & w_f3_and10;
+  wire sp_f3_218 = w_f3_and11;
+  wire w_f3_nb12 = ~x2;
+  wire w_f3_and13 = x0 & x5;
+  wire w_f3_and14 = w_f3_and13 & w_f3_nb12;
+  wire sp_f3_273 = w_f3_and14;
+  wire w_f3_nb15 = ~x0;
+  wire w_f3_nb16 = ~x5;
+  wire w_f3_and17 = w_f3_nb15 & w_f3_nb0;
+  wire w_f3_and18 = x1 & w_f3_nb16;
+  wire w_f3_and19 = w_f3_and17 & w_f3_and18;
+  wire sp_f3_326 = w_f3_and19;
+  wire w_f3_and20 = x5 & w_f3_nb12;
+  wire w_f3_and21 = w_f3_and20 & w_f3_nb4;
+  wire sp_f3_357 = w_f3_and21;
+  wire w_f3_nand22 = ~(x2 & x5);
+  wire w_f3_and23 = x1 & x4;
+  wire w_f3_and24 = w_f3_and23 & w_f3_nand22;
+  wire sp_f3_387 = w_f3_and24;
+
+  wire w_f3_x25 = sp_f3_70 ^ sp_f3_108;
+  wire w_f3_x26 = sp_f3_147 ^ sp_f3_218;
+  wire w_f3_x27 = sp_f3_273 ^ sp_f3_326;
+  wire w_f3_x28 = sp_f3_357 ^ sp_f3_387;
+  wire w_f3_x29 = w_f3_x25 ^ w_f3_x26;
+  wire w_f3_x30 = w_f3_x27 ^ w_f3_x28;
+  wire w_f3_x31 = w_f3_x29 ^ w_f3_x30;
+  assign f3 = w_f3_x31;
+
+  wire w_f2_nb0 = ~x0;
+  wire w_f2_nb1 = ~x1;
+  wire w_f2_and2 = x4 & w_f2_nb0;
+  wire w_f2_and3 = x2 & w_f2_nb1;
+  wire w_f2_and4 = w_f2_and2 & w_f2_and3;
+  wire sp_f2_34 = w_f2_and4;
+  wire w_f2_nb5 = ~x3;
+  wire w_f2_nb6 = ~x4;
+  wire w_f2_and7 = w_f2_nb0 & w_f2_nb5;
+  wire w_f2_and8 = w_f2_and7 & w_f2_nb6;
+  wire sp_f2_96 = w_f2_and8;
+  wire w_f2_nb9 = ~x2;
+  wire w_f2_and10 = x5 & w_f2_nb0;
+  wire w_f2_and11 = x1 & w_f2_nb9;
+  wire w_f2_and12 = w_f2_and10 & w_f2_and11;
+  wire sp_f2_139 = w_f2_and12;
+  wire w_f2_and13 = x5 & w_f2_nb0;
+  wire w_f2_and14 = x2 & w_f2_nb5;
+  wire w_f2_and15 = w_f2_and13 & w_f2_and14;
+  wire sp_f2_222 = w_f2_and15;
+  wire w_f2_nand16 = ~(x0 & x2);
+  wire w_f2_nb17 = ~x5;
+  wire w_f2_and18 = w_f2_nb6 & w_f2_nb17;
+  wire w_f2_and19 = w_f2_nand16 & w_f2_and18;
+  wire sp_f2_327 = w_f2_and19;
+  wire w_f2_and20 = x4 & x5;
+  wire w_f2_and21 = x0 & w_f2_nb5;
+  wire w_f2_and22 = w_f2_and20 & w_f2_and21;
+  wire sp_f2_389 = w_f2_and22;
+  wire w_f2_nand23 = ~(x2 & x4);
+  wire w_f2_and24 = x1 & x5;
+  wire w_f2_and25 = w_f2_and24 & w_f2_nand23;
+  wire w_f2_and26 = w_f2_and25 & w_f2_nb5;
+  wire sp_f2_474 = w_f2_and26;
+  wire w_f2_m27 = x3 & x5;
+  wire rm_f2_40 = w_f2_m27;
+
+  wire w_f2_x28 = sp_f2_34 ^ sp_f2_96;
+  wire w_f2_x29 = sp_f2_139 ^ sp_f2_222;
+  wire w_f2_x30 = sp_f2_327 ^ sp_f2_389;
+  wire w_f2_x31 = sp_f2_474 ^ rm_f2_40;
+  wire w_f2_x32 = w_f2_x28 ^ w_f2_x29;
+  wire w_f2_x33 = w_f2_x30 ^ w_f2_x31;
+  wire w_f2_x34 = w_f2_x32 ^ w_f2_x33;
+  assign f2 = w_f2_x34;
+
+  wire w_f1_nb0 = ~x0;
+  wire w_f1_nb1 = ~x4;
+  wire w_f1_and2 = x3 & w_f1_nb0;
+  wire w_f1_and3 = x1 & w_f1_nb1;
+  wire w_f1_and4 = w_f1_and2 & w_f1_and3;
+  wire sp_f1_151 = w_f1_and4;
+  wire w_f1_nb5 = ~x3;
+  wire w_f1_and6 = x2 & x4;
+  wire w_f1_and7 = x0 & w_f1_nb5;
+  wire w_f1_and8 = w_f1_and6 & w_f1_and7;
+  wire sp_f1_191 = w_f1_and8;
+  wire w_f1_and9 = x2 & w_f1_nb5;
+  wire w_f1_and10 = x1 & w_f1_nb1;
+  wire w_f1_and11 = w_f1_and9 & w_f1_and10;
+  wire sp_f1_262 = w_f1_and11;
+  wire w_f1_nb12 = ~x5;
+  wire w_f1_and13 = x2 & w_f1_nb5;
+  wire w_f1_and14 = x0 & w_f1_nb12;
+  wire w_f1_and15 = w_f1_and13 & w_f1_and14;
+  wire sp_f1_345 = w_f1_and15;
+  wire w_f1_and16 = x4 & w_f1_nb0;
+  wire w_f1_and17 = x1 & w_f1_nb12;
+  wire w_f1_and18 = w_f1_and16 & w_f1_and17;
+  wire sp_f1_415 = w_f1_and18;
+  wire w_f1_and19 = x4 & w_f1_nb5;
+  wire w_f1_and20 = x0 & w_f1_nb12;
+  wire w_f1_and21 = w_f1_and19 & w_f1_and20;
+  wire sp_f1_482 = w_f1_and21;
+  wire w_f1_nb22 = ~x2;
+  wire w_f1_and23 = x5 & w_f1_nb22;
+  wire w_f1_and24 = x3 & w_f1_nb1;
+  wire w_f1_and25 = w_f1_and23 & w_f1_and24;
+  wire sp_f1_521 = w_f1_and25;
+  wire w_f1_m26 = x0 & x3;
+  wire rm_f1_9 = w_f1_m26;
+
+  wire w_f1_x27 = sp_f1_151 ^ sp_f1_191;
+  wire w_f1_x28 = sp_f1_262 ^ sp_f1_345;
+  wire w_f1_x29 = sp_f1_415 ^ sp_f1_482;
+  wire w_f1_x30 = sp_f1_521 ^ rm_f1_9;
+  wire w_f1_x31 = w_f1_x27 ^ w_f1_x28;
+  wire w_f1_x32 = w_f1_x29 ^ w_f1_x30;
+  wire w_f1_x33 = w_f1_x31 ^ w_f1_x32;
+  assign f1 = w_f1_x33;
+
+  wire w_f0_nb0 = ~x3;
+  wire w_f0_nb1 = ~x4;
+  wire w_f0_and2 = x2 & w_f0_nb0;
+  wire w_f0_and3 = x0 & w_f0_nb1;
+  wire w_f0_and4 = w_f0_and2 & w_f0_and3;
+  wire sp_f0_75 = w_f0_and4;
+  wire w_f0_nand5 = ~(x2 & x3);
+  wire w_f0_and6 = x1 & x4;
+  wire w_f0_and7 = w_f0_and6 & w_f0_nand5;
+  wire sp_f0_110 = w_f0_and7;
+  wire w_f0_nb8 = ~x1;
+  wire w_f0_and9 = x0 & x5;
+  wire w_f0_and10 = w_f0_and9 & w_f0_nb8;
+  wire sp_f0_162 = w_f0_and10;
+  wire w_f0_and11 = x1 & x5;
+  wire w_f0_and12 = w_f0_and11 & w_f0_nand5;
+  wire sp_f0_183 = w_f0_and12;
+  wire w_f0_nand13 = ~(x0 & x5);
+  wire w_f0_and14 = x4 & w_f0_nand13;
+  wire sp_f0_236 = w_f0_and14;
+  wire w_f0_nand15 = ~(x1 & x3);
+  wire w_f0_nb16 = ~x2;
+  wire w_f0_and17 = x4 & x5;
+  wire w_f0_and18 = w_f0_and17 & w_f0_nand15;
+  wire w_f0_and19 = w_f0_and18 & w_f0_nb16;
+  wire sp_f0_322 = w_f0_and19;
+  wire w_f0_m20 = x1 & x2;
+  wire w_f0_m21 = x0 & w_f0_m20;
+  wire rm_f0_7 = w_f0_m21;
+
+  wire w_f0_x22 = sp_f0_75 ^ sp_f0_110;
+  wire w_f0_x23 = sp_f0_162 ^ sp_f0_183;
+  wire w_f0_x24 = sp_f0_236 ^ sp_f0_322;
+  wire w_f0_x25 = w_f0_x22 ^ w_f0_x23;
+  wire w_f0_x26 = w_f0_x24 ^ rm_f0_7;
+  wire w_f0_x27 = w_f0_x25 ^ w_f0_x26;
+  assign f0 = w_f0_x27;
+
+endmodule
+

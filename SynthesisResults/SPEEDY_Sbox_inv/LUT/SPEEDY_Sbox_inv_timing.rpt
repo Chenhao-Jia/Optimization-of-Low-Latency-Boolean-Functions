@@ -1,0 +1,85 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : sbox_SPEEDY_INV
+Version: L-2016.03-SP1
+Date   : Tue Jan 13 13:59:45 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: in[4] (input port)
+  Endpoint: out[5] (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_SPEEDY_INV    5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 f
+  in[4] (in)                             0.0000     0.0000 f
+  U159/ZN (AND2_X2)                      0.0512     0.0512 f
+  U216/ZN (AND2_X1)                      0.0422     0.0933 f
+  U218/ZN (NAND2_X1)                     0.0254     0.1187 r
+  U220/ZN (NOR2_X1)                      0.0213     0.1400 f
+  U222/ZN (NOR2_X1)                      0.0341     0.1741 r
+  U225/ZN (NAND2_X1)                     0.0268     0.2010 f
+  U229/ZN (NOR2_X1)                      0.0347     0.2357 r
+  U234/ZN (NAND2_X1)                     0.0226     0.2583 f
+  out[5] (out)                           0.0019     0.2603 f
+  data arrival time                                 0.2603
+
+  max_delay                              0.2604     0.2604
+  output external delay                  0.0000     0.2604
+  data required time                                0.2604
+  -----------------------------------------------------------
+  data required time                                0.2604
+  data arrival time                                -0.2603
+  -----------------------------------------------------------
+  slack (MET)                                       0.0001
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : sbox_SPEEDY_INV
+Version: L-2016.03-SP1
+Date   : Tue Jan 13 13:59:45 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: in[1] (input port)
+  Endpoint: out[0] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_SPEEDY_INV    5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  in[1] (in)                             0.0000     0.0000 r
+  U295/ZN (NAND2_X1)                     0.0312     0.0312 f
+  U296/ZN (NAND2_X1)                     0.0231     0.0543 r
+  out[0] (out)                           0.0019     0.0562 r
+  data arrival time                                 0.0562
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

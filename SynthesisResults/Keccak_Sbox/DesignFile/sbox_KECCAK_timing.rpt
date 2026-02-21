@@ -1,0 +1,72 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : sbox_KECCAK
+Version: L-2016.03-SP1
+Date   : Tue Jan 13 07:36:54 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: in[4] (input port)
+  Endpoint: out[2] (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_KECCAK        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  in[4] (in)                             0.0000     0.0000 r
+  U22/ZN (INV_X1)                        0.0207     0.0207 f
+  U23/ZN (OR2_X1)                        0.0583     0.0790 f
+  U24/Z (XOR2_X1)                        0.0629     0.1419 f
+  out[2] (out)                           0.0019     0.1439 f
+  data arrival time                                 0.1439
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : sbox_KECCAK
+Version: L-2016.03-SP1
+Date   : Tue Jan 13 07:36:54 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: in[4] (input port)
+  Endpoint: out[4] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sbox_KECCAK        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  in[4] (in)                             0.0000     0.0000 r
+  U28/Z (XOR2_X1)                        0.0277     0.0277 f
+  out[4] (out)                           0.0019     0.0296 f
+  data arrival time                                 0.0296
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

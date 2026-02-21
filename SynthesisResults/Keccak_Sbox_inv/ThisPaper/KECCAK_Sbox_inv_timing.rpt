@@ -1,0 +1,94 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : anf_from_sp
+Version: L-2016.03-SP1
+Date   : Tue Jan 13 17:09:58 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x4 (input port clocked by VCLK)
+  Endpoint: f3 (output port clocked by VCLK)
+  Path Group: VCLK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  anf_from_sp        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock VCLK (rise edge)                 0.0000     0.0000
+  clock network delay (ideal)            0.0000     0.0000
+  input external delay                   0.0000     0.0000 r
+  x4 (in)                                0.0000     0.0000 r
+  U22/ZN (INV_X1)                        0.0190     0.0190 f
+  U23/ZN (NOR2_X1)                       0.0361     0.0551 r
+  U24/ZN (XNOR2_X1)                      0.0591     0.1143 r
+  U25/ZN (OR2_X1)                        0.0385     0.1528 r
+  U26/ZN (XNOR2_X1)                      0.0496     0.2024 r
+  f3 (out)                               0.0019     0.2044 r
+  data arrival time                                 0.2044
+
+  clock VCLK (rise edge)                 0.2044     0.2044
+  clock network delay (ideal)            0.0000     0.2044
+  output external delay                  0.0000     0.2044
+  data required time                                0.2044
+  -----------------------------------------------------------
+  data required time                                0.2044
+  data arrival time                                -0.2044
+  -----------------------------------------------------------
+  slack (MET)                                       0.0000
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : anf_from_sp
+Version: L-2016.03-SP1
+Date   : Tue Jan 13 17:09:58 2026
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x0 (input port clocked by VCLK)
+  Endpoint: f0 (output port clocked by VCLK)
+  Path Group: VCLK
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  anf_from_sp        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock VCLK (rise edge)                 0.0000     0.0000
+  clock network delay (ideal)            0.0000     0.0000
+  input external delay                   0.0000     0.0000 r
+  x0 (in)                                0.0000     0.0000 r
+  U32/ZN (XNOR2_X1)                      0.0289     0.0289 f
+  f0 (out)                               0.0019     0.0308 f
+  data arrival time                                 0.0308
+
+  clock VCLK (rise edge)                 0.0000     0.0000
+  clock network delay (ideal)            0.0000     0.0000
+  output external delay                  0.0000     0.0000
+  data required time                                0.0000
+  -----------------------------------------------------------
+  data required time                                0.0000
+  data arrival time                                -0.0308
+  -----------------------------------------------------------
+  slack (MET)                                       0.0308
+
+
+1
