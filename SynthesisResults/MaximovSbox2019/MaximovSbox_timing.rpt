@@ -1,0 +1,91 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : complex_circuit
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 11:27:38 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: U[0] (input port)
+  Endpoint: R[6] (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  complex_circuit    5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  U[0] (in)                              0.0000     0.0000 r
+  U196/ZN (XNOR2_X1)                     0.0620     0.0620 r
+  U300/ZN (XNOR2_X1)                     0.0627     0.1247 r
+  U206/ZN (XNOR2_X1)                     0.0655     0.1902 r
+  U264/ZN (NAND2_X1)                     0.0322     0.2224 f
+  U263/ZN (XNOR2_X1)                     0.0474     0.2699 r
+  U305/ZN (XNOR2_X1)                     0.0598     0.3297 r
+  U259/ZN (XNOR2_X1)                     0.0668     0.3965 r
+  U311/ZN (NAND2_X1)                     0.0355     0.4320 f
+  U215/ZN (XNOR2_X1)                     0.0622     0.4942 f
+  U199/ZN (NAND2_X1)                     0.0590     0.5532 r
+  U252/ZN (AND2_X1)                      0.0547     0.6079 r
+  U281/ZN (XNOR2_X1)                     0.0560     0.6638 r
+  U260/ZN (XNOR2_X1)                     0.0540     0.7178 r
+  R[6] (out)                             0.0019     0.7198 r
+  data arrival time                                 0.7198
+
+  max_delay                              0.7198     0.7198
+  output external delay                  0.0000     0.7198
+  data required time                                0.7198
+  -----------------------------------------------------------
+  data required time                                0.7198
+  data arrival time                                -0.7198
+  -----------------------------------------------------------
+  slack (MET)                                       0.0000
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : complex_circuit
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 11:27:38 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: U[1] (input port)
+  Endpoint: R[4] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  complex_circuit    5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 f
+  U[1] (in)                              0.0000     0.0000 f
+  U337/ZN (NAND2_X1)                     0.0325     0.0325 r
+  U222/ZN (XNOR2_X1)                     0.0365     0.0690 f
+  U202/ZN (XNOR2_X1)                     0.0350     0.1040 r
+  R[4] (out)                             0.0019     0.1059 r
+  data arrival time                                 0.1059
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
