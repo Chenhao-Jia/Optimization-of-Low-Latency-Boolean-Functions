@@ -1,0 +1,129 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : bSbox
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 11:09:35 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: A[0] (input port)
+  Endpoint: Q[6] (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  bSbox              5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  input external delay                                  0.0000     0.0000 r
+  A[0] (in)                                             0.0000     0.0000 r
+  U56/ZN (XNOR2_X1)                                     0.0620     0.0620 r
+  U46/ZN (XNOR2_X1)                                     0.0632     0.1252 r
+  U61/Z (BUF_X1)                                        0.0390     0.1642 r
+  U57/ZN (XNOR2_X1)                                     0.0539     0.2181 r
+  sel_in/B[6] (SELECT_NOT_8_1)                          0.0000     0.2181 r
+  sel_in/m6/B (MUX21I_14)                               0.0000     0.2181 r
+  sel_in/m6/U3/ZN (NOR2_X1)                             0.0251     0.2432 f
+  sel_in/m6/U4/ZN (OR2_X2)                              0.0637     0.3069 f
+  sel_in/m6/Q (MUX21I_14)                               0.0000     0.3069 f
+  sel_in/Q[6] (SELECT_NOT_8_1)                          0.0000     0.3069 f
+  inv/A[6] (GF_INV_8)                                   0.0000     0.3069 f
+  inv/U41/Z (XOR2_X1)                                   0.0866     0.3934 f
+  inv/U22/ZN (NOR2_X1)                                  0.0503     0.4437 r
+  inv/U23/ZN (XNOR2_X1)                                 0.0590     0.5027 r
+  inv/U32/ZN (XNOR2_X1)                                 0.0598     0.5625 r
+  inv/U29/ZN (XNOR2_X1)                                 0.0632     0.6257 r
+  inv/dinv/A[3] (GF_INV_4)                              0.0000     0.6257 r
+  inv/dinv/U8/ZN (XNOR2_X1)                             0.0705     0.6963 r
+  inv/dinv/U14/ZN (NAND2_X1)                            0.0354     0.7316 f
+  inv/dinv/U16/ZN (XNOR2_X1)                            0.0542     0.7858 r
+  inv/dinv/U17/Z (XOR2_X1)                              0.0802     0.8660 r
+  inv/dinv/qmul/ab (GF_MULS_2_4)                        0.0000     0.8660 r
+  inv/dinv/qmul/U5/ZN (NAND2_X1)                        0.0406     0.9066 f
+  inv/dinv/qmul/U3/ZN (XNOR2_X1)                        0.0727     0.9793 f
+  inv/dinv/qmul/Q[1] (GF_MULS_2_4)                      0.0000     0.9793 f
+  inv/dinv/Q[1] (GF_INV_4)                              0.0000     0.9793 f
+  inv/U33/ZN (INV_X1)                                   0.0365     1.0158 r
+  inv/U26/ZN (XNOR2_X1)                                 0.0594     1.0753 r
+  inv/U25/ZN (XNOR2_X1)                                 0.0672     1.1425 r
+  inv/pmul/aa (GF_MULS_4_1)                             0.0000     1.1425 r
+  inv/pmul/summul/ab (GF_MULS_SCL_2_1)                  0.0000     1.1425 r
+  inv/pmul/summul/U4/ZN (NAND2_X1)                      0.0327     1.1753 f
+  inv/pmul/summul/U3/ZN (XNOR2_X1)                      0.0580     1.2332 f
+  inv/pmul/summul/Q[1] (GF_MULS_SCL_2_1)                0.0000     1.2332 f
+  inv/pmul/U2/ZN (XNOR2_X1)                             0.0612     1.2944 f
+  inv/pmul/Q[1] (GF_MULS_4_1)                           0.0000     1.2944 f
+  inv/Q[5] (GF_INV_8)                                   0.0000     1.2944 f
+  U64/ZN (XNOR2_X1)                                     0.0642     1.3586 f
+  U83/ZN (XNOR2_X1)                                     0.0624     1.4210 f
+  U84/ZN (XNOR2_X1)                                     0.0661     1.4871 f
+  U94/ZN (XNOR2_X1)                                     0.0688     1.5559 f
+  U95/ZN (XNOR2_X1)                                     0.0599     1.6158 f
+  sel_out/B[6] (SELECT_NOT_8_0)                         0.0000     1.6158 f
+  sel_out/m6/B (MUX21I_6)                               0.0000     1.6158 f
+  sel_out/m6/U1/ZN (OR2_X1)                             0.0563     1.6720 f
+  sel_out/m6/U4/ZN (NAND2_X1)                           0.0222     1.6942 r
+  sel_out/m6/Q (MUX21I_6)                               0.0000     1.6942 r
+  sel_out/Q[6] (SELECT_NOT_8_0)                         0.0000     1.6942 r
+  Q[6] (out)                                            0.0019     1.6962 r
+  data arrival time                                                1.6962
+
+  max_delay                                             1.6974     1.6974
+  output external delay                                 0.0000     1.6974
+  data required time                                               1.6974
+  --------------------------------------------------------------------------
+  data required time                                               1.6974
+  data arrival time                                               -1.6962
+  --------------------------------------------------------------------------
+  slack (MET)                                                      0.0012
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : bSbox
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 11:09:35 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: encrypt (input port)
+  Endpoint: Q[6] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  bSbox              5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  encrypt (in)                           0.0000     0.0000 r
+  sel_out/s (SELECT_NOT_8_0)             0.0000     0.0000 r
+  sel_out/m6/s (MUX21I_6)                0.0000     0.0000 r
+  sel_out/m6/U1/ZN (OR2_X1)              0.0458     0.0458 r
+  sel_out/m6/U4/ZN (NAND2_X1)            0.0205     0.0663 f
+  sel_out/m6/Q (MUX21I_6)                0.0000     0.0663 f
+  sel_out/Q[6] (SELECT_NOT_8_0)          0.0000     0.0663 f
+  Q[6] (out)                             0.0019     0.0683 f
+  data arrival time                                 0.0683
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
