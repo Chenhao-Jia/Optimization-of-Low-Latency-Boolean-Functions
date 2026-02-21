@@ -1,0 +1,100 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : aes_sbox_bp15
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 11:37:45 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x[3] (input port)
+  Endpoint: y[2] (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  aes_sbox_bp15      5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 f
+  x[3] (in)                              0.0000     0.0000 f
+  U272/ZN (XNOR2_X1)                     0.0585     0.0585 f
+  U273/ZN (XNOR2_X1)                     0.0579     0.1164 f
+  U278/ZN (XNOR2_X1)                     0.0685     0.1849 f
+  U219/ZN (NOR2_X1)                      0.0467     0.2316 r
+  U227/ZN (XNOR2_X1)                     0.0590     0.2906 r
+  U283/ZN (XNOR2_X1)                     0.0663     0.3569 r
+  U284/ZN (XNOR2_X1)                     0.0655     0.4224 r
+  U232/ZN (XNOR2_X1)                     0.0599     0.4823 r
+  U204/ZN (AND2_X1)                      0.0451     0.5273 r
+  U203/ZN (NOR2_X1)                      0.0229     0.5502 f
+  U243/ZN (NAND2_X1)                     0.0288     0.5790 r
+  U318/ZN (XNOR2_X1)                     0.0626     0.6416 r
+  U245/ZN (XNOR2_X1)                     0.0655     0.7071 r
+  U244/ZN (XNOR2_X1)                     0.0612     0.7683 r
+  U321/ZN (NAND2_X1)                     0.0321     0.8004 f
+  U323/ZN (XNOR2_X1)                     0.0579     0.8583 f
+  U326/ZN (XNOR2_X1)                     0.0781     0.9364 r
+  U199/ZN (XNOR2_X1)                     0.0702     1.0066 r
+  U198/ZN (XNOR2_X1)                     0.0599     1.0665 r
+  U333/ZN (XNOR2_X1)                     0.0540     1.1205 r
+  y[2] (out)                             0.0019     1.1224 r
+  data arrival time                                 1.1224
+
+  max_delay                              1.1247     1.1247
+  output external delay                  0.0000     1.1247
+  data required time                                1.1247
+  -----------------------------------------------------------
+  data required time                                1.1247
+  data arrival time                                -1.1224
+  -----------------------------------------------------------
+  slack (MET)                                       0.0023
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : aes_sbox_bp15
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 11:37:45 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x[0] (input port)
+  Endpoint: y[2] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  aes_sbox_bp15      5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  x[0] (in)                              0.0000     0.0000 r
+  U327/ZN (XNOR2_X1)                     0.0329     0.0329 f
+  U328/ZN (NAND2_X1)                     0.0280     0.0609 r
+  U199/ZN (XNOR2_X1)                     0.0360     0.0970 f
+  U198/ZN (XNOR2_X1)                     0.0467     0.1437 r
+  U333/ZN (XNOR2_X1)                     0.0276     0.1713 f
+  y[2] (out)                             0.0019     0.1732 f
+  data arrival time                                 0.1732
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
