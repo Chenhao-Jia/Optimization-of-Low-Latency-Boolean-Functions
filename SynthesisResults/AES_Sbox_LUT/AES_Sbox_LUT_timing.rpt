@@ -6,15 +6,15 @@ Report : timing
         -max_paths 1
 Design : sbox_aes
 Version: L-2016.03-SP1
-Date   : Tue Sep 23 17:06:53 2025
+Date   : Fri Dec  5 17:39:23 2025
 ****************************************
 
 Operating Conditions: typical   Library: NangateOpenCellLibrary
 Wire Load Model Mode: top
 
-  Startpoint: X[4] (input port)
-  Endpoint: Y[7] (output port)
-  Path Group: (none)
+  Startpoint: X[3] (input port)
+  Endpoint: Y[5] (output port)
+  Path Group: default
   Path Type: max
 
   Des/Clust/Port     Wire Load Model       Library
@@ -24,26 +24,32 @@ Wire Load Model Mode: top
   Point                                    Incr       Path
   -----------------------------------------------------------
   input external delay                   0.0000     0.0000 r
-  X[4] (in)                              0.0000     0.0000 r
-  U383/ZN (INV_X1)                       0.0252     0.0252 f
-  U393/ZN (NAND2_X1)                     0.0488     0.0739 r
-  U401/ZN (NOR2_X1)                      0.0482     0.1221 f
-  U445/ZN (INV_X1)                       0.0507     0.1728 r
-  U453/ZN (NOR2_X1)                      0.0392     0.2120 f
-  U537/ZN (INV_X1)                       0.0437     0.2557 r
-  U539/ZN (NAND2_X1)                     0.0352     0.2908 f
-  U540/ZN (NOR4_X1)                      0.1158     0.4066 r
-  U549/ZN (NAND3_X1)                     0.0601     0.4667 f
-  U550/ZN (NOR4_X1)                      0.1027     0.5694 r
-  U551/ZN (NAND3_X1)                     0.0465     0.6159 f
-  U552/ZN (NOR4_X1)                      0.0982     0.7141 r
-  U554/ZN (NAND3_X1)                     0.0386     0.7527 f
-  U555/ZN (AOI22_X1)                     0.0621     0.8147 r
-  U575/ZN (OAI211_X1)                    0.0387     0.8534 f
-  Y[7] (out)                             0.0019     0.8553 f
-  data arrival time                                 0.8553
+  X[3] (in)                              0.0000     0.0000 r
+  U945/ZN (NAND2_X1)                     0.0380     0.0380 f
+  U866/ZN (OR2_X2)                       0.0662     0.1043 f
+  U760/Z (BUF_X2)                        0.0500     0.1543 f
+  U1003/ZN (NOR2_X1)                     0.0788     0.2331 r
+  U1119/ZN (INV_X1)                      0.0335     0.2667 f
+  U1121/ZN (NAND2_X1)                    0.0309     0.2975 r
+  U1126/ZN (NOR2_X1)                     0.0214     0.3189 f
+  U690/ZN (NAND2_X1)                     0.0353     0.3542 r
+  U1351/ZN (NOR2_X1)                     0.0268     0.3810 f
+  U1355/ZN (NAND2_X1)                    0.0274     0.4084 r
+  U1356/ZN (NAND2_X1)                    0.0248     0.4332 f
+  U1357/ZN (NAND2_X1)                    0.0326     0.4658 r
+  U1378/ZN (NOR2_X1)                     0.0216     0.4874 f
+  U1390/ZN (NAND2_X1)                    0.0206     0.5080 r
+  Y[5] (out)                             0.0019     0.5099 r
+  data arrival time                                 0.5099
+
+  max_delay                              0.5101     0.5101
+  output external delay                  0.0000     0.5101
+  data required time                                0.5101
   -----------------------------------------------------------
-  (Path is unconstrained)
+  data required time                                0.5101
+  data arrival time                                -0.5099
+  -----------------------------------------------------------
+  slack (MET)                                       0.0002
 
 
 1
@@ -55,7 +61,7 @@ Report : timing
         -max_paths 1
 Design : sbox_aes
 Version: L-2016.03-SP1
-Date   : Tue Sep 23 17:06:53 2025
+Date   : Fri Dec  5 17:39:23 2025
 ****************************************
 
 Operating Conditions: typical   Library: NangateOpenCellLibrary
@@ -72,12 +78,13 @@ Wire Load Model Mode: top
 
   Point                                    Incr       Path
   -----------------------------------------------------------
-  input external delay                   0.0000     0.0000 f
-  X[7] (in)                              0.0000     0.0000 f
-  U481/ZN (NAND2_X1)                     0.0384     0.0384 r
-  U636/ZN (OAI211_X1)                    0.0351     0.0734 f
-  Y[6] (out)                             0.0019     0.0754 f
-  data arrival time                                 0.0754
+  input external delay                   0.0000     0.0000 r
+  X[7] (in)                              0.0000     0.0000 r
+  U722/ZN (NOR2_X1)                      0.0345     0.0345 f
+  U1341/ZN (NAND2_X1)                    0.0350     0.0695 r
+  U1342/ZN (NAND2_X1)                    0.0226     0.0921 f
+  Y[6] (out)                             0.0019     0.0940 f
+  data arrival time                                 0.0940
   -----------------------------------------------------------
   (Path is unconstrained)
 
