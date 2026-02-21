@@ -1,0 +1,121 @@
+% Generated with ANF string input
+% f = x2 + x4 + x2x3
+
+b_m0 , b_m1 , b_m2 , b_m3 , b_m4 , b_m5 , b_m6 , b_m7 , b_m8 , b_m9 , b_m10 , b_m11 , b_m12 , b_m13 , b_m14 , b_m15 , b_m16 , b_m17 , b_m18 , b_m19 , b_m20 , b_m21 , b_m22 , b_m23 , b_m24 , b_m25 , b_m26 , b_m27 , b_m28 , b_m29 , b_m30 , b_m31 : BITVECTOR(1);
+s_p0 , s_p1 , s_p2 , s_p3 , s_p4 , s_p5 : BITVECTOR(1);
+r_m0 , r_m1 , r_m2 , r_m3 , r_m4 , r_m5 , r_m6 , r_m7 , r_m8 , r_m9 , r_m10 , r_m11 , r_m12 , r_m13 , r_m14 , r_m15 , r_m16 , r_m17 , r_m18 , r_m19 , r_m20 , r_m21 , r_m22 , r_m23 , r_m24 , r_m25 , r_m26 , r_m27 , r_m28 , r_m29 , r_m30 , r_m31 : BITVECTOR(1);
+cost_patterns , cost_singles , total_cost , BCOST : BITVECTOR(8);
+
+ASSERT( b_m0 = 0bin0 );
+ASSERT( b_m1 = 0bin0 );
+ASSERT( b_m2 = 0bin0 );
+ASSERT( b_m3 = 0bin0 );
+ASSERT( b_m4 = 0bin1 );
+ASSERT( b_m5 = 0bin0 );
+ASSERT( b_m6 = 0bin0 );
+ASSERT( b_m7 = 0bin0 );
+ASSERT( b_m8 = 0bin0 );
+ASSERT( b_m9 = 0bin0 );
+ASSERT( b_m10 = 0bin0 );
+ASSERT( b_m11 = 0bin0 );
+ASSERT( b_m12 = 0bin1 );
+ASSERT( b_m13 = 0bin0 );
+ASSERT( b_m14 = 0bin0 );
+ASSERT( b_m15 = 0bin0 );
+ASSERT( b_m16 = 0bin1 );
+ASSERT( b_m17 = 0bin0 );
+ASSERT( b_m18 = 0bin0 );
+ASSERT( b_m19 = 0bin0 );
+ASSERT( b_m20 = 0bin0 );
+ASSERT( b_m21 = 0bin0 );
+ASSERT( b_m22 = 0bin0 );
+ASSERT( b_m23 = 0bin0 );
+ASSERT( b_m24 = 0bin0 );
+ASSERT( b_m25 = 0bin0 );
+ASSERT( b_m26 = 0bin0 );
+ASSERT( b_m27 = 0bin0 );
+ASSERT( b_m28 = 0bin0 );
+ASSERT( b_m29 = 0bin0 );
+ASSERT( b_m30 = 0bin0 );
+ASSERT( b_m31 = 0bin0 );
+
+ASSERT( r_m0 = 0bin0 );
+ASSERT( r_m1 = 0bin0 );
+ASSERT( r_m2 = 0bin0 );
+ASSERT( r_m3 = 0bin0 );
+ASSERT( r_m5 = 0bin0 );
+ASSERT( r_m6 = 0bin0 );
+ASSERT( r_m7 = 0bin0 );
+ASSERT( r_m8 = 0bin0 );
+ASSERT( r_m9 = 0bin0 );
+ASSERT( r_m10 = 0bin0 );
+ASSERT( r_m11 = 0bin0 );
+ASSERT( r_m13 = 0bin0 );
+ASSERT( r_m14 = 0bin0 );
+ASSERT( r_m15 = 0bin0 );
+ASSERT( r_m17 = 0bin0 );
+ASSERT( r_m18 = 0bin0 );
+ASSERT( r_m19 = 0bin0 );
+ASSERT( r_m20 = 0bin0 );
+ASSERT( r_m21 = 0bin0 );
+ASSERT( r_m22 = 0bin0 );
+ASSERT( r_m23 = 0bin0 );
+ASSERT( r_m24 = 0bin0 );
+ASSERT( r_m25 = 0bin0 );
+ASSERT( r_m26 = 0bin0 );
+ASSERT( r_m27 = 0bin0 );
+ASSERT( r_m28 = 0bin0 );
+ASSERT( r_m29 = 0bin0 );
+ASSERT( r_m30 = 0bin0 );
+ASSERT( r_m31 = 0bin0 );
+
+ASSERT( (s_p0 = 0bin0) OR (b_m4 = 0bin1) );
+ASSERT( (s_p1 = 0bin0) OR (b_m12 = 0bin1) );
+ASSERT( (s_p2 = 0bin0) OR (b_m12 = 0bin1) );
+ASSERT( (s_p3 = 0bin0) OR (b_m12 = 0bin1) );
+ASSERT( (s_p4 = 0bin0) OR (b_m12 = 0bin1) );
+ASSERT( (s_p5 = 0bin0) OR (b_m16 = 0bin1) );
+
+ASSERT( BVPLUS(8, (0bin0000000 @ s_p0) , (0bin0000000 @ s_p2) , (0bin0000000 @ s_p3) , (0bin0000000 @ r_m4)) = 0bin00000001 );
+ASSERT( BVPLUS(8, (0bin0000000 @ s_p1) , (0bin0000000 @ s_p2) , (0bin0000000 @ s_p3) , (0bin0000000 @ s_p4) , (0bin0000000 @ r_m12)) = 0bin00000001 );
+ASSERT( BVPLUS(8, (0bin0000000 @ s_p5) , (0bin0000000 @ r_m16)) = 0bin00000001 );
+
+ASSERT( BVXOR(s_p0 , BVXOR(s_p3 , BVXOR(s_p4 , s_p5))) = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( BVXOR(s_p1 , s_p3) = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+ASSERT( 0bin0 = 0bin0 );
+
+ASSERT( cost_patterns = BVPLUS(8, (0bin0000000 @ s_p0) , (0bin0000000 @ s_p1) , (0bin0000000 @ s_p2) , (0bin0000000 @ s_p3) , (0bin0000000 @ s_p4) , (0bin0000000 @ s_p5)) );
+ASSERT( cost_singles  = BVPLUS(8, (0bin0000000 @ r_m4) , (0bin0000000 @ r_m12) , (0bin0000000 @ r_m16)) );
+ASSERT( total_cost    = BVPLUS(8, cost_patterns , cost_singles) );
+
+ASSERT( BCOST = 0bin00000010 ); % e.g., 40 (8-bit width)
+ASSERT( BVLE(total_cost, BCOST) );
+
+QUERY(FALSE);
+COUNTEREXAMPLE;
