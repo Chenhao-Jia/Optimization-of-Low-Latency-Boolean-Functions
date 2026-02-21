@@ -1,0 +1,98 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : BoyarSbox
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 10:50:35 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: U[4] (input port)
+  Endpoint: S[5] (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  BoyarSbox          5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 f
+  U[4] (in)                              0.0000     0.0000 f
+  U216/ZN (XNOR2_X1)                     0.0805     0.0805 r
+  U222/ZN (XNOR2_X1)                     0.0702     0.1507 r
+  U230/ZN (XNOR2_X1)                     0.0658     0.2165 r
+  U241/ZN (XNOR2_X1)                     0.0700     0.2866 r
+  U211/ZN (XNOR2_X1)                     0.0674     0.3540 r
+  U306/ZN (XNOR2_X1)                     0.0728     0.4267 r
+  U274/ZN (NAND2_X1)                     0.0334     0.4601 f
+  U272/ZN (NAND2_X1)                     0.0298     0.4899 r
+  U219/ZN (OR2_X1)                       0.0351     0.5250 r
+  U311/ZN (XNOR2_X1)                     0.0538     0.5788 r
+  U312/ZN (NAND2_X1)                     0.0327     0.6115 f
+  U313/ZN (XNOR2_X1)                     0.0636     0.6752 r
+  U264/Z (XOR2_X1)                       0.0741     0.7492 r
+  U316/ZN (XNOR2_X1)                     0.0642     0.8135 r
+  U336/ZN (NAND2_X1)                     0.0328     0.8463 f
+  U243/ZN (XNOR2_X1)                     0.0537     0.9001 r
+  U337/ZN (XNOR2_X1)                     0.0665     0.9666 r
+  U342/ZN (XNOR2_X1)                     0.0670     1.0336 r
+  U285/ZN (XNOR2_X1)                     0.0639     1.0975 r
+  U364/ZN (XNOR2_X1)                     0.0540     1.1515 r
+  S[5] (out)                             0.0019     1.1534 r
+  data arrival time                                 1.1534
+
+  max_delay                              1.1535     1.1535
+  output external delay                  0.0000     1.1535
+  data required time                                1.1535
+  -----------------------------------------------------------
+  data required time                                1.1535
+  data arrival time                                -1.1534
+  -----------------------------------------------------------
+  slack (MET)                                       0.0001
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : BoyarSbox
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 10:50:35 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: U[7] (input port)
+  Endpoint: S[4] (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  BoyarSbox          5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 f
+  U[7] (in)                              0.0000     0.0000 f
+  U354/ZN (NAND2_X1)                     0.0357     0.0357 r
+  U239/ZN (XNOR2_X1)                     0.0410     0.0767 f
+  U265/ZN (XNOR2_X1)                     0.0415     0.1182 r
+  S[4] (out)                             0.0019     0.1202 r
+  data arrival time                                 0.1202
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
