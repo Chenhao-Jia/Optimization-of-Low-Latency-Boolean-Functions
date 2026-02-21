@@ -1,0 +1,97 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : hadzic_sbox
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 14:42:36 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x4 (input port)
+  Endpoint: y4 (output port)
+  Path Group: default
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  hadzic_sbox        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  x4 (in)                                0.0000     0.0000 r
+  U216/ZN (XNOR2_X1)                     0.0620     0.0620 r
+  U254/ZN (XNOR2_X1)                     0.0598     0.1218 r
+  U282/ZN (XNOR2_X1)                     0.0696     0.1914 r
+  U205/ZN (OR2_X1)                       0.0444     0.2358 r
+  U246/ZN (XNOR2_X1)                     0.0556     0.2914 r
+  U304/ZN (XNOR2_X1)                     0.0627     0.3541 r
+  U305/ZN (XNOR2_X1)                     0.0736     0.4277 r
+  U198/ZN (XNOR2_X1)                     0.0781     0.5058 r
+  U240/ZN (NAND2_X1)                     0.0361     0.5419 f
+  U307/ZN (XNOR2_X1)                     0.0546     0.5965 r
+  U308/ZN (XNOR2_X1)                     0.0653     0.6618 r
+  U208/ZN (AND2_X1)                      0.0474     0.7092 r
+  U207/ZN (XNOR2_X1)                     0.0560     0.7652 r
+  U329/ZN (XNOR2_X1)                     0.0628     0.8280 r
+  U334/ZN (XNOR2_X1)                     0.0646     0.8926 r
+  U341/ZN (XNOR2_X1)                     0.0568     0.9494 r
+  y4 (out)                               0.0019     0.9514 r
+  data arrival time                                 0.9514
+
+  max_delay                              0.9519     0.9519
+  output external delay                  0.0000     0.9519
+  data required time                                0.9519
+  -----------------------------------------------------------
+  data required time                                0.9519
+  data arrival time                                -0.9514
+  -----------------------------------------------------------
+  slack (MET)                                       0.0005
+
+
+1
+ 
+****************************************
+Report : timing
+        -path full
+        -delay min
+        -max_paths 1
+Design : hadzic_sbox
+Version: L-2016.03-SP1
+Date   : Mon Dec  8 14:42:36 2025
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: x1 (input port)
+  Endpoint: y5 (output port)
+  Path Group: (none)
+  Path Type: min
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  hadzic_sbox        5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                   0.0000     0.0000 r
+  x1 (in)                                0.0000     0.0000 r
+  U303/Z (XOR2_X1)                       0.0370     0.0370 f
+  U352/ZN (NAND2_X1)                     0.0326     0.0697 r
+  U353/ZN (XNOR2_X1)                     0.0378     0.1075 f
+  U354/ZN (XNOR2_X1)                     0.0602     0.1677 f
+  U356/ZN (NAND2_X1)                     0.0286     0.1963 r
+  U357/ZN (XNOR2_X1)                     0.0370     0.2332 f
+  y5 (out)                               0.0025     0.2357 f
+  data arrival time                                 0.2357
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
