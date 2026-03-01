@@ -121,87 +121,8 @@ int main(){
     // === 8-bit ANF provided by user ===
 
     /*
-    const string anf_str =
-            "x0 + x2 + x6 + x7 + x0x1 + x0x3 + x0x7 + x1x2 + x1x7 + x2x7 + x3x4 + x3x6 + x3x7 + x4x5 + x4x7 + x5x7 "
-            "+ x0x1x3 + x0x1x5 + x0x1x7 + x0x2x6 + x0x2x7 + x0x3x6 + x0x3x7 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x6 + x0x5x7 + x0x6x7 "
-            "+ x1x2x4 + x1x2x6 + x1x3x4 + x1x3x7 + x1x4x5 + x1x4x7 + x1x5x6 + x1x6x7 "
-            "+ x2x3x4 + x2x3x5 + x2x3x6 + x2x3x7 + x2x4x6 + x2x4x7 + x2x5x6 + x2x5x7 + x2x6x7 "
-            "+ x3x4x5 + x3x4x6 + x3x4x7 + x3x5x6 + x3x5x7 + x3x6x7 + x4x5x7 + x4x6x7 "
-            "+ x0x1x2x3 + x0x1x2x4 + x0x1x2x5 + x0x1x2x6 + x0x1x3x5 + x0x1x4x6 + x0x1x5x6 "
-            "+ x0x2x3x5 + x0x2x3x6 + x0x2x4x6 + x0x2x4x7 + x0x2x5x6 + x0x3x4x5 + x0x3x4x7 + x0x3x5x6 + x0x3x5x7 + x0x4x5x7 + x0x5x6x7 "
-            "+ x1x2x3x4 + x1x2x3x5 + x1x2x4x5 + x1x2x4x7 + x1x2x6x7 + x1x3x4x5 + x1x3x4x7 + x1x3x5x7 + x1x3x6x7 + x1x4x5x6 + x1x4x6x7 "
-            "+ x2x4x5x6 + x2x4x5x7 + x2x4x6x7 + x2x5x6x7 + x3x4x5x6 + x3x4x5x7 + x3x4x6x7 "
-            "+ x0x1x2x3x4 + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x5 + x0x1x2x4x6 + x0x1x2x4x7 + x0x1x2x5x7 + x0x1x3x4x5 + x0x1x3x4x6 + x0x1x3x5x6 + x0x1x3x6x7 + x0x1x4x5x6 + x0x1x4x6x7 + x0x1x5x6x7 + x0x2x3x4x7 + x0x2x3x5x6 + x0x2x4x5x7 + x0x2x4x6x7 + x0x2x5x6x7 + x0x3x4x5x7 + x0x3x4x6x7 + x0x3x5x6x7 + x0x4x5x6x7 "
-            "+ x1x2x3x4x6 + x1x2x3x5x6 + x1x2x3x5x7 + x1x3x4x5x6 + x1x3x4x6x7 + x1x4x5x6x7 + x2x3x4x5x6 + x2x3x5x6x7 + x2x4x5x6x7 + x3x4x5x6x7 "
-            "+ x0x1x2x3x4x5 + x0x1x2x3x5x7 + x0x1x2x3x6x7 + x0x1x2x4x5x7 + x0x1x2x4x6x7 + x0x1x3x4x5x6 + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x2x3x4x5x6 + x0x2x3x4x6x7 + x0x2x3x5x6x7 + x0x3x4x5x6x7 + x1x2x3x4x5x7 + x1x2x3x5x6x7 + x1x2x4x5x6x7 + x1x3x4x5x6x7 + x2x3x4x5x6x7 "
-            "+ x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x4x5x6x7 + x0x1x3x4x5x6x7"; //f5
-    */
+    ****************************AES Sbox***********************************
 
-
-    /*
-    const string anf_str =
-            "x0 + x1 + x3 + x7 + x0x1 + x0x2 + x0x4 + x0x6 + x0x7 + x1x2 + x1x4 + x2x3 + x4x5 + x4x7 + x5x6 "
-            "+ x0x1x2 + x0x2x4 + x0x2x5 + x0x3x4 + x0x4x5 + x0x4x7 + x0x5x6 + x0x5x7 + x0x6x7 + x1x2x4 + x1x2x6 "
-            "+ x1x3x7 + x1x4x7 + x1x5x6 + x1x5x7 + x1x6x7 + x2x3x5 + x2x3x7 + x2x4x5 + x2x5x6 + x2x6x7 + x3x4x5 "
-            "+ x3x4x6 + x3x4x7 + x3x5x7 + x3x6x7 + x4x5x6 + x4x5x7 + x4x6x7 + x0x1x2x3 + x0x1x2x4 + x0x1x2x6 "
-            "+ x0x1x2x7 + x0x1x3x4 + x0x1x3x5 + x0x1x3x6 + x0x1x4x7 + x0x1x5x6 + x0x1x5x7 + x0x1x6x7 + x0x2x3x5 "
-            "+ x0x2x3x6 + x0x2x5x6 + x0x3x4x6 + x0x3x5x6 + x0x3x5x7 + x0x4x5x6 + x0x4x5x7 + x1x2x3x4 + x1x2x3x5 "
-            "+ x1x2x3x6 + x1x2x3x7 + x1x2x4x6 + x1x2x5x7 + x1x2x6x7 + x1x3x4x6 + x1x3x4x7 + x1x3x5x7 + x1x3x6x7 "
-            "+ x1x4x5x6 + x1x4x6x7 + x2x3x4x5 + x2x3x4x6 + x2x3x5x6 + x2x4x5x6 + x2x5x6x7 + x3x5x6x7 + x4x5x6x7 "
-            "+ x0x1x2x3x4 + x0x1x2x3x5 + x0x1x2x3x7 + x0x1x2x4x6 + x0x1x2x4x7 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x2x6x7 "
-            "+ x0x1x3x4x6 + x0x1x3x4x7 + x0x1x4x5x7 + x0x2x3x4x5 + x0x2x3x4x7 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x7 "
-            "+ x0x2x5x6x7 + x0x3x4x6x7 + x0x3x5x6x7 + x0x4x5x6x7 + x1x2x3x4x5 + x1x2x3x4x7 + x1x2x3x5x6 + x1x2x3x5x7 "
-            "+ x1x2x4x5x6 + x1x2x4x5x7 + x1x2x4x6x7 + x1x2x5x6x7 + x1x3x4x6x7 + x2x3x4x5x7 + x2x3x4x6x7 + x2x4x5x6x7 "
-            "+ x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x5x6 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x3x4x5x6 + x0x1x3x4x5x7 "
-            "+ x0x1x3x5x6x7 + x0x1x4x5x6x7 + x0x2x3x4x5x6 + x0x2x3x4x6x7 + x0x2x3x5x6x7 + x0x2x4x5x6x7 + x0x3x4x5x6x7 "
-            "+ x1x2x3x4x5x6 + x1x2x4x5x6x7 + x1x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x4x5x6x7 + x1x2x3x4x5x6x7"; //f4
-    */
-
-
-    /*
-    const string anf_str =
-            "1 + x0 + x1 + x4 + x7 + x0x4 + x0x5 + x0x6 + x0x7 + x1x3 + x1x5 + x2x3 + x3x6 + x3x7 + x4x5 + x4x6 + x4x7 + x5x7 + x6x7 "
-            "+ x0x1x2 + x0x1x4 + x0x1x5 + x0x1x7 + x0x2x4 + x0x2x5 + x0x2x7 + x0x3x4 + x0x3x6 + x0x3x7 + x0x4x6 + x0x5x7 "
-            "+ x1x2x4 + x1x2x6 + x1x3x4 + x1x3x7 + x1x4x5 + x1x4x6 + x1x6x7 + x2x3x7 + x2x4x5 + x2x4x6 "
-            "+ x3x4x5 + x3x4x6 + x3x4x7 + x3x5x6 + x3x6x7 + x4x5x6 + x4x5x7 + x4x6x7 "
-            "+ x0x1x3x4 + x0x1x3x5 + x0x1x3x6 + x0x1x3x7 + x0x1x5x6 "
-            "+ x0x2x3x4 + x0x2x3x5 + x0x2x3x6 + x0x2x3x7 + x0x2x4x5 + x0x2x4x6 + x0x2x5x6 "
-            "+ x0x3x4x5 + x0x3x4x6 + x0x3x5x6 + x0x3x6x7 "
-            "+ x1x2x3x4 + x1x2x3x7 + x1x2x4x6 + x1x2x5x6 + x1x2x5x7 + x1x2x6x7 "
-            "+ x1x3x4x7 + x1x4x5x7 + x1x4x6x7 + x1x5x6x7 "
-            "+ x2x3x4x5 + x2x3x4x6 + x2x3x4x7 + x2x3x5x7 + x2x3x6x7 + x2x4x5x6 + x3x4x6x7 "
-            "+ x0x1x2x3x5 + x0x1x2x3x7 + x0x1x2x4x7 + x0x1x2x5x7 + x0x1x2x6x7 "
-            "+ x0x1x3x4x5 + x0x1x4x5x7 + x0x1x4x6x7 + x0x1x5x6x7 "
-            "+ x0x2x3x4x5 + x0x2x3x4x6 + x0x2x3x4x7 + x0x2x4x5x7 + x0x2x4x6x7 + x0x3x4x5x7 + x0x3x4x6x7 + x0x3x5x6x7 + x0x4x5x6x7 "
-            "+ x1x2x3x4x6 + x1x2x3x5x6 + x1x2x3x5x7 + x1x2x3x6x7 + x1x2x4x5x6 + x1x2x4x6x7 + x1x3x4x5x6 + x1x3x4x6x7 + x1x3x5x6x7 + x1x4x5x6x7 "
-            "+ x2x3x4x5x7 + x2x3x5x6x7 + x3x4x5x6x7 "
-            "+ x0x1x2x3x4x6 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x5x6x7 + x0x1x3x4x5x6 + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7 "
-            "+ x0x2x3x4x5x7 + x0x2x3x5x6x7 + x0x3x4x5x6x7 "
-            "+ x1x2x3x4x5x6 + x1x2x3x4x5x7 + x1x2x3x4x6x7 + x1x2x4x5x6x7 + x1x3x4x5x6x7 "
-            "+ x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7 + x0x1x3x4x5x6x7"; //f6
-
-
-
-    /*
-    const string anf_str =
-            "1 + x3 + x4 + x5 + x7 + x0x1 + x0x2 + x0x5 + x1x2 + x1x3 + x1x5 + x1x6 + x1x7 + x2x7 + x3x5 + x3x6 + x3x7 + x4x5 + x4x6 + x5x6 + x6x7 "
-            "+ x0x1x2 + x0x1x4 + x0x1x5 + x0x2x4 + x0x2x5 + x0x3x4 + x0x3x5 + x0x3x7 + x0x4x5 + x0x4x6 + x0x5x7 + x0x6x7 "
-            "+ x1x2x3 + x1x2x5 + x1x2x6 + x1x3x6 + x1x3x7 + x1x4x7 + x1x5x6 + x1x5x7 + x1x6x7 + x2x4x5 + x2x4x7 + x2x5x7 + x3x4x6 + x3x4x7 + x3x5x6 + x3x5x7 + x3x6x7 + x4x5x6 "
-            "+ x0x1x2x4 + x0x1x2x6 + x0x1x3x7 + x0x1x4x5 + x0x1x4x6 + x0x1x5x6 + x0x2x3x5 + x0x2x3x6 + x0x2x3x7 + x0x2x4x5 + x0x2x5x7 + x0x3x5x6 + x0x3x5x7 + x0x3x6x7 + x0x4x5x6 + x0x4x5x7 + x0x5x6x7 "
-            "+ x1x2x3x5 + x1x2x3x6 + x1x2x3x7 + x1x2x4x7 + x1x2x5x7 + x1x3x4x6 + x1x3x4x7 + x1x3x5x6 + x1x4x5x6 + x1x5x6x7 "
-            "+ x2x3x5x7 + x2x3x6x7 + x2x4x5x6 + x2x4x5x7 + x2x5x6x7 + x4x5x6x7 "
-            "+ x0x1x2x3x5 + x0x1x2x4x7 + x0x1x2x5x6 + x0x1x2x6x7 + x0x1x3x4x7 + x0x1x3x5x6 + x0x1x3x5x7 + x0x1x4x6x7 + x0x1x5x6x7 "
-            "+ x0x2x3x4x5 + x0x2x3x4x6 + x0x2x3x4x7 + x0x2x3x5x7 + x0x2x4x5x6 + x0x2x4x6x7 + x0x2x5x6x7 + x0x3x5x6x7 + x0x4x5x6x7 "
-            "+ x1x2x3x4x5 + x1x2x3x4x7 + x1x2x3x5x6 + x1x2x3x6x7 + x1x2x4x5x6 + x1x2x4x6x7 + x1x3x4x5x7 + x1x3x4x6x7 + x1x4x5x6x7 "
-            "+ x2x3x4x5x7 + x2x3x5x6x7 + x3x4x5x6x7 "
-            "+ x0x1x2x3x4x5 + x0x1x2x3x4x6 + x0x1x2x3x5x6 + x0x1x2x3x6x7 + x0x1x2x4x5x7 + x0x1x2x5x6x7 + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x4x5x6x7 "
-            "+ x0x2x3x4x5x7 + x0x2x3x5x6x7 + x0x2x4x5x6x7 + x0x3x4x5x6x7 "
-            "+ x1x2x3x4x5x7 + x1x3x4x5x6x7 "
-            "+ x0x1x2x3x4x5x7 + x0x1x2x3x5x6x7 + x0x1x3x4x5x6x7"; //f7
-
-
-
-    /*
     const string anf_str =
             "x0 + x2 + x3 + x5 + x0x2 + x0x6 + x0x7 + x1x3 + x1x5 + x1x7 + x2x4 + x3x5 + x5x6 + x5x7 "
             "+ x0x1x3 + x0x1x5 + x0x1x7 + x0x2x3 + x0x2x4 + x0x3x6 + x0x4x7 + x0x5x7 "
@@ -226,9 +147,6 @@ int main(){
             "+ x1x2x3x4x5x7 "
             "+ x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7"; //f0
 
-
-
-    /*
     const string anf_str =
             "1 + x1 + x2 + x4 + x0x2 + x0x4 + x0x6 + x0x7 + x1x3 + x2x4 + x2x7 + x3x7 + x4x5 + x4x6 "
             "+ x0x1x2 + x0x1x4 + x0x1x6 + x0x2x4 + x0x2x7 + x0x3x5 + x0x3x6 + x0x3x7 + x0x4x5 + x0x5x6 "
@@ -251,9 +169,6 @@ int main(){
             "+ x1x2x3x4x6x7 + x1x2x3x5x6x7 + x1x2x4x5x6x7 "
             "+ x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7"; //f1
 
-
-
-    /*
     const string anf_str =
             "1 + x0 + x1 + x3 + x0x2 + x1x3 + x1x6 + x2x6 + x3x4 + x3x5 + x4x7 "
             "+ x0x1x2 + x0x1x5 + x0x1x6 + x0x2x3 + x0x2x4 + x0x2x5 + x0x2x6 + x0x3x5 + x0x3x6 + x0x3x7 + x0x4x5 + x0x4x6 + x0x6x7 "
@@ -275,8 +190,6 @@ int main(){
             "+ x1x2x3x5x6x7 + x1x2x4x5x6x7 + x2x3x4x5x6x7 "
             "+ x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7"; //f2
 
-
-    /*
     const string anf_str =
             "x2 + x4 + x5 + x6 + x7 + x0x1 + x0x2 + x0x4 + x0x7 + x1x3 + x1x6 + x1x7 + x2x3 + x2x4 + x2x5 + x2x6 + x2x7 + x3x4 + x3x6 + x3x7 + x4x5 + x6x7 "
             "+ x0x1x2 + x0x1x3 + x0x1x4 + x0x1x5 + x0x1x6 + x0x1x7 + x0x2x3 + x0x2x4 + x0x2x6 + x0x3x4 + x0x3x5 + x0x3x7 "
@@ -302,143 +215,84 @@ int main(){
             "+ x2x3x4x5x6x7 "
             "+ x0x1x2x3x4x5x7 + x0x1x3x4x5x6x7 + x0x2x3x4x5x6x7"; //f3
 
+    const string anf_str =
+            "x0 + x1 + x3 + x7 + x0x1 + x0x2 + x0x4 + x0x6 + x0x7 + x1x2 + x1x4 + x2x3 + x4x5 + x4x7 + x5x6 "
+            "+ x0x1x2 + x0x2x4 + x0x2x5 + x0x3x4 + x0x4x5 + x0x4x7 + x0x5x6 + x0x5x7 + x0x6x7 + x1x2x4 + x1x2x6 "
+            "+ x1x3x7 + x1x4x7 + x1x5x6 + x1x5x7 + x1x6x7 + x2x3x5 + x2x3x7 + x2x4x5 + x2x5x6 + x2x6x7 + x3x4x5 "
+            "+ x3x4x6 + x3x4x7 + x3x5x7 + x3x6x7 + x4x5x6 + x4x5x7 + x4x6x7 + x0x1x2x3 + x0x1x2x4 + x0x1x2x6 "
+            "+ x0x1x2x7 + x0x1x3x4 + x0x1x3x5 + x0x1x3x6 + x0x1x4x7 + x0x1x5x6 + x0x1x5x7 + x0x1x6x7 + x0x2x3x5 "
+            "+ x0x2x3x6 + x0x2x5x6 + x0x3x4x6 + x0x3x5x6 + x0x3x5x7 + x0x4x5x6 + x0x4x5x7 + x1x2x3x4 + x1x2x3x5 "
+            "+ x1x2x3x6 + x1x2x3x7 + x1x2x4x6 + x1x2x5x7 + x1x2x6x7 + x1x3x4x6 + x1x3x4x7 + x1x3x5x7 + x1x3x6x7 "
+            "+ x1x4x5x6 + x1x4x6x7 + x2x3x4x5 + x2x3x4x6 + x2x3x5x6 + x2x4x5x6 + x2x5x6x7 + x3x5x6x7 + x4x5x6x7 "
+            "+ x0x1x2x3x4 + x0x1x2x3x5 + x0x1x2x3x7 + x0x1x2x4x6 + x0x1x2x4x7 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x2x6x7 "
+            "+ x0x1x3x4x6 + x0x1x3x4x7 + x0x1x4x5x7 + x0x2x3x4x5 + x0x2x3x4x7 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x7 "
+            "+ x0x2x5x6x7 + x0x3x4x6x7 + x0x3x5x6x7 + x0x4x5x6x7 + x1x2x3x4x5 + x1x2x3x4x7 + x1x2x3x5x6 + x1x2x3x5x7 "
+            "+ x1x2x4x5x6 + x1x2x4x5x7 + x1x2x4x6x7 + x1x2x5x6x7 + x1x3x4x6x7 + x2x3x4x5x7 + x2x3x4x6x7 + x2x4x5x6x7 "
+            "+ x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x5x6 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x3x4x5x6 + x0x1x3x4x5x7 "
+            "+ x0x1x3x5x6x7 + x0x1x4x5x6x7 + x0x2x3x4x5x6 + x0x2x3x4x6x7 + x0x2x3x5x6x7 + x0x2x4x5x6x7 + x0x3x4x5x6x7 "
+            "+ x1x2x3x4x5x6 + x1x2x4x5x6x7 + x1x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x4x5x6x7 + x1x2x3x4x5x6x7"; //f4
 
-    /*
-    const string anf_str = "1 + x1 + x2 + x3 + x4 + x6 + x7 + x0x3 + x0x6 + x1x3 + x1x5 + x1x7 + x2x3 + x2x6 + x2x7 + x3x5 + x3x6 + x4x6 + x4x7"
-                           "    + x5x7 + x0x1x4 + x0x1x5 + x0x1x7 + x0x2x4 + x0x2x5 + x0x2x7 + x0x3x5 + x0x3x6 + x0x3x7 + x0x6x7 + x1x2x3 + x1x2x6"
-                           "    + x1x2x7 + x1x3x4 + x1x3x6 + x1x4x5 + x1x5x6 + x1x5x7 + x1x6x7 + x2x3x4 + x2x3x6 + x2x4x5 + x2x4x7 + x2x5x6 + x3x4x5"
-                           "    + x3x4x7 + x4x5x6 + x4x5x7 + x5x6x7 + x0x1x2x3 + x0x1x2x6 + x0x1x2x7 + x0x1x3x5 + x0x1x3x6 + x0x1x3x7 + x0x1x4x5"
-                           "    + x0x1x4x6 + x0x1x4x7 + x0x1x5x6 + x0x1x6x7 + x0x2x4x5 + x0x2x6x7 + x0x3x5x6 + x0x3x5x7 + x0x5x6x7 + x1x2x3x6"
-                           "    + x1x2x4x5 + x1x2x4x7 + x1x2x5x6 + x1x2x6x7 + x1x3x4x5 + x1x3x4x6 + x1x3x4x7 + x1x3x5x7 + x1x4x5x7 + x2x3x4x5"
-                           "    + x2x3x4x6 + x2x3x4x7 + x2x3x5x6 + x2x3x6x7 + x2x4x5x7 + x2x4x6x7 + x2x5x6x7 + x3x4x5x6 + x3x4x6x7 + x4x5x6x7"
-                           "    + x0x1x2x3x4 + x0x1x2x3x5 + x0x1x2x3x6 + x0x1x2x4x5 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x3x4x5 + x0x1x3x4x7 + x0x1x3x5x6"
-                           "    + x0x1x4x5x6 + x0x1x5x6x7 + x0x2x3x4x6 + x0x2x3x5x6 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x7 + x0x2x5x6x7 + x0x3x4x6x7"
-                           "    + x0x3x5x6x7 + x0x4x5x6x7 + x1x2x3x4x5 + x1x2x3x4x7 + x1x2x4x5x6 + x1x2x4x5x7 + x1x3x4x5x6 + x1x3x4x6x7 + x1x3x5x6x7"
-                           "    + x2x4x5x6x7 + x3x4x5x6x7 + x0x1x2x3x5x7 + x0x1x2x4x6x7 + x0x1x2x5x6x7 + x0x1x3x4x6x7 + x0x2x3x4x5x6 + x0x2x3x4x5x7"
-                           "    + x0x2x3x4x6x7 + x1x2x3x4x5x6 + x1x2x3x5x6x7 + x1x3x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x4x5x6x7"
-                           "    + x0x1x3x4x5x6x7"; //ARIA_S2_f0
+            
+    const string anf_str =
+            "x0 + x2 + x6 + x7 + x0x1 + x0x3 + x0x7 + x1x2 + x1x7 + x2x7 + x3x4 + x3x6 + x3x7 + x4x5 + x4x7 + x5x7 "
+            "+ x0x1x3 + x0x1x5 + x0x1x7 + x0x2x6 + x0x2x7 + x0x3x6 + x0x3x7 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x6 + x0x5x7 + x0x6x7 "
+            "+ x1x2x4 + x1x2x6 + x1x3x4 + x1x3x7 + x1x4x5 + x1x4x7 + x1x5x6 + x1x6x7 "
+            "+ x2x3x4 + x2x3x5 + x2x3x6 + x2x3x7 + x2x4x6 + x2x4x7 + x2x5x6 + x2x5x7 + x2x6x7 "
+            "+ x3x4x5 + x3x4x6 + x3x4x7 + x3x5x6 + x3x5x7 + x3x6x7 + x4x5x7 + x4x6x7 "
+            "+ x0x1x2x3 + x0x1x2x4 + x0x1x2x5 + x0x1x2x6 + x0x1x3x5 + x0x1x4x6 + x0x1x5x6 "
+            "+ x0x2x3x5 + x0x2x3x6 + x0x2x4x6 + x0x2x4x7 + x0x2x5x6 + x0x3x4x5 + x0x3x4x7 + x0x3x5x6 + x0x3x5x7 + x0x4x5x7 + x0x5x6x7 "
+            "+ x1x2x3x4 + x1x2x3x5 + x1x2x4x5 + x1x2x4x7 + x1x2x6x7 + x1x3x4x5 + x1x3x4x7 + x1x3x5x7 + x1x3x6x7 + x1x4x5x6 + x1x4x6x7 "
+            "+ x2x4x5x6 + x2x4x5x7 + x2x4x6x7 + x2x5x6x7 + x3x4x5x6 + x3x4x5x7 + x3x4x6x7 "
+            "+ x0x1x2x3x4 + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x5 + x0x1x2x4x6 + x0x1x2x4x7 + x0x1x2x5x7 + x0x1x3x4x5 + x0x1x3x4x6 + x0x1x3x5x6 + x0x1x3x6x7 + x0x1x4x5x6 + x0x1x4x6x7 + x0x1x5x6x7 + x0x2x3x4x7 + x0x2x3x5x6 + x0x2x4x5x7 + x0x2x4x6x7 + x0x2x5x6x7 + x0x3x4x5x7 + x0x3x4x6x7 + x0x3x5x6x7 + x0x4x5x6x7 "
+            "+ x1x2x3x4x6 + x1x2x3x5x6 + x1x2x3x5x7 + x1x3x4x5x6 + x1x3x4x6x7 + x1x4x5x6x7 + x2x3x4x5x6 + x2x3x5x6x7 + x2x4x5x6x7 + x3x4x5x6x7 "
+            "+ x0x1x2x3x4x5 + x0x1x2x3x5x7 + x0x1x2x3x6x7 + x0x1x2x4x5x7 + x0x1x2x4x6x7 + x0x1x3x4x5x6 + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x2x3x4x5x6 + x0x2x3x4x6x7 + x0x2x3x5x6x7 + x0x3x4x5x6x7 + x1x2x3x4x5x7 + x1x2x3x5x6x7 + x1x2x4x5x6x7 + x1x3x4x5x6x7 + x2x3x4x5x6x7 "
+            "+ x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x4x5x6x7 + x0x1x3x4x5x6x7"; //f5
+    
 
-
-
-    /*
-    const string anf_str = "1 + x1 + x2 + x5 + x0x6 + x0x7 + x1x5 + x1x6 + x1x7 + x2x4 + x2x6 + x3x4 + x4x7 + x5x6 + x5x7 + x0x1x2 + x0x1x3"
-                           "    + x0x1x6 + x0x1x7 + x0x2x5 + x0x2x6 + x0x3x5 + x0x3x7 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x7 + x0x6x7 + x1x2x3 + x1x2x5"
-                           "    + x1x2x6 + x1x3x5 + x1x3x6 + x1x4x5 + x1x4x7 + x1x5x7 + x2x3x5 + x2x3x7 + x2x4x5 + x2x5x6 + x2x5x7 + x3x5x6 + x3x5x7"
-                           "    + x4x5x6 + x4x5x7 + x4x6x7 + x5x6x7 + x0x1x2x3 + x0x1x2x5 + x0x1x2x6 + x0x1x2x7 + x0x1x3x4 + x0x1x3x5 + x0x1x3x6"
-                           "    + x0x1x4x6 + x0x1x4x7 + x0x2x3x4 + x0x2x3x5 + x0x2x4x6 + x0x2x4x7 + x0x2x6x7 + x0x3x5x6 + x0x3x5x7 + x0x4x5x6"
-                           "    + x0x4x5x7 + x0x4x6x7 + x0x5x6x7 + x1x2x4x5 + x1x2x4x6 + x1x2x4x7 + x1x2x6x7 + x1x3x4x5 + x1x3x4x6 + x1x3x4x7"
-                           "    + x1x3x5x6 + x1x3x5x7 + x1x3x6x7 + x1x4x5x6 + x1x4x5x7 + x1x4x6x7 + x2x3x4x5 + x2x3x5x7 + x2x3x6x7 + x3x4x5x6"
-                           "    + x3x4x5x7 + x3x5x6x7 + x0x1x2x3x4 + x0x1x2x3x5 + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x5 + x0x1x2x4x6 + x0x1x2x4x7"
-                           "    + x0x1x2x5x6 + x0x1x3x4x6 + x0x1x3x4x7 + x0x1x3x5x6 + x0x1x3x6x7 + x0x1x4x5x7 + x0x2x3x4x7 + x0x2x3x5x7 + x0x2x4x5x7"
-                           "    + x0x2x4x6x7 + x0x2x5x6x7 + x0x3x4x5x6 + x0x3x4x6x7 + x0x4x5x6x7 + x1x2x3x4x6 + x1x2x4x5x6 + x1x3x4x5x6 + x1x3x4x5x7"
-                           "    + x2x3x4x5x7 + x2x3x4x6x7 + x2x3x5x6x7 + x2x4x5x6x7 + x0x1x2x3x4x6 + x0x1x2x3x5x6 + x0x1x2x4x5x6 + x0x1x2x4x5x7"
-                           "    + x0x1x2x4x6x7 + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x4x5x6x7 + x0x2x3x4x5x7 + x0x2x3x4x6x7 + x0x2x4x5x6x7"
-                           "    + x1x2x3x4x5x7 + x1x2x3x5x6x7 + x1x2x4x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7"
-                           "    + x0x1x2x4x5x6x7"; // ARIA_S2_f1
-
-
-    /*
-    const string anf_str = "1 + x2 + x3 + x5 + x6 + x7 + x0x4 + x0x5 + x0x7 + x1x2 + x1x4 + x1x5 + x1x6 + x1x7 + x2x3 + x2x4 + x2x5 + x2x6"
-                           "    + x2x7 + x3x4 + x4x5 + x4x6 + x5x6 + x5x7 + x0x1x2 + x0x1x3 + x0x1x6 + x0x2x3 + x0x2x4 + x0x2x6 + x0x2x7 + x0x3x4"
-                           "    + x0x3x5 + x0x3x6 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x6 + x0x6x7 + x1x2x4 + x1x2x5 + x1x3x7 + x1x4x6 + x1x4x7 + x1x5x6"
-                           "    + x2x3x4 + x2x3x6 + x2x3x7 + x2x4x5 + x2x4x7 + x2x5x6 + x2x6x7 + x3x4x5 + x3x4x7 + x3x5x7 + x4x5x7 + x0x1x2x3"
-                           "    + x0x1x2x6 + x0x1x2x7 + x0x1x3x4 + x0x1x5x6 + x0x1x5x7 + x0x2x3x7 + x0x2x4x6 + x0x2x4x7 + x0x2x5x6 + x0x2x5x7"
-                           "    + x0x2x6x7 + x0x3x4x6 + x0x3x4x7 + x0x3x5x7 + x0x3x6x7 + x0x4x5x6 + x0x4x5x7 + x0x4x6x7 + x1x2x3x5 + x1x2x3x6"
-                           "    + x1x2x3x7 + x1x2x4x5 + x1x2x4x7 + x1x2x5x6 + x1x2x6x7 + x1x3x4x6 + x1x3x4x7 + x1x3x5x6 + x1x3x5x7 + x1x4x5x6"
-                           "    + x1x4x5x7 + x1x4x6x7 + x2x3x4x6 + x2x3x5x6 + x2x3x5x7 + x2x4x5x6 + x2x4x6x7 + x2x5x6x7 + x3x4x5x6 + x3x4x5x7"
-                           "    + x3x4x6x7 + x3x5x6x7 + x4x5x6x7 + x0x1x2x3x5 + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x7 + x0x1x2x6x7 + x0x1x3x4x6"
-                           "    + x0x1x3x5x7 + x0x2x3x4x5 + x0x2x3x5x6 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x6 + x0x2x4x5x7 + x0x3x4x5x7 + x0x4x5x6x7"
-                           "    + x1x2x3x4x7 + x1x2x3x5x6 + x1x2x4x5x6 + x1x2x5x6x7 + x1x3x4x5x7 + x1x3x4x6x7 + x1x3x5x6x7 + x2x3x4x5x7 + x2x3x4x6x7"
-                           "    + x2x4x5x6x7 + x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x4x6 + x0x1x2x3x4x7 + x0x1x2x3x5x6 + x0x1x2x4x5x6 + x0x1x2x5x6x7"
-                           "    + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x4x5x6x7 + x0x2x3x4x6x7 + x0x2x4x5x6x7 + x0x3x4x5x6x7 + x1x2x3x4x5x6"
-                           "    + x1x2x3x4x5x7 + x1x2x3x5x6x7 + x1x2x4x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7"; // ARIA_S2_f2
-
-
-
-    /*
-    const string anf_str = "x2 + x3 + x5 + x6 + x0x1 + x0x5 + x0x6 + x1x3 + x1x5 + x1x7 + x2x4 + x2x5 + x2x7 + x3x5 + x4x6 + x5x7 + x0x1x2"
-                           "    + x0x1x3 + x0x1x5 + x0x2x4 + x0x2x7 + x0x3x7 + x0x4x5 + x0x5x7 + x0x6x7 + x1x2x5 + x1x2x7 + x1x3x6 + x1x4x5 + x1x5x6"
-                           "    + x2x3x6 + x2x4x6 + x2x5x6 + x2x6x7 + x3x4x6 + x3x5x6 + x3x5x7 + x4x5x6 + x5x6x7 + x0x1x2x4 + x0x1x2x7 + x0x1x3x4"
-                           "    + x0x1x3x5 + x0x1x3x6 + x0x1x3x7 + x0x1x4x7 + x0x1x6x7 + x0x2x3x4 + x0x2x3x7 + x0x2x4x7 + x0x2x5x7 + x0x3x4x5"
-                           "    + x0x3x4x6 + x1x2x4x7 + x1x2x5x6 + x1x2x5x7 + x1x2x6x7 + x1x3x4x5 + x1x3x4x6 + x1x3x5x6 + x1x4x5x6 + x1x4x5x7"
-                           "    + x2x3x5x6 + x2x3x6x7 + x2x4x5x6 + x2x4x5x7 + x2x4x6x7 + x2x5x6x7 + x3x4x5x6 + x4x5x6x7 + x0x1x2x3x4 + x0x1x2x3x5"
-                           "    + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x5 + x0x1x2x4x6 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x2x6x7 + x0x1x3x4x6 + x0x1x3x4x7"
-                           "    + x0x1x3x5x7 + x0x1x3x6x7 + x0x1x5x6x7 + x0x2x3x5x6 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x6 + x0x2x4x5x7 + x0x2x4x6x7"
-                           "    + x0x2x5x6x7 + x0x3x4x5x6 + x0x3x4x6x7 + x0x3x5x6x7 + x0x4x5x6x7 + x1x2x3x4x6 + x1x2x3x4x7 + x1x2x3x5x6 + x1x2x3x5x7"
-                           "    + x1x2x3x6x7 + x1x2x4x5x7 + x1x2x4x6x7 + x1x3x4x5x6 + x1x3x4x5x7 + x1x4x5x6x7 + x2x3x5x6x7 + x2x4x5x6x7 + x3x4x5x6x7"
-                           "    + x0x1x2x3x4x6 + x0x1x2x3x4x7 + x0x1x2x3x5x6 + x0x1x2x3x5x7 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x5x6x7"
-                           "    + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x2x3x4x5x6 + x0x2x4x5x6x7 + x1x2x3x4x5x7 + x1x2x4x5x6x7"
-                           "    + x1x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x2x3x4x5x6x7"; // ARIA_S2_f3
+    const string anf_str =
+            "1 + x0 + x1 + x4 + x7 + x0x4 + x0x5 + x0x6 + x0x7 + x1x3 + x1x5 + x2x3 + x3x6 + x3x7 + x4x5 + x4x6 + x4x7 + x5x7 + x6x7 "
+            "+ x0x1x2 + x0x1x4 + x0x1x5 + x0x1x7 + x0x2x4 + x0x2x5 + x0x2x7 + x0x3x4 + x0x3x6 + x0x3x7 + x0x4x6 + x0x5x7 "
+            "+ x1x2x4 + x1x2x6 + x1x3x4 + x1x3x7 + x1x4x5 + x1x4x6 + x1x6x7 + x2x3x7 + x2x4x5 + x2x4x6 "
+            "+ x3x4x5 + x3x4x6 + x3x4x7 + x3x5x6 + x3x6x7 + x4x5x6 + x4x5x7 + x4x6x7 "
+            "+ x0x1x3x4 + x0x1x3x5 + x0x1x3x6 + x0x1x3x7 + x0x1x5x6 "
+            "+ x0x2x3x4 + x0x2x3x5 + x0x2x3x6 + x0x2x3x7 + x0x2x4x5 + x0x2x4x6 + x0x2x5x6 "
+            "+ x0x3x4x5 + x0x3x4x6 + x0x3x5x6 + x0x3x6x7 "
+            "+ x1x2x3x4 + x1x2x3x7 + x1x2x4x6 + x1x2x5x6 + x1x2x5x7 + x1x2x6x7 "
+            "+ x1x3x4x7 + x1x4x5x7 + x1x4x6x7 + x1x5x6x7 "
+            "+ x2x3x4x5 + x2x3x4x6 + x2x3x4x7 + x2x3x5x7 + x2x3x6x7 + x2x4x5x6 + x3x4x6x7 "
+            "+ x0x1x2x3x5 + x0x1x2x3x7 + x0x1x2x4x7 + x0x1x2x5x7 + x0x1x2x6x7 "
+            "+ x0x1x3x4x5 + x0x1x4x5x7 + x0x1x4x6x7 + x0x1x5x6x7 "
+            "+ x0x2x3x4x5 + x0x2x3x4x6 + x0x2x3x4x7 + x0x2x4x5x7 + x0x2x4x6x7 + x0x3x4x5x7 + x0x3x4x6x7 + x0x3x5x6x7 + x0x4x5x6x7 "
+            "+ x1x2x3x4x6 + x1x2x3x5x6 + x1x2x3x5x7 + x1x2x3x6x7 + x1x2x4x5x6 + x1x2x4x6x7 + x1x3x4x5x6 + x1x3x4x6x7 + x1x3x5x6x7 + x1x4x5x6x7 "
+            "+ x2x3x4x5x7 + x2x3x5x6x7 + x3x4x5x6x7 "
+            "+ x0x1x2x3x4x6 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x5x6x7 + x0x1x3x4x5x6 + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7 "
+            "+ x0x2x3x4x5x7 + x0x2x3x5x6x7 + x0x3x4x5x6x7 "
+            "+ x1x2x3x4x5x6 + x1x2x3x4x5x7 + x1x2x3x4x6x7 + x1x2x4x5x6x7 + x1x3x4x5x6x7 "
+            "+ x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7 + x0x1x3x4x5x6x7"; //f6
 
 
-
-    /*
-    const string anf_str = "x0 + x1 + x2 + x3 + x7 + x0x3 + x0x5 + x1x2 + x1x3 + x1x6 + x1x7 + x2x5 + x2x6 + x3x5 + x3x6 + x3x7 + x4x5 + x4x6"
-                           "    + x5x6 + x5x7 + x0x1x3 + x0x1x6 + x0x2x4 + x0x2x5 + x0x3x5 + x0x3x6 + x0x3x7 + x0x4x5 + x0x5x6 + x0x5x7 + x0x6x7"
-                           "    + x1x2x3 + x1x2x4 + x1x2x7 + x1x3x4 + x1x3x5 + x1x3x7 + x1x4x5 + x1x5x7 + x1x6x7 + x2x3x4 + x2x4x5 + x2x4x7 + x2x5x6"
-                           "    + x3x4x5 + x3x4x7 + x3x5x6 + x3x5x7 + x3x6x7 + x0x1x3x5 + x0x1x3x7 + x0x1x5x6 + x0x1x6x7 + x0x2x3x6 + x0x2x3x7"
-                           "    + x0x2x4x7 + x0x2x5x6 + x0x2x5x7 + x0x2x6x7 + x0x3x4x6 + x0x3x4x7 + x0x4x5x6 + x0x4x6x7 + x1x2x3x4 + x1x2x3x5"
-                           "    + x1x2x4x6 + x1x2x4x7 + x1x2x5x6 + x1x2x5x7 + x1x2x6x7 + x1x3x4x5 + x1x4x5x6 + x2x3x4x5 + x2x3x5x6 + x2x3x5x7"
-                           "    + x3x4x5x6 + x3x4x6x7 + x3x5x6x7 + x4x5x6x7 + x0x1x2x3x4 + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x5 + x0x1x2x4x6"
-                           "    + x0x1x2x6x7 + x0x1x3x4x5 + x0x1x3x4x6 + x0x1x3x5x7 + x0x1x3x6x7 + x0x1x4x5x6 + x0x1x4x5x7 + x0x1x4x6x7 + x0x2x3x6x7"
-                           "    + x0x2x4x5x6 + x0x2x4x5x7 + x0x2x4x6x7 + x0x2x5x6x7 + x0x3x4x5x7 + x0x3x4x6x7 + x0x4x5x6x7 + x1x2x3x4x6 + x1x2x3x4x7"
-                           "    + x1x2x3x6x7 + x1x2x4x5x6 + x1x2x4x5x7 + x1x2x4x6x7 + x1x3x4x5x6 + x1x3x4x6x7 + x2x3x4x5x6 + x2x3x4x5x7 + x2x3x4x6x7"
-                           "    + x2x3x5x6x7 + x2x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x4x7 + x0x1x2x3x6x7 + x0x1x2x4x5x7 + x0x1x2x5x6x7 + x0x1x3x4x5x6"
-                           "    + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x1x4x5x6x7 + x0x2x3x4x5x7 + x0x2x3x5x6x7 + x0x3x4x5x6x7"
-                           "    + x1x2x3x4x5x7 + x1x2x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x1x3x4x5x6x7"
-                           "    + x0x2x3x4x5x6x7"; // ARIA_S2_f4
+    const string anf_str =
+            "1 + x3 + x4 + x5 + x7 + x0x1 + x0x2 + x0x5 + x1x2 + x1x3 + x1x5 + x1x6 + x1x7 + x2x7 + x3x5 + x3x6 + x3x7 + x4x5 + x4x6 + x5x6 + x6x7 "
+            "+ x0x1x2 + x0x1x4 + x0x1x5 + x0x2x4 + x0x2x5 + x0x3x4 + x0x3x5 + x0x3x7 + x0x4x5 + x0x4x6 + x0x5x7 + x0x6x7 "
+            "+ x1x2x3 + x1x2x5 + x1x2x6 + x1x3x6 + x1x3x7 + x1x4x7 + x1x5x6 + x1x5x7 + x1x6x7 + x2x4x5 + x2x4x7 + x2x5x7 + x3x4x6 + x3x4x7 + x3x5x6 + x3x5x7 + x3x6x7 + x4x5x6 "
+            "+ x0x1x2x4 + x0x1x2x6 + x0x1x3x7 + x0x1x4x5 + x0x1x4x6 + x0x1x5x6 + x0x2x3x5 + x0x2x3x6 + x0x2x3x7 + x0x2x4x5 + x0x2x5x7 + x0x3x5x6 + x0x3x5x7 + x0x3x6x7 + x0x4x5x6 + x0x4x5x7 + x0x5x6x7 "
+            "+ x1x2x3x5 + x1x2x3x6 + x1x2x3x7 + x1x2x4x7 + x1x2x5x7 + x1x3x4x6 + x1x3x4x7 + x1x3x5x6 + x1x4x5x6 + x1x5x6x7 "
+            "+ x2x3x5x7 + x2x3x6x7 + x2x4x5x6 + x2x4x5x7 + x2x5x6x7 + x4x5x6x7 "
+            "+ x0x1x2x3x5 + x0x1x2x4x7 + x0x1x2x5x6 + x0x1x2x6x7 + x0x1x3x4x7 + x0x1x3x5x6 + x0x1x3x5x7 + x0x1x4x6x7 + x0x1x5x6x7 "
+            "+ x0x2x3x4x5 + x0x2x3x4x6 + x0x2x3x4x7 + x0x2x3x5x7 + x0x2x4x5x6 + x0x2x4x6x7 + x0x2x5x6x7 + x0x3x5x6x7 + x0x4x5x6x7 "
+            "+ x1x2x3x4x5 + x1x2x3x4x7 + x1x2x3x5x6 + x1x2x3x6x7 + x1x2x4x5x6 + x1x2x4x6x7 + x1x3x4x5x7 + x1x3x4x6x7 + x1x4x5x6x7 "
+            "+ x2x3x4x5x7 + x2x3x5x6x7 + x3x4x5x6x7 "
+            "+ x0x1x2x3x4x5 + x0x1x2x3x4x6 + x0x1x2x3x5x6 + x0x1x2x3x6x7 + x0x1x2x4x5x7 + x0x1x2x5x6x7 + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x4x5x6x7 "
+            "+ x0x2x3x4x5x7 + x0x2x3x5x6x7 + x0x2x4x5x6x7 + x0x3x4x5x6x7 "
+            "+ x1x2x3x4x5x7 + x1x3x4x5x6x7 "
+            "+ x0x1x2x3x4x5x7 + x0x1x2x3x5x6x7 + x0x1x3x4x5x6x7"; //f7
+***************************************************************************
 
 
 
-    /*
-    const string anf_str = "x0 + x1 + x2 + x3 + x5 + x6 + x7 + x0x2 + x0x4 + x0x6 + x1x2 + x1x5 + x1x6 + x1x7 + x2x4 + x2x5 + x2x7 + x3x5 + x3x6"
-                           "    + x4x6 + x6x7 + x0x1x2 + x0x1x5 + x0x1x6 + x0x1x7 + x0x2x3 + x0x2x5 + x0x3x4 + x0x3x7 + x0x4x5 + x0x4x6 + x0x4x7"
-                           "    + x0x5x6 + x0x5x7 + x1x2x3 + x1x2x5 + x1x2x7 + x1x3x4 + x1x3x6 + x1x4x5 + x1x4x7 + x2x3x4 + x2x3x6 + x2x4x7 + x2x5x7"
-                           "    + x2x6x7 + x3x4x5 + x3x4x6 + x3x4x7 + x3x5x7 + x3x6x7 + x4x5x6 + x4x5x7 + x4x6x7 + x5x6x7 + x0x1x2x5 + x0x1x2x7"
-                           "    + x0x1x3x4 + x0x1x3x6 + x0x1x4x5 + x0x1x5x6 + x0x2x3x4 + x0x2x3x5 + x0x2x3x6 + x0x2x4x6 + x0x2x5x7 + x0x3x4x6"
-                           "    + x0x4x5x7 + x0x4x6x7 + x1x2x3x4 + x1x2x3x5 + x1x2x3x6 + x1x2x3x7 + x1x2x4x5 + x1x2x4x7 + x1x2x5x6 + x1x2x6x7"
-                           "    + x1x3x4x6 + x1x3x4x7 + x1x3x5x6 + x1x4x5x6 + x1x4x5x7 + x1x5x6x7 + x2x3x4x5 + x2x3x5x6 + x2x4x6x7 + x3x4x5x6"
-                           "    + x4x5x6x7 + x0x1x2x3x4 + x0x1x2x3x6 + x0x1x2x6x7 + x0x1x3x4x5 + x0x1x3x4x6 + x0x1x3x5x7 + x0x1x3x6x7 + x0x1x5x6x7"
-                           "    + x0x2x3x4x5 + x0x2x3x4x7 + x0x2x3x5x6 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x6 + x0x2x4x5x7 + x0x2x5x6x7 + x0x3x4x5x7"
-                           "    + x0x4x5x6x7 + x1x2x3x4x7 + x1x2x3x5x7 + x1x2x3x6x7 + x1x3x4x5x6 + x1x3x4x5x7 + x1x3x4x6x7 + x1x3x5x6x7 + x2x3x4x5x6"
-                           "    + x2x3x4x5x7 + x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x4x7 + x0x1x2x3x6x7 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x5x6x7"
-                           "    + x0x1x3x4x5x7 + x0x2x3x4x5x6 + x0x2x3x5x6x7 + x1x2x3x4x5x7 + x1x2x3x4x6x7 + x1x2x3x5x6x7 + x0x1x2x3x4x5x7"
-                           "    + x0x1x2x3x4x6x7 + x0x1x3x4x5x6x7 + x0x2x3x4x5x6x7"; // ARIA_S2_f5
 
+*********************************AES_inv_Sbox******************************
 
-
-    /*
-    const string anf_str = "1 + x0 + x1 + x2 + x5 + x6 + x0x1 + x0x2 + x0x5 + x0x6 + x1x5 + x1x6 + x1x7 + x2x4 + x2x5 + x2x6 + x2x7 + x3x4"
-                           "    + x4x6 + x4x7 + x5x7 + x0x1x3 + x0x1x6 + x0x2x3 + x0x2x5 + x0x2x6 + x0x2x7 + x0x3x5 + x0x3x6 + x0x4x6 + x0x5x7"
-                           "    + x1x2x5 + x1x2x6 + x1x4x6 + x1x5x7 + x1x6x7 + x2x3x4 + x2x3x5 + x2x3x6 + x2x4x7 + x3x4x6 + x3x6x7 + x4x5x6 + x4x6x7"
-                           "    + x0x1x2x4 + x0x1x3x5 + x0x1x3x6 + x0x1x4x7 + x0x1x6x7 + x0x2x3x5 + x0x2x3x6 + x0x2x3x7 + x0x2x4x6 + x0x2x4x7"
-                           "    + x0x2x5x7 + x0x2x6x7 + x0x3x4x7 + x0x3x5x6 + x0x3x6x7 + x0x4x6x7 + x1x2x3x4 + x1x2x4x5 + x1x2x4x6 + x1x2x4x7"
-                           "    + x1x2x5x6 + x1x2x5x7 + x1x3x5x6 + x1x3x6x7 + x1x4x5x7 + x2x3x4x5 + x2x3x5x7 + x2x4x6x7 + x3x4x5x6 + x3x4x5x7"
-                           "    + x3x4x6x7 + x0x1x2x3x4 + x0x1x2x3x6 + x0x1x2x4x6 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x3x4x7 + x0x1x3x5x7 + x0x1x4x5x7"
-                           "    + x0x2x3x4x7 + x0x2x3x5x6 + x0x2x4x5x6 + x0x2x5x6x7 + x0x3x4x5x7 + x0x3x4x6x7 + x0x3x5x6x7 + x1x2x3x4x5 + x1x2x3x5x7"
-                           "    + x1x2x4x5x7 + x1x2x4x6x7 + x1x3x4x5x7 + x1x3x5x6x7 + x0x1x2x3x4x6 + x0x1x2x3x4x7 + x0x1x2x4x5x7 + x0x1x2x5x6x7"
-                           "    + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x2x3x4x5x6 + x0x2x3x5x6x7 + x1x2x3x4x5x7 + x1x2x3x5x6x7"
-                           "    + x1x3x4x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7 + x0x2x3x4x5x6x7"; // ARIA_S2_f6
-
-
-    /*
-    const string anf_str = "x1 + x2 + x0x1 + x0x4 + x1x2 + x1x3 + x1x5 + x1x6 + x2x3 + x2x4 + x2x7 + x4x7 + x0x1x3 + x0x1x5 + x0x2x3 + x0x2x4"
-                           "    + x0x2x7 + x0x3x5 + x0x4x5 + x0x4x7 + x0x5x7 + x0x6x7 + x1x2x4 + x1x2x7 + x1x3x4 + x1x3x5 + x1x3x6 + x1x4x5 + x1x5x7"
-                           "    + x1x6x7 + x2x3x4 + x2x4x5 + x2x6x7 + x3x4x5 + x3x5x7 + x3x6x7 + x4x5x6 + x4x6x7 + x0x1x2x3 + x0x1x2x4 + x0x1x2x5"
-                           "    + x0x1x3x4 + x0x1x3x7 + x0x1x4x5 + x0x1x4x7 + x0x2x3x4 + x0x2x3x6 + x0x2x4x6 + x0x2x4x7 + x0x2x5x6 + x0x2x5x7"
-                           "    + x0x3x4x7 + x0x3x6x7 + x1x2x3x5 + x1x2x3x6 + x1x2x4x6 + x1x2x5x6 + x1x2x6x7 + x1x3x4x6 + x1x3x4x7 + x1x3x5x7"
-                           "    + x1x4x5x6 + x2x3x4x5 + x2x3x4x6 + x2x3x4x7 + x2x3x5x6 + x2x4x5x6 + x3x4x5x6 + x3x5x6x7 + x0x1x2x3x4 + x0x1x2x3x6"
-                           "    + x0x1x2x3x7 + x0x1x2x4x6 + x0x1x2x4x7 + x0x1x2x5x7 + x0x1x2x6x7 + x0x1x3x4x5 + x0x1x3x5x7 + x0x1x4x5x7 + x0x1x5x6x7"
-                           "    + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x6 + x0x2x4x5x7 + x1x2x3x4x6 + x1x2x3x5x6 + x1x2x3x5x7 + x1x2x3x6x7 + x1x2x4x5x6"
-                           "    + x1x3x4x5x6 + x1x4x5x6x7 + x2x3x4x5x7 + x2x3x4x6x7 + x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x4x6 + x0x1x2x3x5x6"
-                           "    + x0x1x2x3x5x7 + x0x1x2x3x6x7 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x4x6x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7"
-                           "    + x0x2x3x4x5x7 + x0x2x3x4x6x7 + x0x2x3x5x6x7 + x0x2x4x5x6x7 + x1x2x3x4x5x6 + x1x2x3x4x5x7 + x1x2x3x4x6x7"
-                           "    + x1x2x4x5x6x7 + x0x1x2x4x5x6x7"; // ARIA_S2_f7
-    */
-
-    //******************************************************************************************
-
-    /*
     const string anf_str = "x4 + x0x3 + x0x7 + x1x2 + x1x5 + x1x6 + x1x7 + x2x5 + x2x6 + x3x4 + x3x5 + x3x7 + x4x7 + x5x6 + x6x7 + x0x1x3"
                            "    + x0x1x7 + x0x2x4 + x0x2x5 + x0x2x6 + x0x3x5 + x0x3x6 + x0x5x7 + x1x2x4 + x1x2x7 + x1x3x5 + x1x3x6 + x1x6x7 + x2x3x7"
                            "    + x2x4x6 + x2x5x6 + x3x4x7 + x3x5x6 + x3x6x7 + x4x5x6 + x4x5x7 + x0x1x2x3 + x0x1x2x4 + x0x1x2x5 + x0x1x3x6"
@@ -452,7 +306,6 @@ int main(){
                            "    + x0x2x3x4x5x6 + x0x2x3x4x6x7 + x0x2x3x5x6x7 + x1x2x3x4x5x6 + x1x2x3x4x6x7 + x1x2x4x5x6x7 + x0x1x2x3x5x6x7"; // AES_invSbox_f0
 
 
-    /*
     const string anf_str = "1 + x0 + x4 + x5 + x7 + x0x2 + x0x4 + x0x7 + x1x2 + x1x4 + x1x7 + x2x3 + x2x4 + x2x6 + x2x7 + x3x6 + x3x7 + x4x5"
                            "    + x5x7 + x6x7 + x0x1x3 + x0x1x4 + x0x1x5 + x0x2x3 + x0x2x4 + x0x2x7 + x0x3x4 + x0x3x7 + x0x4x5 + x0x4x6 + x0x4x7"
                            "    + x0x5x7 + x1x2x5 + x1x2x6 + x1x3x5 + x1x3x6 + x1x3x7 + x1x4x7 + x1x6x7 + x2x3x4 + x2x3x5 + x2x3x7 + x2x5x6 + x2x6x7"
@@ -468,8 +321,6 @@ int main(){
                            "    + x0x3x4x5x6x7 + x1x2x3x4x5x7 + x1x2x3x5x6x7 + x0x1x2x4x5x6x7"; // AES_invSbox_f1
 
 
-
-    /*
     const string anf_str = "x0 + x1 + x3 + x4 + x5 + x6 + x0x2 + x0x7 + x1x2 + x1x3 + x1x6 + x2x3 + x2x6 + x2x7 + x3x4 + x3x6 + x4x6 + x4x7"
                            "    + x5x6 + x6x7 + x0x1x2 + x0x1x3 + x0x1x5 + x0x1x6 + x0x1x7 + x0x2x3 + x0x2x5 + x0x2x7 + x0x3x4 + x0x3x6 + x0x4x7"
                            "    + x1x2x3 + x1x2x5 + x1x2x7 + x1x3x4 + x1x3x5 + x1x4x5 + x1x4x6 + x1x5x6 + x1x5x7 + x1x6x7 + x2x3x4 + x2x4x7 + x2x5x6"
@@ -484,7 +335,6 @@ int main(){
                            "    + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x4x5x6x7"; // AES_invSbox_f2
 
 
-    /*
     const string anf_str = "1 + x6 + x7 + x0x2 + x0x5 + x0x6 + x0x7 + x1x3 + x1x5 + x1x6 + x1x7 + x2x3 + x2x4 + x2x5 + x2x6 + x2x7 + x3x6 + x4x5"
                            "    + x5x7 + x0x1x5 + x0x1x7 + x0x2x4 + x0x2x5 + x0x3x4 + x0x3x6 + x0x3x7 + x0x4x6 + x0x5x6 + x0x5x7 + x0x6x7 + x1x2x4"
                            "    + x1x2x5 + x1x2x7 + x1x3x4 + x1x3x6 + x1x3x7 + x1x4x7 + x1x5x6 + x1x5x7 + x1x6x7 + x2x3x5 + x2x3x6 + x2x4x6 + x2x5x7"
@@ -501,7 +351,6 @@ int main(){
                            "    + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x1x3x4x5x6x7"; // AES_invSbox_f3
 
 
-    /*
     const string anf_str = "x0 + x3 + x4 + x6 + x7 + x0x2 + x1x4 + x1x6 + x2x6 + x3x6 + x4x5 + x5x6 + x5x7 + x0x1x4 + x0x1x7 + x0x2x5 + x0x2x6"
                            "    + x0x2x7 + x0x3x4 + x0x4x5 + x0x4x7 + x0x5x7 + x0x6x7 + x1x2x3 + x1x2x5 + x1x3x6 + x1x4x6 + x1x4x7 + x1x5x7 + x1x6x7"
                            "    + x2x3x7 + x2x4x6 + x2x4x7 + x2x5x6 + x2x6x7 + x3x4x5 + x3x5x6 + x5x6x7 + x0x1x2x5 + x0x1x2x6 + x0x1x2x7 + x0x1x3x4"
@@ -515,8 +364,6 @@ int main(){
                            "    + x0x1x2x5x6x7 + x0x1x3x4x5x7 + x0x1x4x5x6x7 + x0x2x4x5x6x7 + x1x2x3x4x5x6 + x1x2x3x4x6x7 + x0x1x2x3x4x5x6"
                            "    + x0x1x2x3x4x5x7 + x0x1x3x4x5x6x7 + x0x2x3x4x5x6x7"; // AES_invSbox_f4
 
-
-    /*
     const string anf_str = "x2 + x3 + x4 + x0x1 + x0x5 + x1x2 + x1x5 + x1x6 + x2x4 + x2x7 + x3x4 + x3x5 + x3x6 + x3x7 + x4x5 + x4x6 + x4x7"
                            "    + x5x6 + x5x7 + x6x7 + x0x1x2 + x0x1x5 + x0x2x3 + x0x2x5 + x0x2x6 + x0x3x4 + x0x3x6 + x0x3x7 + x0x4x5 + x0x4x6"
                            "    + x0x5x6 + x0x5x7 + x0x6x7 + x1x2x3 + x1x2x4 + x1x2x6 + x1x2x7 + x1x3x6 + x1x4x7 + x1x5x6 + x1x6x7 + x2x3x5 + x2x3x6"
@@ -533,7 +380,6 @@ int main(){
                            "    + x2x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7"; // AES_invSbox_f5
 
 
-    /*
     const string anf_str = "1 + x2 + x3 + x5 + x7 + x0x2 + x0x3 + x0x5 + x0x6 + x1x4 + x1x5 + x2x3 + x2x4 + x0x1x2 + x0x1x3 + x0x2x4 + x0x2x5"
                            "    + x0x2x6 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x7 + x0x6x7 + x1x2x4 + x1x2x6 + x1x2x7 + x1x3x7 + x1x4x7 + x1x5x6 + x2x3x5"
                            "    + x2x4x5 + x2x4x6 + x2x5x7 + x3x4x5 + x3x4x6 + x3x5x7 + x4x5x6 + x4x6x7 + x5x6x7 + x0x1x2x3 + x0x1x2x5 + x0x1x3x4"
@@ -550,7 +396,6 @@ int main(){
                            "    + x1x2x3x4x5x6x7"; // AES_invSbox_f6
 
 
-    /*
     const string anf_str = "x4 + x7 + x0x1 + x0x2 + x0x5 + x0x6 + x1x4 + x1x7 + x2x4 + x3x4 + x3x5 + x3x6 + x5x6 + x5x7 + x0x1x3 + x0x2x3"
                            "    + x0x2x5 + x0x2x7 + x0x3x5 + x0x3x7 + x0x4x6 + x0x5x6 + x0x6x7 + x1x2x6 + x1x3x4 + x1x3x6 + x1x4x5 + x1x5x6 + x1x5x7"
                            "    + x2x3x4 + x2x3x5 + x2x3x7 + x2x4x6 + x2x4x7 + x2x6x7 + x3x4x5 + x3x4x7 + x4x5x6 + x5x6x7 + x0x1x2x3 + x0x1x2x4"
@@ -563,9 +408,137 @@ int main(){
                            "    + x2x4x5x6x7 + x0x1x2x3x5x7 + x0x1x2x3x6x7 + x0x1x2x4x5x7 + x0x1x2x4x6x7 + x0x1x2x5x6x7 + x0x1x3x4x5x6"
                            "    + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x1x4x5x6x7 + x0x2x3x4x5x6 + x0x2x3x4x6x7 + x0x2x4x5x6x7 + x1x2x3x4x5x6"
                            "    + x1x2x3x4x6x7 + x1x2x4x5x6x7 + x0x1x2x3x4x6x7"; // AES_invSbox_f7
+***************************************************************************
 
 
-    /*
+****************************ARIA S2 Sbox***********************************
+
+    const string anf_str = "1 + x1 + x2 + x3 + x4 + x6 + x7 + x0x3 + x0x6 + x1x3 + x1x5 + x1x7 + x2x3 + x2x6 + x2x7 + x3x5 + x3x6 + x4x6 + x4x7"
+                           "    + x5x7 + x0x1x4 + x0x1x5 + x0x1x7 + x0x2x4 + x0x2x5 + x0x2x7 + x0x3x5 + x0x3x6 + x0x3x7 + x0x6x7 + x1x2x3 + x1x2x6"
+                           "    + x1x2x7 + x1x3x4 + x1x3x6 + x1x4x5 + x1x5x6 + x1x5x7 + x1x6x7 + x2x3x4 + x2x3x6 + x2x4x5 + x2x4x7 + x2x5x6 + x3x4x5"
+                           "    + x3x4x7 + x4x5x6 + x4x5x7 + x5x6x7 + x0x1x2x3 + x0x1x2x6 + x0x1x2x7 + x0x1x3x5 + x0x1x3x6 + x0x1x3x7 + x0x1x4x5"
+                           "    + x0x1x4x6 + x0x1x4x7 + x0x1x5x6 + x0x1x6x7 + x0x2x4x5 + x0x2x6x7 + x0x3x5x6 + x0x3x5x7 + x0x5x6x7 + x1x2x3x6"
+                           "    + x1x2x4x5 + x1x2x4x7 + x1x2x5x6 + x1x2x6x7 + x1x3x4x5 + x1x3x4x6 + x1x3x4x7 + x1x3x5x7 + x1x4x5x7 + x2x3x4x5"
+                           "    + x2x3x4x6 + x2x3x4x7 + x2x3x5x6 + x2x3x6x7 + x2x4x5x7 + x2x4x6x7 + x2x5x6x7 + x3x4x5x6 + x3x4x6x7 + x4x5x6x7"
+                           "    + x0x1x2x3x4 + x0x1x2x3x5 + x0x1x2x3x6 + x0x1x2x4x5 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x3x4x5 + x0x1x3x4x7 + x0x1x3x5x6"
+                           "    + x0x1x4x5x6 + x0x1x5x6x7 + x0x2x3x4x6 + x0x2x3x5x6 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x7 + x0x2x5x6x7 + x0x3x4x6x7"
+                           "    + x0x3x5x6x7 + x0x4x5x6x7 + x1x2x3x4x5 + x1x2x3x4x7 + x1x2x4x5x6 + x1x2x4x5x7 + x1x3x4x5x6 + x1x3x4x6x7 + x1x3x5x6x7"
+                           "    + x2x4x5x6x7 + x3x4x5x6x7 + x0x1x2x3x5x7 + x0x1x2x4x6x7 + x0x1x2x5x6x7 + x0x1x3x4x6x7 + x0x2x3x4x5x6 + x0x2x3x4x5x7"
+                           "    + x0x2x3x4x6x7 + x1x2x3x4x5x6 + x1x2x3x5x6x7 + x1x3x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x4x5x6x7"
+                           "    + x0x1x3x4x5x6x7"; //ARIA_S2_f0
+
+
+    const string anf_str = "1 + x1 + x2 + x5 + x0x6 + x0x7 + x1x5 + x1x6 + x1x7 + x2x4 + x2x6 + x3x4 + x4x7 + x5x6 + x5x7 + x0x1x2 + x0x1x3"
+                           "    + x0x1x6 + x0x1x7 + x0x2x5 + x0x2x6 + x0x3x5 + x0x3x7 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x7 + x0x6x7 + x1x2x3 + x1x2x5"
+                           "    + x1x2x6 + x1x3x5 + x1x3x6 + x1x4x5 + x1x4x7 + x1x5x7 + x2x3x5 + x2x3x7 + x2x4x5 + x2x5x6 + x2x5x7 + x3x5x6 + x3x5x7"
+                           "    + x4x5x6 + x4x5x7 + x4x6x7 + x5x6x7 + x0x1x2x3 + x0x1x2x5 + x0x1x2x6 + x0x1x2x7 + x0x1x3x4 + x0x1x3x5 + x0x1x3x6"
+                           "    + x0x1x4x6 + x0x1x4x7 + x0x2x3x4 + x0x2x3x5 + x0x2x4x6 + x0x2x4x7 + x0x2x6x7 + x0x3x5x6 + x0x3x5x7 + x0x4x5x6"
+                           "    + x0x4x5x7 + x0x4x6x7 + x0x5x6x7 + x1x2x4x5 + x1x2x4x6 + x1x2x4x7 + x1x2x6x7 + x1x3x4x5 + x1x3x4x6 + x1x3x4x7"
+                           "    + x1x3x5x6 + x1x3x5x7 + x1x3x6x7 + x1x4x5x6 + x1x4x5x7 + x1x4x6x7 + x2x3x4x5 + x2x3x5x7 + x2x3x6x7 + x3x4x5x6"
+                           "    + x3x4x5x7 + x3x5x6x7 + x0x1x2x3x4 + x0x1x2x3x5 + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x5 + x0x1x2x4x6 + x0x1x2x4x7"
+                           "    + x0x1x2x5x6 + x0x1x3x4x6 + x0x1x3x4x7 + x0x1x3x5x6 + x0x1x3x6x7 + x0x1x4x5x7 + x0x2x3x4x7 + x0x2x3x5x7 + x0x2x4x5x7"
+                           "    + x0x2x4x6x7 + x0x2x5x6x7 + x0x3x4x5x6 + x0x3x4x6x7 + x0x4x5x6x7 + x1x2x3x4x6 + x1x2x4x5x6 + x1x3x4x5x6 + x1x3x4x5x7"
+                           "    + x2x3x4x5x7 + x2x3x4x6x7 + x2x3x5x6x7 + x2x4x5x6x7 + x0x1x2x3x4x6 + x0x1x2x3x5x6 + x0x1x2x4x5x6 + x0x1x2x4x5x7"
+                           "    + x0x1x2x4x6x7 + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x4x5x6x7 + x0x2x3x4x5x7 + x0x2x3x4x6x7 + x0x2x4x5x6x7"
+                           "    + x1x2x3x4x5x7 + x1x2x3x5x6x7 + x1x2x4x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7"
+                           "    + x0x1x2x4x5x6x7"; // ARIA_S2_f1
+
+
+    const string anf_str = "1 + x2 + x3 + x5 + x6 + x7 + x0x4 + x0x5 + x0x7 + x1x2 + x1x4 + x1x5 + x1x6 + x1x7 + x2x3 + x2x4 + x2x5 + x2x6"
+                           "    + x2x7 + x3x4 + x4x5 + x4x6 + x5x6 + x5x7 + x0x1x2 + x0x1x3 + x0x1x6 + x0x2x3 + x0x2x4 + x0x2x6 + x0x2x7 + x0x3x4"
+                           "    + x0x3x5 + x0x3x6 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x6 + x0x6x7 + x1x2x4 + x1x2x5 + x1x3x7 + x1x4x6 + x1x4x7 + x1x5x6"
+                           "    + x2x3x4 + x2x3x6 + x2x3x7 + x2x4x5 + x2x4x7 + x2x5x6 + x2x6x7 + x3x4x5 + x3x4x7 + x3x5x7 + x4x5x7 + x0x1x2x3"
+                           "    + x0x1x2x6 + x0x1x2x7 + x0x1x3x4 + x0x1x5x6 + x0x1x5x7 + x0x2x3x7 + x0x2x4x6 + x0x2x4x7 + x0x2x5x6 + x0x2x5x7"
+                           "    + x0x2x6x7 + x0x3x4x6 + x0x3x4x7 + x0x3x5x7 + x0x3x6x7 + x0x4x5x6 + x0x4x5x7 + x0x4x6x7 + x1x2x3x5 + x1x2x3x6"
+                           "    + x1x2x3x7 + x1x2x4x5 + x1x2x4x7 + x1x2x5x6 + x1x2x6x7 + x1x3x4x6 + x1x3x4x7 + x1x3x5x6 + x1x3x5x7 + x1x4x5x6"
+                           "    + x1x4x5x7 + x1x4x6x7 + x2x3x4x6 + x2x3x5x6 + x2x3x5x7 + x2x4x5x6 + x2x4x6x7 + x2x5x6x7 + x3x4x5x6 + x3x4x5x7"
+                           "    + x3x4x6x7 + x3x5x6x7 + x4x5x6x7 + x0x1x2x3x5 + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x7 + x0x1x2x6x7 + x0x1x3x4x6"
+                           "    + x0x1x3x5x7 + x0x2x3x4x5 + x0x2x3x5x6 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x6 + x0x2x4x5x7 + x0x3x4x5x7 + x0x4x5x6x7"
+                           "    + x1x2x3x4x7 + x1x2x3x5x6 + x1x2x4x5x6 + x1x2x5x6x7 + x1x3x4x5x7 + x1x3x4x6x7 + x1x3x5x6x7 + x2x3x4x5x7 + x2x3x4x6x7"
+                           "    + x2x4x5x6x7 + x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x4x6 + x0x1x2x3x4x7 + x0x1x2x3x5x6 + x0x1x2x4x5x6 + x0x1x2x5x6x7"
+                           "    + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x4x5x6x7 + x0x2x3x4x6x7 + x0x2x4x5x6x7 + x0x3x4x5x6x7 + x1x2x3x4x5x6"
+                           "    + x1x2x3x4x5x7 + x1x2x3x5x6x7 + x1x2x4x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7"; // ARIA_S2_f2
+
+
+    const string anf_str = "x2 + x3 + x5 + x6 + x0x1 + x0x5 + x0x6 + x1x3 + x1x5 + x1x7 + x2x4 + x2x5 + x2x7 + x3x5 + x4x6 + x5x7 + x0x1x2"
+                           "    + x0x1x3 + x0x1x5 + x0x2x4 + x0x2x7 + x0x3x7 + x0x4x5 + x0x5x7 + x0x6x7 + x1x2x5 + x1x2x7 + x1x3x6 + x1x4x5 + x1x5x6"
+                           "    + x2x3x6 + x2x4x6 + x2x5x6 + x2x6x7 + x3x4x6 + x3x5x6 + x3x5x7 + x4x5x6 + x5x6x7 + x0x1x2x4 + x0x1x2x7 + x0x1x3x4"
+                           "    + x0x1x3x5 + x0x1x3x6 + x0x1x3x7 + x0x1x4x7 + x0x1x6x7 + x0x2x3x4 + x0x2x3x7 + x0x2x4x7 + x0x2x5x7 + x0x3x4x5"
+                           "    + x0x3x4x6 + x1x2x4x7 + x1x2x5x6 + x1x2x5x7 + x1x2x6x7 + x1x3x4x5 + x1x3x4x6 + x1x3x5x6 + x1x4x5x6 + x1x4x5x7"
+                           "    + x2x3x5x6 + x2x3x6x7 + x2x4x5x6 + x2x4x5x7 + x2x4x6x7 + x2x5x6x7 + x3x4x5x6 + x4x5x6x7 + x0x1x2x3x4 + x0x1x2x3x5"
+                           "    + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x5 + x0x1x2x4x6 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x2x6x7 + x0x1x3x4x6 + x0x1x3x4x7"
+                           "    + x0x1x3x5x7 + x0x1x3x6x7 + x0x1x5x6x7 + x0x2x3x5x6 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x6 + x0x2x4x5x7 + x0x2x4x6x7"
+                           "    + x0x2x5x6x7 + x0x3x4x5x6 + x0x3x4x6x7 + x0x3x5x6x7 + x0x4x5x6x7 + x1x2x3x4x6 + x1x2x3x4x7 + x1x2x3x5x6 + x1x2x3x5x7"
+                           "    + x1x2x3x6x7 + x1x2x4x5x7 + x1x2x4x6x7 + x1x3x4x5x6 + x1x3x4x5x7 + x1x4x5x6x7 + x2x3x5x6x7 + x2x4x5x6x7 + x3x4x5x6x7"
+                           "    + x0x1x2x3x4x6 + x0x1x2x3x4x7 + x0x1x2x3x5x6 + x0x1x2x3x5x7 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x5x6x7"
+                           "    + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x2x3x4x5x6 + x0x2x4x5x6x7 + x1x2x3x4x5x7 + x1x2x4x5x6x7"
+                           "    + x1x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x2x3x4x5x6x7"; // ARIA_S2_f3
+
+
+    const string anf_str = "x0 + x1 + x2 + x3 + x7 + x0x3 + x0x5 + x1x2 + x1x3 + x1x6 + x1x7 + x2x5 + x2x6 + x3x5 + x3x6 + x3x7 + x4x5 + x4x6"
+                           "    + x5x6 + x5x7 + x0x1x3 + x0x1x6 + x0x2x4 + x0x2x5 + x0x3x5 + x0x3x6 + x0x3x7 + x0x4x5 + x0x5x6 + x0x5x7 + x0x6x7"
+                           "    + x1x2x3 + x1x2x4 + x1x2x7 + x1x3x4 + x1x3x5 + x1x3x7 + x1x4x5 + x1x5x7 + x1x6x7 + x2x3x4 + x2x4x5 + x2x4x7 + x2x5x6"
+                           "    + x3x4x5 + x3x4x7 + x3x5x6 + x3x5x7 + x3x6x7 + x0x1x3x5 + x0x1x3x7 + x0x1x5x6 + x0x1x6x7 + x0x2x3x6 + x0x2x3x7"
+                           "    + x0x2x4x7 + x0x2x5x6 + x0x2x5x7 + x0x2x6x7 + x0x3x4x6 + x0x3x4x7 + x0x4x5x6 + x0x4x6x7 + x1x2x3x4 + x1x2x3x5"
+                           "    + x1x2x4x6 + x1x2x4x7 + x1x2x5x6 + x1x2x5x7 + x1x2x6x7 + x1x3x4x5 + x1x4x5x6 + x2x3x4x5 + x2x3x5x6 + x2x3x5x7"
+                           "    + x3x4x5x6 + x3x4x6x7 + x3x5x6x7 + x4x5x6x7 + x0x1x2x3x4 + x0x1x2x3x6 + x0x1x2x3x7 + x0x1x2x4x5 + x0x1x2x4x6"
+                           "    + x0x1x2x6x7 + x0x1x3x4x5 + x0x1x3x4x6 + x0x1x3x5x7 + x0x1x3x6x7 + x0x1x4x5x6 + x0x1x4x5x7 + x0x1x4x6x7 + x0x2x3x6x7"
+                           "    + x0x2x4x5x6 + x0x2x4x5x7 + x0x2x4x6x7 + x0x2x5x6x7 + x0x3x4x5x7 + x0x3x4x6x7 + x0x4x5x6x7 + x1x2x3x4x6 + x1x2x3x4x7"
+                           "    + x1x2x3x6x7 + x1x2x4x5x6 + x1x2x4x5x7 + x1x2x4x6x7 + x1x3x4x5x6 + x1x3x4x6x7 + x2x3x4x5x6 + x2x3x4x5x7 + x2x3x4x6x7"
+                           "    + x2x3x5x6x7 + x2x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x4x7 + x0x1x2x3x6x7 + x0x1x2x4x5x7 + x0x1x2x5x6x7 + x0x1x3x4x5x6"
+                           "    + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x1x4x5x6x7 + x0x2x3x4x5x7 + x0x2x3x5x6x7 + x0x3x4x5x6x7"
+                           "    + x1x2x3x4x5x7 + x1x2x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x1x3x4x5x6x7"
+                           "    + x0x2x3x4x5x6x7"; // ARIA_S2_f4
+
+
+    const string anf_str = "x0 + x1 + x2 + x3 + x5 + x6 + x7 + x0x2 + x0x4 + x0x6 + x1x2 + x1x5 + x1x6 + x1x7 + x2x4 + x2x5 + x2x7 + x3x5 + x3x6"
+                           "    + x4x6 + x6x7 + x0x1x2 + x0x1x5 + x0x1x6 + x0x1x7 + x0x2x3 + x0x2x5 + x0x3x4 + x0x3x7 + x0x4x5 + x0x4x6 + x0x4x7"
+                           "    + x0x5x6 + x0x5x7 + x1x2x3 + x1x2x5 + x1x2x7 + x1x3x4 + x1x3x6 + x1x4x5 + x1x4x7 + x2x3x4 + x2x3x6 + x2x4x7 + x2x5x7"
+                           "    + x2x6x7 + x3x4x5 + x3x4x6 + x3x4x7 + x3x5x7 + x3x6x7 + x4x5x6 + x4x5x7 + x4x6x7 + x5x6x7 + x0x1x2x5 + x0x1x2x7"
+                           "    + x0x1x3x4 + x0x1x3x6 + x0x1x4x5 + x0x1x5x6 + x0x2x3x4 + x0x2x3x5 + x0x2x3x6 + x0x2x4x6 + x0x2x5x7 + x0x3x4x6"
+                           "    + x0x4x5x7 + x0x4x6x7 + x1x2x3x4 + x1x2x3x5 + x1x2x3x6 + x1x2x3x7 + x1x2x4x5 + x1x2x4x7 + x1x2x5x6 + x1x2x6x7"
+                           "    + x1x3x4x6 + x1x3x4x7 + x1x3x5x6 + x1x4x5x6 + x1x4x5x7 + x1x5x6x7 + x2x3x4x5 + x2x3x5x6 + x2x4x6x7 + x3x4x5x6"
+                           "    + x4x5x6x7 + x0x1x2x3x4 + x0x1x2x3x6 + x0x1x2x6x7 + x0x1x3x4x5 + x0x1x3x4x6 + x0x1x3x5x7 + x0x1x3x6x7 + x0x1x5x6x7"
+                           "    + x0x2x3x4x5 + x0x2x3x4x7 + x0x2x3x5x6 + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x6 + x0x2x4x5x7 + x0x2x5x6x7 + x0x3x4x5x7"
+                           "    + x0x4x5x6x7 + x1x2x3x4x7 + x1x2x3x5x7 + x1x2x3x6x7 + x1x3x4x5x6 + x1x3x4x5x7 + x1x3x4x6x7 + x1x3x5x6x7 + x2x3x4x5x6"
+                           "    + x2x3x4x5x7 + x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x4x7 + x0x1x2x3x6x7 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x5x6x7"
+                           "    + x0x1x3x4x5x7 + x0x2x3x4x5x6 + x0x2x3x5x6x7 + x1x2x3x4x5x7 + x1x2x3x4x6x7 + x1x2x3x5x6x7 + x0x1x2x3x4x5x7"
+                           "    + x0x1x2x3x4x6x7 + x0x1x3x4x5x6x7 + x0x2x3x4x5x6x7"; // ARIA_S2_f5
+
+
+    const string anf_str = "1 + x0 + x1 + x2 + x5 + x6 + x0x1 + x0x2 + x0x5 + x0x6 + x1x5 + x1x6 + x1x7 + x2x4 + x2x5 + x2x6 + x2x7 + x3x4"
+                           "    + x4x6 + x4x7 + x5x7 + x0x1x3 + x0x1x6 + x0x2x3 + x0x2x5 + x0x2x6 + x0x2x7 + x0x3x5 + x0x3x6 + x0x4x6 + x0x5x7"
+                           "    + x1x2x5 + x1x2x6 + x1x4x6 + x1x5x7 + x1x6x7 + x2x3x4 + x2x3x5 + x2x3x6 + x2x4x7 + x3x4x6 + x3x6x7 + x4x5x6 + x4x6x7"
+                           "    + x0x1x2x4 + x0x1x3x5 + x0x1x3x6 + x0x1x4x7 + x0x1x6x7 + x0x2x3x5 + x0x2x3x6 + x0x2x3x7 + x0x2x4x6 + x0x2x4x7"
+                           "    + x0x2x5x7 + x0x2x6x7 + x0x3x4x7 + x0x3x5x6 + x0x3x6x7 + x0x4x6x7 + x1x2x3x4 + x1x2x4x5 + x1x2x4x6 + x1x2x4x7"
+                           "    + x1x2x5x6 + x1x2x5x7 + x1x3x5x6 + x1x3x6x7 + x1x4x5x7 + x2x3x4x5 + x2x3x5x7 + x2x4x6x7 + x3x4x5x6 + x3x4x5x7"
+                           "    + x3x4x6x7 + x0x1x2x3x4 + x0x1x2x3x6 + x0x1x2x4x6 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x3x4x7 + x0x1x3x5x7 + x0x1x4x5x7"
+                           "    + x0x2x3x4x7 + x0x2x3x5x6 + x0x2x4x5x6 + x0x2x5x6x7 + x0x3x4x5x7 + x0x3x4x6x7 + x0x3x5x6x7 + x1x2x3x4x5 + x1x2x3x5x7"
+                           "    + x1x2x4x5x7 + x1x2x4x6x7 + x1x3x4x5x7 + x1x3x5x6x7 + x0x1x2x3x4x6 + x0x1x2x3x4x7 + x0x1x2x4x5x7 + x0x1x2x5x6x7"
+                           "    + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x2x3x4x5x6 + x0x2x3x5x6x7 + x1x2x3x4x5x7 + x1x2x3x5x6x7"
+                           "    + x1x3x4x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7 + x0x2x3x4x5x6x7"; // ARIA_S2_f6
+
+
+    const string anf_str = "x1 + x2 + x0x1 + x0x4 + x1x2 + x1x3 + x1x5 + x1x6 + x2x3 + x2x4 + x2x7 + x4x7 + x0x1x3 + x0x1x5 + x0x2x3 + x0x2x4"
+                           "    + x0x2x7 + x0x3x5 + x0x4x5 + x0x4x7 + x0x5x7 + x0x6x7 + x1x2x4 + x1x2x7 + x1x3x4 + x1x3x5 + x1x3x6 + x1x4x5 + x1x5x7"
+                           "    + x1x6x7 + x2x3x4 + x2x4x5 + x2x6x7 + x3x4x5 + x3x5x7 + x3x6x7 + x4x5x6 + x4x6x7 + x0x1x2x3 + x0x1x2x4 + x0x1x2x5"
+                           "    + x0x1x3x4 + x0x1x3x7 + x0x1x4x5 + x0x1x4x7 + x0x2x3x4 + x0x2x3x6 + x0x2x4x6 + x0x2x4x7 + x0x2x5x6 + x0x2x5x7"
+                           "    + x0x3x4x7 + x0x3x6x7 + x1x2x3x5 + x1x2x3x6 + x1x2x4x6 + x1x2x5x6 + x1x2x6x7 + x1x3x4x6 + x1x3x4x7 + x1x3x5x7"
+                           "    + x1x4x5x6 + x2x3x4x5 + x2x3x4x6 + x2x3x4x7 + x2x3x5x6 + x2x4x5x6 + x3x4x5x6 + x3x5x6x7 + x0x1x2x3x4 + x0x1x2x3x6"
+                           "    + x0x1x2x3x7 + x0x1x2x4x6 + x0x1x2x4x7 + x0x1x2x5x7 + x0x1x2x6x7 + x0x1x3x4x5 + x0x1x3x5x7 + x0x1x4x5x7 + x0x1x5x6x7"
+                           "    + x0x2x3x5x7 + x0x2x3x6x7 + x0x2x4x5x6 + x0x2x4x5x7 + x1x2x3x4x6 + x1x2x3x5x6 + x1x2x3x5x7 + x1x2x3x6x7 + x1x2x4x5x6"
+                           "    + x1x3x4x5x6 + x1x4x5x6x7 + x2x3x4x5x7 + x2x3x4x6x7 + x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x4x6 + x0x1x2x3x5x6"
+                           "    + x0x1x2x3x5x7 + x0x1x2x3x6x7 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x4x6x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7"
+                           "    + x0x2x3x4x5x7 + x0x2x3x4x6x7 + x0x2x3x5x6x7 + x0x2x4x5x6x7 + x1x2x3x4x5x6 + x1x2x3x4x5x7 + x1x2x3x4x6x7"
+                           "    + x1x2x4x5x6x7 + x0x1x2x4x5x6x7"; // ARIA_S2_f7
+
+***************************************************************************
+
+
+
+
+**********************************Camellia S1 Sbox*****************************************
+
     const string anf_str = "x0 + x1 + x2 + x4 + x5 + x7 + x0x1 + x0x2 + x0x3 + x0x5 + x0x7 + x1x5 + x2x7 + x3x5 + x4x5 + x4x6 + x4x7 + x0x1x2"
                            "    x0x1x5 + x0x1x7 + x0x3x7 + x0x4x6 + x0x4x7 + x0x5x6 + x0x6x7 + x1x2x3 + x1x2x4 + x1x2x5 + x1x4x6 + x1x5x7 + x2x3x4"
                            "    x2x3x6 + x2x4x7 + x2x5x7 + x3x4x7 + x3x5x6 + x3x5x7 + x4x5x6 + x4x5x7 + x5x6x7 + x0x1x2x6 + x0x1x3x7 + x0x1x4x5"
@@ -579,10 +552,7 @@ int main(){
                            "    x0x1x2x3x6x7 + x0x1x2x4x6x7 + x0x1x2x5x6x7 + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x1x4x5x6x7"
                            "    x0x2x3x4x5x6 + x0x2x3x4x5x7 + x0x2x3x4x6x7 + x1x2x3x4x5x6 + x1x2x3x5x6x7 + x1x2x4x5x6x7 + x1x3x4x5x6x7"
                            "    x2x3x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x4x5x6x7 + x1x2x3x4x5x6x7"; //camellia f0
-    */
 
-
-    /*
     const string anf_str = "1 + x0 + x1 + x2 + x3 + x5 + x6 + x7 + x0x2 + x0x3 + x0x4 + x0x5 + x0x6 + x1x2 + x1x4 + x1x6 + x1x7 + x2x3 + x2x6"
                            "    x2x7 + x3x4 + x4x5 + x4x6 + x5x7 + x0x1x2 + x0x1x4 + x0x1x5 + x0x2x5 + x0x2x6 + x0x2x7 + x0x4x5 + x0x4x7 + x0x5x6"
                            "    x1x2x3 + x1x2x4 + x1x2x6 + x1x4x7 + x1x5x6 + x1x5x7 + x1x6x7 + x2x3x7 + x2x4x5 + x2x5x6 + x2x5x7 + x3x4x5 + x3x5x7"
@@ -596,9 +566,7 @@ int main(){
                            "    x3x4x5x6x7 + x0x1x2x3x4x5 + x0x1x2x3x5x7 + x0x1x2x4x6x7 + x0x1x4x5x6x7 + x0x2x3x4x6x7 + x0x2x4x5x6x7 + x1x2x3x4x6x7"
                            "    x1x2x4x5x6x7 + x1x3x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7"
                            "    x0x1x3x4x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7"; //camellia f1
-    */
 
-    /*
     const string anf_str = "1 + x1 + x2 + x7 + x0x1 + x0x3 + x0x4 + x1x2 + x1x4 + x1x5 + x1x7 + x2x3 + x2x4 + x2x5 + x2x6 + x3x5 + x3x7 + x4x6"
                            "    x5x6 + x5x7 + x6x7 + x0x1x3 + x0x2x4 + x0x2x5 + x0x2x6 + x0x2x7 + x0x3x4 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x6"
                            "    x0x5x7 + x1x2x4 + x1x3x5 + x1x3x7 + x1x4x5 + x1x4x6 + x1x4x7 + x1x5x6 + x2x3x5 + x2x3x6 + x2x4x6 + x2x4x7 + x2x5x6"
@@ -611,10 +579,7 @@ int main(){
                            "    x1x2x3x5x6 + x1x2x3x5x7 + x1x2x4x5x6 + x1x2x4x5x7 + x1x3x4x5x6 + x1x3x4x5x7 + x1x3x4x6x7 + x1x4x5x6x7 + x2x3x5x6x7"
                            "    x0x1x2x3x4x7 + x0x1x2x3x6x7 + x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x4x6x7 + x0x1x3x4x5x6 + x0x1x3x4x5x7"
                            "    x0x1x4x5x6x7 + x0x2x3x5x6x7 + x0x3x4x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7 + x0x2x3x4x5x6x7"; //camellia f2
-    */
-
-
-    /*
+   
     const string anf_str = "1 + x0 + x1 + x2 + x3 + x4 + x6 + x7 + x0x1 + x0x2 + x0x6 + x1x5 + x1x7 + x2x3 + x2x5 + x2x6 + x3x4 + x3x6 + x3x7"
                            "    x4x7 + x6x7 + x0x1x2 + x0x1x4 + x0x1x7 + x0x2x3 + x0x2x5 + x0x2x6 + x0x3x4 + x0x3x5 + x0x3x7 + x0x4x5 + x0x5x7"
                            "    x0x6x7 + x1x2x4 + x1x3x4 + x1x3x5 + x1x3x6 + x1x4x5 + x1x4x7 + x1x5x6 + x1x5x7 + x2x3x4 + x2x4x5 + x3x4x5 + x3x4x7"
@@ -628,9 +593,7 @@ int main(){
                            "    x1x3x4x5x7 + x1x3x5x6x7 + x2x3x4x5x7 + x2x3x4x6x7 + x2x3x5x6x7 + x2x4x5x6x7 + x3x4x5x6x7 + x0x1x2x3x5x6"
                            "    x0x1x2x4x6x7 + x0x1x3x4x5x7 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x2x3x4x5x6 + x0x2x3x4x6x7 + x0x2x4x5x6x7"
                            "    x1x2x3x4x5x6 + x1x2x3x4x6x7 + x2x3x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7 + x0x2x3x4x5x6x7"; //camellia f3
-    */
-
-    /*
+/*
     const string anf_str = "x0 + x1 + x6 + x0x1 + x0x2 + x0x3 + x0x4 + x0x5 + x0x7 + x1x2 + x1x4 + x1x6 + x2x4 + x2x5 + x2x7 + x3x4 + x3x7"
                            "    x4x5 + x4x6 + x5x6 + x0x1x2 + x0x1x3 + x0x1x5 + x0x1x6 + x0x1x7 + x0x2x3 + x0x2x5 + x0x2x6 + x0x2x7 + x0x3x4"
                            "    x0x3x5 + x0x3x6 + x0x4x6 + x1x2x3 + x1x2x6 + x1x3x5 + x1x3x7 + x1x4x5 + x1x6x7 + x2x3x4 + x2x3x5 + x2x5x7 + x2x6x7"
@@ -644,10 +607,7 @@ int main(){
                            "    x1x4x5x6x7 + x2x3x4x5x6 + x2x3x4x5x7 + x0x1x2x3x4x6 + x0x1x2x3x4x7 + x0x1x2x3x5x6 + x0x1x2x4x5x6 + x0x1x2x4x5x7"
                            "    x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x1x4x5x6x7 + x0x3x4x5x6x7 + x1x2x3x4x5x6 + x1x2x3x4x5x7 + x2x3x4x5x6x7"
                            "    x0x1x2x3x4x5x6 + x0x1x3x4x5x6x7 + x1x2x3x4x5x6x7"; //camellia f4
-    */
 
-
-    /*
     const string anf_str = "x2 + x4 + x6 + x0x6 + x1x3 + x1x6 + x1x7 + x2x4 + x2x6 + x2x7 + x3x5 + x3x6 + x3x7 + x4x5 + x4x6 + x5x6 + x5x7"
                            "    x0x1x2 + x0x1x3 + x0x1x4 + x0x1x5 + x0x1x7 + x0x2x3 + x0x2x4 + x0x2x7 + x0x3x4 + x0x3x5 + x0x3x6 + x0x4x6 + x0x4x7"
                            "    x0x5x6 + x0x5x7 + x0x6x7 + x1x2x3 + x1x2x4 + x1x2x7 + x1x3x4 + x1x3x5 + x1x5x6 + x1x5x7 + x2x3x4 + x2x3x5 + x2x3x7"
@@ -661,9 +621,7 @@ int main(){
                            "    x2x4x5x6x7 + x0x1x2x3x4x7 + x0x1x2x3x5x6 + x0x1x2x3x5x7 + x0x1x2x3x6x7 + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x3x5x6x7"
                            "    x0x2x3x4x5x6 + x0x2x3x4x5x7 + x0x2x3x5x6x7 + x1x2x3x4x5x6 + x1x2x3x4x5x7 + x1x2x3x5x6x7 + x1x2x4x5x6x7"
                            "    x1x3x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x3x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7"; //camellia f5
-    */
-
-    /*
+  
     const string anf_str = "x0 + x1 + x2 + x3 + x5 + x7 + x0x2 + x0x4 + x0x6 + x1x3 + x1x4 + x1x5 + x2x3 + x3x4 + x3x7 + x4x6 + x4x7 + x5x6"
                            "    x5x7 + x6x7 + x0x1x2 + x0x1x5 + x0x1x7 + x0x2x4 + x0x2x6 + x0x3x4 + x0x3x6 + x0x4x5 + x0x4x6 + x0x4x7 + x0x5x6"
                            "    x1x2x5 + x1x2x6 + x1x2x7 + x1x3x4 + x1x3x5 + x1x3x7 + x1x4x7 + x1x5x7 + x2x3x6 + x2x3x7 + x2x4x5 + x2x4x7 + x2x5x7"
@@ -677,10 +635,7 @@ int main(){
                            "    x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x3x4x5x6 + x0x1x3x4x6x7 + x0x1x3x5x6x7 + x0x1x4x5x6x7 + x0x2x3x4x5x7"
                            "    x0x2x3x5x6x7 + x0x3x4x5x6x7 + x1x2x3x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x3x4x6x7"
                            "    x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7"; //camellia f6
-    */
-
-
-    /*
+ 
     const string anf_str = "x1 + x3 + x5 + x0x2 + x0x3 + x1x2 + x1x3 + x1x4 + x1x5 + x1x6 + x2x3 + x2x5 + x2x6 + x3x5 + x4x5 + x4x6 + x4x7"
                            "    x5x6 + x0x1x2 + x0x1x4 + x0x1x6 + x0x2x6 + x0x2x7 + x0x3x5 + x0x4x6 + x0x6x7 + x1x2x3 + x1x2x4 + x1x2x5 + x1x3x4"
                            "    x1x3x6 + x1x3x7 + x1x4x5 + x1x4x6 + x1x4x7 + x1x5x6 + x1x5x7 + x2x3x4 + x2x3x7 + x2x4x5 + x2x4x7 + x2x5x6 + x2x5x7"
@@ -694,10 +649,13 @@ int main(){
                            "    x0x1x2x4x5x6 + x0x1x2x4x5x7 + x0x1x2x4x6x7 + x0x1x2x5x6x7 + x0x1x3x4x5x7 + x0x1x4x5x6x7 + x0x2x3x4x5x7"
                            "    x0x2x3x4x6x7 + x0x2x4x5x6x7 + x0x3x4x5x6x7 + x1x2x3x5x6x7 + x1x3x4x5x6x7 + x2x3x4x5x6x7 + x0x1x2x3x4x5x6"
                            "    x0x1x2x3x5x6x7 + x0x1x3x4x5x6x7"; //camellia f7
-    */
+***************************************************************************
 
 
-    /*
+
+
+**********************************CLEFIA S1 Sbox***************************
+
     const string anf_str = "x1 + x3 + x4 + x6 + x7 + x0x4 + x0x7 + x1x2 + x1x4 + x1x6 + x1x7 + x2x5 + x3x4 + x3x6 + x4x5 + x4x6 + x5x6 + x6x7"
                            "    + x0x1x2 + x0x1x3 + x0x1x4 + x0x1x6 + x0x2x3 + x0x3x5 + x0x3x6 + x0x3x7 + x0x4x5 + x0x4x6 + x0x5x6 + x0x6x7 + x1x2x4"
                            "    + x1x3x5 + x1x4x5 + x1x4x7 + x1x5x6 + x2x3x4 + x2x4x6 + x2x5x6 + x2x5x7 + x3x4x5 + x3x5x6 + x3x5x7 + x4x5x6 + x4x5x7"
@@ -713,7 +671,6 @@ int main(){
                            "    + x0x1x2x3x4x5x6 + x0x1x2x3x4x5x7 + x0x1x2x4x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7 + x0x1x2x3x4x5x6x7"; //CLEFIA S1 f0
 
 
-    /*
     const string anf_str = "1 + x2 + x3 + x4 + x0x1 + x0x2 + x0x4 + x0x5 + x0x7 + x1x2 + x1x4 + x2x3 + x2x6 + x2x7 + x3x4 + x3x7 + x5x6 + x5x7\n"
                            "    + x0x1x6 + x0x1x7 + x0x4x5 + x0x4x6 + x0x5x6 + x0x5x7 + x1x2x4 + x1x2x7 + x1x3x4 + x1x3x5 + x1x4x5 + x1x6x7 + x2x5x6\n"
                            "\n"
@@ -732,7 +689,6 @@ int main(){
                            "    + x1x2x3x4x6x7 + x1x2x3x5x6x7 + x0x1x2x3x4x5x6 + x0x1x2x3x4x6x7 + x0x1x3x4x5x6x7 + x0x2x3x4x5x6x7 + x0x1x2x3x4x5x6x7"; //CLEFIA S1 f1
 
 
-    /*
     const string anf_str = "1 + x0 + x2 + x5 + x6 + x7 + x0x1 + x0x6 + x0x7 + x1x2 + x1x4 + x1x7 + x2x4 + x2x5 + x2x6 + x3x4 + x3x5 + x3x7\n"
                            "    + x4x6 + x4x7 + x5x6 + x5x7 + x0x1x2 + x0x1x6 + x0x1x7 + x0x2x6 + x0x3x4 + x0x3x5 + x0x4x5 + x0x4x6 + x0x4x7\n"
                            "    + x0x5x7 + x1x2x3 + x1x2x6 + x1x2x7 + x1x3x4 + x1x6x7 + x2x3x4 + x2x4x6 + x2x5x6 + x2x5x7 + x3x4x7 + x4x5x6 + x5x6x7\n"
@@ -752,7 +708,6 @@ int main(){
                            "    + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7 + x0x1x2x3x4x5x6x7"; //CLEFIA S1 f2
 
 
-    /*
     const string anf_str = "x0 + x1 + x2 + x3 + x4 + x7 + x0x1 + x0x2 + x0x3 + x0x6 + x1x4 + x1x5 + x1x7 + x2x3 + x2x6 + x3x4 + x3x7 + x4x7\n"
                            "    + x6x7 + x0x1x4 + x0x1x5 + x0x1x7 + x0x2x3 + x0x2x5 + x0x3x4 + x0x3x5 + x0x4x5 + x0x4x7 + x0x5x7 + x1x2x7 + x1x3x4\n"
                            "    + x1x3x5 + x1x3x6 + x2x3x4 + x2x3x5 + x2x4x6 + x2x6x7 + x3x4x6 + x3x5x6 + x4x5x6 + x4x6x7 + x5x6x7 + x0x1x2x6\n"
@@ -770,7 +725,6 @@ int main(){
                            "    + x0x1x2x4x5x6x7 + x0x1x3x4x5x6x7 + x1x2x3x4x5x6x7"; //CLEFIA S1 f3
 
 
-    /*
     const string anf_str = "1 + x0 + x2 + x6 + x0x3 + x0x5 + x0x6 + x1x2 + x1x3 + x1x5 + x1x6 + x1x7 + x2x7 + x3x5 + x3x7 + x4x5 + x4x7 + x5x6\n"
                            "    + x6x7 + x0x1x3 + x0x1x4 + x0x1x6 + x0x1x7 + x0x2x3 + x0x2x4 + x0x2x6 + x0x2x7 + x0x3x5 + x0x3x6 + x0x4x5 + x0x5x7\n"
                            "    + x0x6x7 + x1x2x3 + x1x2x4 + x1x2x6 + x1x2x7 + x1x3x5 + x1x3x6 + x1x3x7 + x1x4x5 + x1x4x6 + x1x4x7 + x1x5x6 + x1x5x7\n"
@@ -793,7 +747,6 @@ int main(){
                            "    + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7 + x0x1x2x3x4x5x6x7"; //CLEFIA S1 f4
 
 
-    /*
     const string anf_str = "1 + x1 + x2 + x4 + x6 + x7 + x0x1 + x0x2 + x0x3 + x0x5 + x0x6 + x0x7 + x1x3 + x1x4 + x1x5 + x2x4 + x2x7 + x3x4\n"
                            "    + x3x6 + x3x7 + x5x7 + x6x7 + x0x1x3 + x0x1x7 + x0x4x5 + x0x6x7 + x1x2x3 + x1x2x5 + x1x2x6 + x1x3x6 + x1x4x6\n"
                            "    + x1x5x6 + x1x6x7 + x2x3x4 + x2x3x6 + x2x3x7 + x2x4x5 + x2x5x6 + x3x4x5 + x3x4x6 + x3x5x7 + x3x6x7 + x4x5x7 + x4x6x7\n"
@@ -813,7 +766,6 @@ int main(){
                            "    + x1x2x3x4x5x7 + x1x2x3x4x6x7 + x1x2x4x5x6x7 + x0x1x2x3x4x5x7 + x0x1x2x3x5x6x7 + x0x1x3x4x5x6x7"; //CLEFIA S1 f5
 
 
-    /*
     const string anf_str = "x1 + x2 + x3 + x5 + x6 + x7 + x0x1 + x0x5 + x0x6 + x0x7 + x1x2 + x1x4 + x1x5 + x1x6 + x2x5 + x2x7 + x3x5 + x4x6\n"
                            "    + x5x6 + x0x1x3 + x0x1x4 + x0x1x5 + x0x1x7 + x0x2x3 + x0x2x4 + x0x2x7 + x0x3x4 + x0x4x6 + x0x5x7 + x0x6x7 + x1x2x3\n"
                            "    + x1x2x4 + x1x2x5 + x1x2x6 + x1x2x7 + x1x3x4 + x1x3x5 + x1x3x6 + x1x3x7 + x1x4x6 + x1x4x7 + x1x5x7 + x2x3x4 + x2x4x7\n"
@@ -833,7 +785,6 @@ int main(){
                            "    + x1x3x4x5x6x7 + x0x1x2x3x5x6x7 + x0x1x2x4x5x6x7 + x0x1x3x4x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7"; //CLEFIA S1 f6
 
 
-    /*
     const string anf_str = "x0 + x1 + x3 + x6 + x0x1 + x0x2 + x0x4 + x0x7 + x1x2 + x1x3 + x1x4 + x1x5 + x2x4 + x2x7 + x3x4 + x3x7 + x4x5 + x4x6\n"
                            "    + x5x6 + x5x7 + x0x1x2 + x0x1x3 + x0x1x4 + x0x1x5 + x0x1x6 + x0x2x3 + x0x2x4 + x0x2x6 + x0x3x6 + x0x3x7 + x0x4x7\n"
                            "    + x0x5x6 + x0x6x7 + x1x2x3 + x1x2x4 + x1x2x5 + x1x2x7 + x1x3x4 + x1x3x6 + x1x3x7 + x1x4x6 + x1x4x7 + x2x3x5 + x2x3x6\n"
@@ -850,79 +801,87 @@ int main(){
                            "    + x0x1x2x3x4x5 + x0x1x2x3x5x6 + x0x1x2x4x5x6 + x0x1x3x4x5x6 + x0x2x3x4x5x6 + x0x2x3x4x5x7 + x0x2x3x4x6x7\n"
                            "    + x0x2x4x5x6x7 + x0x3x4x5x6x7 + x1x2x3x4x5x6 + x1x2x3x4x6x7 + x1x2x4x5x6x7 + x1x3x4x5x6x7 + x0x1x2x3x4x6x7\n"
                            "    + x0x1x2x4x5x6x7 + x0x1x3x4x5x6x7 + x0x2x3x4x5x6x7 + x1x2x3x4x5x6x7"; //CLEFIA S1 f7
-    */
+***************************************************************************
 
 
-    //const string anf_str = "x0x1x2 + x4 + x0x2x3x4 + x0x1x3x5 + x0x1x2x3x5 + x1x4x5 + x2x3x4x5 + x0x2x3x4x5 + x0x2x3x6 + x3x4x6 + "
-                           "x0x1x2x3x4x6 + x0x2x3x4x7 + x1x4x5x7 + x0x1x2x6x7 + x1x3x4x6x7 + x0x2x3x5x6x7 + x1x3x4x5x6x7"; //f6left
-    //const string anf_str = "x0x1x3x5 + x3x4x5 + x0x1x3x6 + x1x2x3x6 + x1x2x4x6 + x0x1x2x4x6 + x0x1x3x4x6 + x0x3x5x6 + x1x2x3x5x6 + "
-                           "x0x1x2x3x5x6 + x0x4x5x6 + x0x1x3x4x5x6 + x0x2x3x4x5x6 + x0x7 + x0x1x2x7 + x2x3x7 + x0x1x2x3x7 + x0x1x2x4x7 + x2x3x4x5x7 + x0x1x6x7";//f4left
-    //const string anf_str = "x0x2x3 + x0x1x5 + x2x3x5 + x0x1x2x3x5 + x1x4x5 + x3x4x5 + x1x6 + x0x2x6 + x0x1x2x3x6 + x2x4x6 + x0x3x4x6 + x0x2x3x4x6 + "
-                           "x0x2x3x5x6 + x1x2x3x5x6 + x0x2x4x5x6 + x1x3x4x5x6 + x0x1x3x4x5x6 + x2x3x4x5x7 + x0x2x6x7 + x1x2x3x6x7 + x1x3x4x6x7 + x0x2x5x6x7 + x1x4x5x6x7";//f3left
 
-    //const string anf_str = "1 + x0 + x1 + x6 + x7 + x0x5 + x0x6 + x0x7 + x1x2 + x1x4 + x1x5 + x1x6 + x1x7 + x4x7 + x5x6 + x5x7 + x6x7 + x0x4x7"
+*******************************Skinny-128 Sbox******************************
+
+
+    const string anf_str = "1 + x0 + x1 + x6 + x7 + x0x5 + x0x6 + x0x7 + x1x2 + x1x4 + x1x5 + x1x6 + x1x7 + x4x7 + x5x6 + x5x7 + x6x7 + x0x4x7"
                            "    + x0x5x6 + x0x6x7 + x1x2x5 + x1x2x6 + x1x2x7 + x1x3x4 + x1x4x6 + x2x4x5 + x2x5x6 + x2x5x7 + x2x6x7 + x3x4x5 + x3x5x6"
                            "    + x3x6x7 + x4x5x7 + x4x6x7 + x5x6x7 + x0x1x4x5 + x0x1x5x6 + x0x1x6x7 + x0x4x5x7 + x0x4x6x7 + x1x2x4x5 + x1x2x4x7"
                            "    + x1x3x4x6 + x1x3x4x7 + x1x3x5x6 + x1x3x6x7 + x1x4x5x6 + x1x4x5x7 + x1x4x6x7 + x2x4x5x7 + x2x4x6x7 + x2x5x6x7"
                            "    + x3x4x5x7 + x3x4x6x7 + x4x5x6x7 + x0x1x4x5x7 + x0x1x4x6x7 + x0x4x5x6x7 + x1x3x4x5x6 + x1x4x5x6x7 + x2x4x5x6x7"
                            "    + x3x4x5x6x7 + x0x1x4x5x6x7";//skinny128 f7
-    //const string anf_str ="x0 + x1 + x5 + x6 + x0x5 + x1x2 + x1x4 + x1x7 + x2x5 + x2x6 + x3x5 + x5x6 + x0x1x5 + x0x4x6 + x0x5x7 + x0x6x7\n"
+    const string anf_str ="x0 + x1 + x5 + x6 + x0x5 + x1x2 + x1x4 + x1x7 + x2x5 + x2x6 + x3x5 + x5x6 + x0x1x5 + x0x4x6 + x0x5x7 + x0x6x7\n"
                           "    + x1x3x4 + x1x3x5 + x1x3x7 + x1x4x5 + x1x4x6 + x1x5x7 + x1x6x7 + x2x5x6 + x3x4x6 + x3x5x7 + x3x6x7 + x0x1x4x6\n"
                           "    + x0x1x5x7 + x0x1x6x7 + x0x4x5x6 + x0x5x6x7 + x1x3x4x5 + x1x4x5x6 + x1x5x6x7 + x3x4x5x6 + x3x5x6x7 + x0x1x4x5x6\n"
                           "    + x0x1x5x6x7";   // skinny128 f6
-    //const string anf_str = "1 + x1 + x5 + x6 + x5x6"; //skinny128 f5
-    //const string anf_str = "x5 + x6 + x7 + x4x5 + x4x7"; //skinny128 f4
-    //const string anf_str = "x0 + x1 + x3 + x4 + x0x1 + x0x2 + x0x4 + x0x5 + x0x7 + x1x2 + x1x4 + x1x5 + x1x7 + x2x3 + x3x4 + x3x5 + x3x7\n"
+    const string anf_str = "1 + x1 + x5 + x6 + x5x6"; //skinny128 f5
+    const string anf_str = "x5 + x6 + x7 + x4x5 + x4x7"; //skinny128 f4
+    const string anf_str = "x0 + x1 + x3 + x4 + x0x1 + x0x2 + x0x4 + x0x5 + x0x7 + x1x2 + x1x4 + x1x5 + x1x7 + x2x3 + x3x4 + x3x5 + x3x7\n"
                            "    + x0x1x2 + x0x1x4 + x0x1x5 + x0x1x7 + x0x4x5 + x1x4x5 + x3x4x5 + x0x1x4x5"; //skinny128 f3
-    //const string anf_str = "1 + x4 + x5 + x7 + x4x5"; //skinny128 f2
-    //const string anf_str = "1 + x0 + x1 + x3 + x0x1"; //skinny128 f1
-    //const string anf_str = "x2 + x0x4 + x0x5 + x0x7 + x1x4 + x1x5 + x1x7 + x3x4 + x3x5 + x3x7 + x0x1x4 + x0x1x5 + x0x1x7 + x0x4x5 + x1x4x5 + x3x4x5 + x0x1x4x5"; //skinny128 f0
+    const string anf_str = "1 + x4 + x5 + x7 + x4x5"; //skinny128 f2
+    const string anf_str = "1 + x0 + x1 + x3 + x0x1"; //skinny128 f1
+    const string anf_str = "x2 + x0x4 + x0x5 + x0x7 + x1x4 + x1x5 + x1x7 + x3x4 + x3x5 + x3x7 + x0x1x4 + x0x1x5 + x0x1x7 + x0x4x5 + x1x4x5 + x3x4x5 + x0x1x4x5"; //skinny128 f0
+***************************************************************************
 
 
-    //const string anf_str = "x0 + x1 + x2 + x0x2 + x0x3 + x1x3 + x2x3 + x0x1x2 + x1x2x3"; //skinny-64 f3
+********************************Skinny-128_inv Sbox*****************************
 
     const string anf_str = "1 + x0 + x5 + x6 + x0x5"; // skinny128_inv f0
-    //const string anf_str = "x5 + x6 + x7 + x0x4 + x0x6 + x0x7 + x1x4 + x1x6 + x1x7 + x3x4 + x3x6 + x3x7 + x4x6 + x4x7 + x0x1x4 + x0x1x6 + x0x1x7\n"
+    const string anf_str = "x5 + x6 + x7 + x0x4 + x0x6 + x0x7 + x1x4 + x1x6 + x1x7 + x3x4 + x3x6 + x3x7 + x4x6 + x4x7 + x0x1x4 + x0x1x6 + x0x1x7\n"
                            "    + x0x2x4 + x0x2x6 + x0x2x7 + x0x4x6 + x1x2x4 + x1x2x6 + x1x2x7 + x1x4x6 + x2x3x4 + x2x3x6 + x2x3x7 + x3x4x6\n"
                            "    + x0x1x2x4 + x0x1x2x6 + x0x1x2x7 + x0x1x4x6 + x0x2x4x6 + x1x2x4x6 + x2x3x4x6 + x0x1x2x4x6"; // skinny128_inv f1
-    //const string anf_str = "1 + x0 + x1 + x2 + x1x2"; // skinny128_inv f2
-    //const string anf_str = "x0 + x1 + x0x4 + x0x5 + x0x6 + x1x6 + x3x6 + x4x6 + x5x7 + x6x7 + x0x1x6 + x0x2x4 + x0x2x7 + x0x3x4 + x0x3x6\n"
+    const string anf_str = "1 + x0 + x1 + x2 + x1x2"; // skinny128_inv f2
+    const string anf_str = "x0 + x1 + x0x4 + x0x5 + x0x6 + x1x6 + x3x6 + x4x6 + x5x7 + x6x7 + x0x1x6 + x0x2x4 + x0x2x7 + x0x3x4 + x0x3x6\n"
                            "    + x0x3x7 + x0x4x7 + x0x5x6 + x0x5x7 + x0x6x7 + x1x2x6 + x1x4x5 + x1x5x6 + x1x5x7 + x1x6x7 + x2x3x6 + x3x4x5 + x3x5x6\n"
                            "    + x3x5x7 + x3x6x7 + x4x5x6 + x4x5x7 + x4x6x7 + x0x1x2x6 + x0x1x4x5 + x0x1x5x6 + x0x1x5x7 + x0x1x6x7 + x0x2x3x4\n"
                            "    + x0x2x3x6 + x0x2x3x7 + x0x2x4x6 + x0x2x6x7 + x0x3x4x5 + x0x3x4x6 + x0x3x5x6 + x0x3x5x7 + x0x4x5x6 + x0x4x5x7\n"
                            "    + x1x2x4x5 + x1x2x5x6 + x1x2x5x7 + x1x2x6x7 + x1x4x5x6 + x2x3x4x5 + x2x3x5x6 + x2x3x5x7 + x2x3x6x7 + x3x4x5x6\n"
                            "    + x0x1x2x4x5 + x0x1x2x5x6 + x0x1x2x5x7 + x0x1x2x6x7 + x0x1x4x5x6 + x0x2x3x4x5 + x0x2x3x4x6 + x0x2x3x5x6 + x0x2x3x5x7\n"
                            "    + x0x3x4x5x6 + x1x2x4x5x6 + x2x3x4x5x6 + x0x1x2x4x5x6 + x0x2x3x4x5x6"; // skinny128_inv f3
-    //const string anf_str = "1 + x0 + x1 + x3 + x0x1"; // skinny128_inv f4
-    //const string anf_str = "1 + x4 + x6 + x7 + x4x6"; // skinny128_inv f5
-    //const string anf_str = "x0 + x1 + x3 + x4 + x0x1 + x0x2 + x1x2 + x2x3 + x0x1x2"; // skinny128_inv f6
-    //const string anf_str = "x2 + x0x4 + x0x6 + x0x7 + x1x4 + x1x6 + x1x7 + x3x4 + x3x6 + x3x7 + x0x1x4 + x0x1x6 + x0x1x7 + x0x4x6 + x1x4x6\n"
+    const string anf_str = "1 + x0 + x1 + x3 + x0x1"; // skinny128_inv f4
+    const string anf_str = "1 + x4 + x6 + x7 + x4x6"; // skinny128_inv f5
+    const string anf_str = "x0 + x1 + x3 + x4 + x0x1 + x0x2 + x1x2 + x2x3 + x0x1x2"; // skinny128_inv f6
+    const string anf_str = "x2 + x0x4 + x0x6 + x0x7 + x1x4 + x1x6 + x1x7 + x3x4 + x3x6 + x3x7 + x0x1x4 + x0x1x6 + x0x1x7 + x0x4x6 + x1x4x6\n"
                            "    + x3x4x6 + x0x1x4x6"; // skinny128_inv f7
+***************************************************************************
 
 
-            //const string anf_str = "x4 + x0x2 + x0x5 + x1x4 + x1x5 + x4x5 + x0x1x2 + x0x1x5 + x0x2x3 + x0x2x4 + x0x4x5 + x2x4x5 + x0x2x3x4 + x1x2x3x4\n"
+
+***********************************SPEEDY_inv Sbox****************************************
+
+    const string anf_str = "x4 + x0x2 + x0x5 + x1x4 + x1x5 + x4x5 + x0x1x2 + x0x1x5 + x0x2x3 + x0x2x4 + x0x4x5 + x2x4x5 + x0x2x3x4 + x1x2x3x4\n"
                            "    + x1x2x3x5 + x1x3x4x5 + x1x2x3x4x5";  //SPEEDY_inv f0
-    //const string anf_str = "x0x2 + x0x3 + x0x4 + x1x2 + x1x3 + x1x4 + x3x5 + x0x1x3 + x0x1x4 + x0x2x3 + x0x2x4 + x0x2x5 + x0x3x4 + x0x4x5\n"
+    const string anf_str = "x0x2 + x0x3 + x0x4 + x1x2 + x1x3 + x1x4 + x3x5 + x0x1x3 + x0x1x4 + x0x2x3 + x0x2x4 + x0x2x5 + x0x3x4 + x0x4x5\n"
                            "    + x1x2x3 + x1x2x4 + x1x3x4 + x1x4x5 + x2x3x5 + x3x4x5 + x0x1x3x4 + x0x1x4x5 + x0x2x3x4 + x0x2x3x5 + x0x3x4x5\n"
                            "    + x1x2x3x4 + x2x3x4x5";  //SPEEDY_inv f1
-    //const string anf_str = "x0 + x3 + x5 + x0x2 + x0x3 + x0x4 + x2x4 + x2x5 + x3x4 + x3x5 + x4x5 + x0x1x5 + x0x3x4 + x0x4x5 + x1x2x4 + x1x2x5\n"
+    const string anf_str = "x0 + x3 + x5 + x0x2 + x0x3 + x0x4 + x2x4 + x2x5 + x3x4 + x3x5 + x4x5 + x0x1x5 + x0x3x4 + x0x4x5 + x1x2x4 + x1x2x5\n"
                            "    + x1x3x5 + x2x3x5 + x0x1x2x4 + x0x1x2x5 + x0x2x3x5 + x0x2x4x5 + x0x3x4x5 + x1x2x4x5 + x1x2x3x4x5";  //SPEEDY_inv f2
-    //const string anf_str = "x0 + x1 + x5 + x0x1 + x0x4 + x0x5 + x1x2 + x1x3 + x1x4 + x1x5 + x2x5 + x4x5 + x0x1x2 + x0x1x3 + x0x1x4 + x0x1x5\n"
+    const string anf_str = "x0 + x1 + x5 + x0x1 + x0x4 + x0x5 + x1x2 + x1x3 + x1x4 + x1x5 + x2x5 + x4x5 + x0x1x2 + x0x1x3 + x0x1x4 + x0x1x5\n"
                            "    + x0x2x5 + x1x2x3 + x1x2x4 + x1x3x5 + x2x4x5 + x0x1x2x3 + x0x1x3x4 + x0x1x3x5 + x1x2x3x4 + x1x2x4x5";  //SPEEDY_inv f3
-    //const string anf_str = "x0 + x3 + x0x1 + x0x3 + x0x4 + x1x2 + x2x3 + x2x5 + x3x4 + x3x5 + x4x5 + x0x1x2 + x0x2x3 + x0x2x4 + x0x2x5 + x0x3x4\n"
+    const string anf_str = "x0 + x3 + x0x1 + x0x3 + x0x4 + x1x2 + x2x3 + x2x5 + x3x4 + x3x5 + x4x5 + x0x1x2 + x0x2x3 + x0x2x4 + x0x2x5 + x0x3x4\n"
                            "    + x0x3x5 + x1x2x3 + x1x2x4 + x1x3x5 + x2x4x5 + x3x4x5 + x0x1x2x4 + x0x2x4x5 + x0x3x4x5 + x1x2x3x5 + x1x2x4x5\n"
                            "    + x2x3x4x5 + x0x1x2x3x4";  //SPEEDY_inv f4
-    //const string anf_str = "1 + x0 + x2 + x3 + x4 + x0x2 + x0x3 + x0x4 + x1x4 + x2x3 + x2x4 + x3x5 + x4x5 + x0x2x3 + x0x2x4 + x0x3x4 + x0x3x5\n"
+    const string anf_str = "1 + x0 + x2 + x3 + x4 + x0x2 + x0x3 + x0x4 + x1x4 + x2x3 + x2x4 + x3x5 + x4x5 + x0x2x3 + x0x2x4 + x0x3x4 + x0x3x5\n"
                            "    + x1x2x4 + x1x2x5 + x1x3x4 + x1x4x5 + x2x4x5 + x0x1x2x3 + x0x1x2x5 + x0x1x3x5 + x0x1x4x5 + x0x3x4x5 + x1x2x3x5\n"
                            "    + x1x2x4x5 + x1x3x4x5 + x0x1x2x3x4";  //SPEEDY_inv f5
 
-    //const string anf_str = "1 + x0x1 + x0x2 + x2x3 + x0x1x2 + x0x2x3"; // MidoriS0_inv f0
-    //const string anf_str = "1 + x0 + x3 + x0x3 + x0x1x2 + x0x2x3 + x1x2x3"; // MidoriS0_inv f1
-    //const string anf_str = "x1 + x3 + x0x1 + x0x3 + x1x3"; // MidoriS0_inv f2
-    //const string anf_str = "x2 + x0x3 + x1x3 + x0x1x2 + x0x2x3 + x1x2x3"; // MidoriS0_inv f3
+***************************************************************************
 
 
 
+**********************************Midori_inv Sbox***************************
+
+    const string anf_str = "1 + x0x1 + x0x2 + x2x3 + x0x1x2 + x0x2x3"; // MidoriS0_inv f0
+    const string anf_str = "1 + x0 + x3 + x0x3 + x0x1x2 + x0x2x3 + x1x2x3"; // MidoriS0_inv f1
+    const string anf_str = "x1 + x3 + x0x1 + x0x3 + x1x3"; // MidoriS0_inv f2
+    const string anf_str = "x2 + x0x3 + x1x3 + x0x1x2 + x0x2x3 + x1x2x3"; // MidoriS0_inv f3
+
+***************************************************************************
+*/
 
 
 
