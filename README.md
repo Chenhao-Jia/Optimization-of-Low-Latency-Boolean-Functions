@@ -22,4 +22,4 @@ g++ main.cpp
 ./a.out
 ```
 
-On Windows, use g++ in the MSYS2 UCRT64 environment and run `./a.exe` instead of `./a.out`. Running the example regenerates `Automatic Search Model/anf_negpattern_global_AES_8bit_f2.cvc` and `Negation_pattern_AES/coverage_matrix_patterns_AES_8bit_f2.csv`; the saved solver outputs are provided separately.
+On Windows, use g++ environment and run `./a.exe` instead of `./a.out`. Running the example regenerates `Automatic Search Model/anf_negpattern_global_AES_8bit_f2.cvc` and `Negation_pattern_AES/coverage_matrix_patterns_AES_8bit_f2.csv`; the saved solver outputs are provided separately.
